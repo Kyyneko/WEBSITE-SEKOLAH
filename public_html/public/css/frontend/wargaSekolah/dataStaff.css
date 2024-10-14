@@ -1,0 +1,31 @@
+/* Add this CSS to your existing stylesheet */
+.navbar-nav .nav-item .nav-link {
+    position: relative;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .navbar-nav .nav-item .nav-link::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #000000;
+    transition: width 0.3s ease-in-out;
+  }
+  
+  .navbar-nav .nav-item .nav-link:hover::before {
+    width: 100%;
+  }
+  
+  .navbar-nav .nav-item .nav-link:hover {
+    color: #000000;
+  }
+  
+  @media (max-width: 654px) {
+    .float-text h1 {
+        font-size: 10px;
+    }
+  }
+  /* Optional: You can adjust the padding or other styles if needed */
