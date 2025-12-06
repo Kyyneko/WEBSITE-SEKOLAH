@@ -75,7 +75,7 @@
     <x-dropdown align="right" width="64">
         <x-slot name="trigger">
             <button class="flex items-center px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition">
-                <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold mr-2">
+                <div class="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold mr-2">
                     {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                 </div>
                 <div class="text-left mr-2">
@@ -100,7 +100,7 @@
             <!-- User Info Header -->
             <div class="px-4 py-3 bg-gradient-to-r from-indigo-50 to-blue-50 border-b border-gray-200">
                 <div class="flex items-center">
-                    <div class="w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-lg">
+                    <div class="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold mr-2">
                         {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                     </div>
                     <div class="ml-3 flex-1 min-w-0">
