@@ -1,361 +1,583 @@
 @extends('frontend/main')
+
 @section('style')
-    <style>
+<style>
+    /* Import font utama (Poppins) */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+    :root {
+        --font-main: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    body {
+        font-family: var(--font-main);
+    }
+
+    /* ============================
+       HERO / CAROUSEL UTAMA
+    ============================ */
+    #carouselExampleFade {
+        max-height: 600px;
+        overflow: hidden;
+        position: relative;
+        margin-top: 70px;
+    }
+
+    #carouselExampleFade .carousel-inner img {
+        height: 600px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .float-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: #fff;
+        z-index: 2;
+        width: 85%;
+        max-width: 700px;
+    }
+
+    .float-text h1 {
+        font-family: var(--font-main);
+        color: #ffffff;
+        font-weight: 800;
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        margin-bottom: 1rem;
+    }
+
+    .float-text h2 {
+        font-family: var(--font-main);
+        color: #ffffff;
+        font-weight: 600;
+        font-size: clamp(1.3rem, 3vw, 2.2rem);
+        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+        margin-bottom: 1rem;
+    }
+
+    .float-text p {
+        font-family: var(--font-main);
+        color: #ffffff;
+        font-weight: 400;
+        font-size: clamp(0.9rem, 2vw, 1.1rem);
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+        margin-bottom: 1.5rem;
+    }
+
+    .float-text .btn {
+        padding: 0.75rem 2rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        font-family: var(--font-main);
+    }
+
+    .float-text .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    @media (max-width: 768px) {
         #carouselExampleFade {
-    max-height: 600px;
-    overflow: hidden;
-    position: relative;
-}
+            max-height: 400px;
+        }
 
-#carouselExampleFade .carousel-inner img {
-    height: 100%;
-    object-fit: contain;
-}
+        #carouselExampleFade .carousel-inner img {
+            height: 400px;
+        }
 
-#carouselExampleFade .carousel-inner .img-fluid {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-}
-
-.float-text {
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: #fff;
-    z-index: 2;
-    width: 80%;
-    max-width: 600px; /* Set a maximum width if needed */
-}
-
-.float-text h1 {
-    font-family: 'Courier New', Courier, monospace;
-    color: rgb(19, 123, 191);
-    font-weight: 900;
-    font-size: 3vw;
-}
-
-.float-text p {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    color: white;
-    font-weight: 500;
-    font-size: 1.5vw;
-}
-
-/* Add this CSS to your existing stylesheet */
-.navbar-nav .nav-item .nav-link {
-    position: relative;
-    transition: color 0.3s ease-in-out;
-  }
-  
-  .navbar-nav .nav-item .nav-link::before {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: #000000;
-    transition: width 0.3s ease-in-out;
-  }
-  
-  .navbar-nav .nav-item .nav-link:hover::before {
-    width: 100%;
-  }
-  
-  .navbar-nav .nav-item .nav-link:hover {
-    color: #000000;
-  }
-
-
- @media (max-width: 654px) {
-    .float-text{
-        display:none;
-    }
-  }
-
-
-.carousel-control-prev,
-.carousel-control-next {
-    display: none;
-}
-
-.overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.614); /* Warna abu-abu dengan tingkat kejernihan (opacity) 0.5 */
-}
-
-.section-statistics {
-    margin-top: -60px;
-    position: relative;
-    z-index: 999;
-}
-
-.statistic-item {
-    background-color: rgb(41, 123, 191);
-}
-
-.section-services,
-.section-quality {
-    padding-top: 11%;
-    padding-bottom: 11%;
-}
-
-.section-testimoni {
-    padding-top: 4%;
-    padding-bottom: 4%;
-}
-
-#adsCarousel {
-    transform: rotate(-90deg);
-    transform-origin: right top;
-    height: 100%;
-}
-
-.carousel-inner {
-    display: flex;
-    flex-direction: row;
-}
-
-.carousel-item {
-    width: 100%; /* Sesuaikan lebar dengan kebutuhan */
-}
-
-.carousel-item.active {
-    display: flex;
-    flex-direction: column;
-}
-
-.carousel-control-prev,
-.carousel-control-next {
-    transform: rotate(90deg);
-    transform-origin: center;
-}
-.loading {
-    --speed-of-animation: 0.9s;
-    --gap: 6px;
-    --first-color: #4c86f9;
-    --second-color: #49a84c;
-    --third-color: #f6bb02;
-    --fourth-color: #f6bb02;
-    --fifth-color: #2196f3;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.8); /* Transparent background overlay */
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 9999;
-}
-
-.loading span {
-    width: 4px;
-    height: 50px;
-    background: var(--first-color);
-    animation: scale var(--speed-of-animation) ease-in-out infinite;
-}
-
-.loading span:nth-child(2) {
-    background: var(--second-color);
-    animation-delay: -0.8s;
-}
-
-.loading span:nth-child(3) {
-    background: var(--third-color);
-    animation-delay: -0.7s;
-}
-
-.loading span:nth-child(4) {
-    background: var(--fourth-color);
-    animation-delay: -0.6s;
-}
-
-.loading span:nth-child(5) {
-    background: var(--fifth-color);
-    animation-delay: -0.5s;
-}
-
-@keyframes scale {
-    0%, 40%, 100% {
-        transform: scaleY(0.05);
+        .float-text {
+            width: 90%;
+        }
     }
 
-    20% {
-        transform: scaleY(1);
+    @media (max-width: 576px) {
+        .float-text p {
+            display: none;
+        }
     }
-}
 
-    </style>
+    .overlay {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+    }
+
+    /* ============================
+       SECTION / LAYOUT
+    ============================ */
+    .section-statistics {
+        margin-top: -40px;
+        position: relative;
+        z-index: 999;
+    }
+
+    .statistic-item {
+        background: linear-gradient(135deg, rgb(19, 123, 191) 0%, rgb(16, 100, 160) 100%);
+        border-radius: 12px;
+        padding: 2rem 1rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        font-family: var(--font-main);
+    }
+
+    .statistic-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .statistic-item h3 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .statistic-item h4 {
+        font-size: 1.9rem;
+        font-weight: 400;
+    }
+
+    .section-description {
+        padding: 5rem 0;
+        background-color: #f8fafc;
+        font-family: var(--font-main);
+    }
+
+    .section-description h1 {
+        font-weight: 700;
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        margin-bottom: 2rem;
+        color: #1a202c;
+        text-align: center;
+    }
+
+    .section-description p {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: #4a5568;
+        text-align: justify;
+        margin-bottom: 3rem;
+    }
+
+    .map-container {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .map-container iframe {
+        width: 100%;
+        height: 450px;
+        border: none;
+    }
+
+    /* ============================
+       ARTICLE SECTION
+    ============================ */
+    .section-article {
+        padding: 5rem 0;
+        font-family: var(--font-main);
+    }
+
+    .section-article h1 {
+        font-weight: 700;
+        font-size: clamp(2rem, 4vw, 3rem);
+        margin-bottom: 3rem;
+        color: #1a202c;
+        text-align: center;
+    }
+
+    .article-carousel {
+        background: linear-gradient(135deg, rgb(19, 123, 191) 0%, rgb(16, 100, 160) 100%);
+        border-radius: 16px;
+        padding: 2rem;
+    }
+
+    .article-card {
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        border: none;
+        font-family: var(--font-main);
+    }
+
+    .article-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .article-card img {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .article-card .card-body {
+        padding: 1.25rem;
+    }
+
+    .article-meta {
+        font-size: 0.75rem;
+        color: #718096;
+        font-weight: 600;
+    }
+
+    .article-card .card-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #1a202c;
+    }
+
+    .article-card .card-text {
+        font-size: 0.95rem;
+        color: #2d3748;
+        line-height: 1.6;
+    }
+
+    /* ============================
+       ADS SECTION
+    ============================ */
+    .section-ads {
+        padding: 5rem 0;
+        background-color: #f8fafc;
+        font-family: var(--font-main);
+    }
+
+    .section-ads h2 {
+        font-weight: 700;
+        font-size: 2.3rem;
+        margin-bottom: 3rem;
+        color: #1a202c;
+        text-align: center;
+    }
+
+    .ads-card {
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        border: 1px solid #e2e8f0;
+        font-family: var(--font-main);
+    }
+
+    .ads-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .ads-card img {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .ads-card .card-body {
+        padding: 1.5rem;
+    }
+
+    .ads-card .card-title {
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: #1a202c;
+        margin-bottom: 0.75rem;
+    }
+
+    .ads-card .card-text {
+        font-size: 0.95rem;
+        color: #4a5568;
+        line-height: 1.6;
+        flex-grow: 1;
+    }
+
+    .ads-card .btn {
+        background: linear-gradient(135deg, rgb(19, 123, 191) 0%, rgb(16, 100, 160) 100%);
+        border: none;
+        padding: 0.5rem 1.5rem;
+        font-weight: 600;
+        border-radius: 8px;
+        font-family: var(--font-main);
+    }
+
+    .ads-card .btn:hover {
+        opacity: 0.9;
+    }
+
+    /* ============================
+       RESPONSIVE
+    ============================ */
+    @media (max-width: 768px) {
+        .statistic-item {
+            margin-bottom: 1rem;
+        }
+
+        .section-description,
+        .section-article,
+        .section-ads {
+            padding: 3rem 0;
+        }
+
+        .article-carousel {
+            padding: 1rem;
+        }
+    }
+</style>
 @endsection
 
 @section('content')
-    {{-- Title dan Kalimat Tetap --}}
+    {{-- Title & Hero Text --}}
     <div class="float-text">
-        <h1>WELCOME TO SCHOOL</h1>
-        <h2>UPT SPF SMPN 14 BULUKUMBA</h2>
-        <p>Sekolah Menengah Pertama Yang Berada Di Kabupaten Bulukumba Tepatnya Di Kecamatan Bulukumpa</p>
-        <button type="button" class="btn" style="background-color: rgb(19, 123, 191)">
-            <a href="/profil" style="text-decoration: none;color:white">
-                Selengkapnya >>
-            </a>
-        </button>
+        <h1>Lorem Ipsum Dolor Sit</h1>
+        <h2>Consectetur Adipiscing Elit Sed Do</h2>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+        <a href="{{ url('/profil') }}" class="btn" style="background-color: rgb(19, 123, 191); color: #ffffff; text-decoration: none;">
+            Selengkapnya &raquo;
+        </a>
     </div>
-    {{-- Carousel --}}
+
+    {{-- Carousel Utama --}}
     <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="overlay"></div> {{-- Lapisan abu-abu transparan --}}
-                <img src="image/homePic/3.jpg" class="d-block w-100 img-fluid" alt="...">
+            <div class="carousel-item active position-relative">
+                <div class="overlay"></div>
+                <img src="https://placehold.co/1200x600/1a73e8/ffffff?text=Slide+1" class="d-block w-100" alt="Slide 1">
             </div>
-            <div class="carousel-item">
-                <div class="overlay"></div> {{-- Lapisan abu-abu transparan --}}
-                <img src="image/homePic/2.jpg" class="d-block w-100 img-fluid" alt="...">
+            <div class="carousel-item position-relative">
+                <div class="overlay"></div>
+                <img src="https://placehold.co/1200x600/34a853/ffffff?text=Slide+2" class="d-block w-100" alt="Slide 2">
             </div>
-            <div class="carousel-item">
-                <div class="overlay"></div> {{-- Lapisan abu-abu transparan --}}
-                <img src="image/homePic/1.jpg" class="d-block w-100 img-fluid" alt="...">
+            <div class="carousel-item position-relative">
+                <div class="overlay"></div>
+                <img src="https://placehold.co/1200x600/ea4335/ffffff?text=Slide+3" class="d-block w-100" alt="Slide 3">
             </div>
         </div>
     </div>
 
-
     {{-- Statistic --}}
     <section class="section-statistics">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-3 text-center rounded shadow mx-2 py-3 text-light statistic-item">
-                    <h3>Guru</h3>
-                    <h4 class="fw-light">24</h4>
+            <div class="row justify-content-center g-3">
+                <div class="col-12 col-sm-4 col-md-3">
+                    <div class="text-center text-light statistic-item shadow">
+                        <h3>Lorem</h3>
+                        <h4 class="fw-light">24</h4>
+                    </div>
                 </div>
-                <div class="col-3 text-center rounded shadow mx-2 py-3 text-light statistic-item">
-                    <h3>Staff</h3>
-                    <h4 class="fw-light">0</h4>
+                <div class="col-12 col-sm-4 col-md-3">
+                    <div class="text-center text-light statistic-item shadow">
+                        <h3>Ipsum</h3>
+                        <h4 class="fw-light">12</h4>
+                    </div>
                 </div>
-                <div class="col-3 text-center rounded shadow mx-2 py-3 text-light statistic-item">
-                    <h3>Siswa</h3>
-                    <h4 class="fw-light">380</h4>
+                <div class="col-12 col-sm-4 col-md-3">
+                    <div class="text-center text-light statistic-item shadow">
+                        <h3>Dolor</h3>
+                        <h4 class="fw-light">380</h4>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    {{-- Article & Ads --}}
-    <div class="container-fluid p-3 text-center">
-        <div class="row">
-            <hr>
-            <div class="col-md-12 rounded-1 mb-3">
-                <h1 class="water mb-5"
-                    style="font-family: 'Cambria', Cochin, Georgia, Times, 'Times New Roman', serif; font-weight: 800; font-size: 3rem;">
-                    UPT SPF SMPN 14 BULUKUMBA
-                </h1>
-                <p style="margin: 10px;">
-                    SMPN 14 Bulukumba adalah sebuah sekolah menengah pertama yang terletak di Kabupaten Bulukumba, Sulawesi
-                    Selatan, Indonesia. Sekolah ini dikenal sebagai lembaga pendidikan yang berkomitmen untuk memberikan
-                    pendidikan berkualitas kepada para siswa. Dengan fasilitas yang memadai dan tenaga pendidik yang
-                    berdedikasi, SMPN 14 Bulukumba bertujuan untuk membantu siswa mengembangkan potensi akademis,
-                    keterampilan sosial, dan nilai-nilai moral. Sekolah ini aktif dalam berbagai kegiatan ekstrakurikuler
-                    dan pengembangan karakter, menciptakan lingkungan belajar yang positif dan mendukung bagi para siswa.
-                </p>
-            </div>
-            <div class="col-md-12 rounded-1 mx-auto p-3">
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item img-fluid"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.557638887232!2d120.13798547365488!3d-5.331467094647059!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dbea74944576b8f%3A0x674d040df0157620!2sSMP%20Negeri%2014%20Bulukumba!5e0!3m2!1sid!2sid!4v1706774689060!5m2!1sid!2sid"
-                        width="800" height="450" style="border:1;" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    {{-- Deskripsi Sekolah + Maps --}}
+    <section class="section-description">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <h1>Lorem Ipsum Dolor Sit Amet</h1>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore 
+                        et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut 
+                        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse 
+                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+                        culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus 
+                        error sit voluptatem accusantium doloremque laudantium.
+                    </p>
                 </div>
             </div>
-            <hr>
+            
+            <div class="row justify-content-center mt-5">
+                <div class="col-lg-10">
+                    <div class="map-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.557638887232!2d120.13798547365488!3d-5.331467094647059!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dbea74944576b8f%3A0x674d040df0157620!2sSMP%20Negeri%2014%20Bulukumba!5e0!3m2!1sid!2sid!4v1706774689060!5m2!1sid!2sid"
+                            allowfullscreen
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-
+    </section>
 
     {{-- Carousel Article --}}
-    <h1 class="fw-bold text-center" >ARTICLE</h1>
-    <div id="carouselExample" class="carousel slide m-4 p-3 rounded-1" data-bs-ride="carousel"
-        style="background-color: rgb(41, 123, 191)">
-        <div class="carousel-inner">
-            @foreach ($articles->chunk(4) as $chunk)
-                <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                    <div class="row">
-                        @foreach ($chunk as $article)
-                            <div class="card col-md-3 p-2 mx-auto my-2" style="width: 18rem;">
-                                <a href="{{ route('article.show', $article->slug) }}"
-                                    style="text-decoration: none;color:inherit">
+    <section class="section-article">
+        <div class="container">
+            <h1>ARTICLE</h1>
+            
+            <div id="carouselExample" class="carousel slide article-carousel" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    @php
+                        $dummyArticles = [
+                            [
+                                'title' => 'Lorem Ipsum Dolor Sit Amet',
+                                'author' => 'John Doe',
+                                'date' => 'Senin, 15 Januari 2024',
+                                'image' => 'https://placehold.co/400x300/4285f4/ffffff?text=Article+1',
+                                'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+                            ],
+                            [
+                                'title' => 'Consectetur Adipiscing Elit',
+                                'author' => 'Jane Smith',
+                                'date' => 'Selasa, 16 Januari 2024',
+                                'image' => 'https://placehold.co/400x300/34a853/ffffff?text=Article+2',
+                                'description' => 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                            ],
+                            [
+                                'title' => 'Sed Do Eiusmod Tempor',
+                                'author' => 'Mike Johnson',
+                                'date' => 'Rabu, 17 Januari 2024',
+                                'image' => 'https://placehold.co/400x300/fbbc04/ffffff?text=Article+3',
+                                'description' => 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
+                            ],
+                            [
+                                'title' => 'Incididunt Ut Labore',
+                                'author' => 'Sarah Williams',
+                                'date' => 'Kamis, 18 Januari 2024',
+                                'image' => 'https://placehold.co/400x300/ea4335/ffffff?text=Article+4',
+                                'description' => 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+                            ],
+                            [
+                                'title' => 'Dolore Magna Aliqua',
+                                'author' => 'David Brown',
+                                'date' => 'Jumat, 19 Januari 2024',
+                                'image' => 'https://placehold.co/400x300/9c27b0/ffffff?text=Article+5',
+                                'description' => 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.'
+                            ],
+                            [
+                                'title' => 'Quis Nostrud Exercitation',
+                                'author' => 'Emily Davis',
+                                'date' => 'Sabtu, 20 Januari 2024',
+                                'image' => 'https://placehold.co/400x300/00bcd4/ffffff?text=Article+6',
+                                'description' => 'Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.'
+                            ],
+                            [
+                                'title' => 'Ullamco Laboris Nisi',
+                                'author' => 'Robert Miller',
+                                'date' => 'Minggu, 21 Januari 2024',
+                                'image' => 'https://placehold.co/400x300/ff5722/ffffff?text=Article+7',
+                                'description' => 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.'
+                            ],
+                            [
+                                'title' => 'Aliquip Ex Ea Commodo',
+                                'author' => 'Lisa Anderson',
+                                'date' => 'Senin, 22 Januari 2024',
+                                'image' => 'https://placehold.co/400x300/795548/ffffff?text=Article+8',
+                                'description' => 'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.'
+                            ]
+                        ];
+                        
+                        $chunks = array_chunk($dummyArticles, 4);
+                    @endphp
 
-                                    @php
-                                        $photo_paths = json_decode($article->photo_path);
-                                    @endphp
-                                    @if (!empty($photo_paths) && is_array($photo_paths) && count($photo_paths) > 0)
-                                        <img src="{{ asset('storage/' . substr($photo_paths[0], 7)) }}" class="card-img-top"
-                                            alt="..." width="150">
-                                    @else
-                                        <p>No photo available</p>
-                                    @endif
-                                    <div class="card-body">
-                                        <p class="card-text fw-bold" style="font-size: 9px">{{ $article->user->name }} <br>
-                                            {{ $article->created_at->formatLocalized('%A, %d %B %Y') }}</p>
-                                        <hr>
-                                        <p class="card-text">
-                                            {{ strlen(strip_tags($article->description)) > 100 ? substr(strip_tags($article->description), 0, 100) . '...' : strip_tags($article->description) }}
-                                        </p>
+                    @foreach ($chunks as $index => $chunk)
+                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                            <div class="row g-3">
+                                @foreach ($chunk as $article)
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="card article-card">
+                                            <img src="{{ $article['image'] }}" class="card-img-top" alt="{{ $article['title'] }}">
+                                            <div class="card-body">
+                                                <p class="article-meta mb-2">
+                                                    {{ $article['author'] }}<br>
+                                                    {{ $article['date'] }}
+                                                </p>
+                                                <hr class="my-2">
+                                                <h5 class="card-title">{{ $article['title'] }}</h5>
+                                                <p class="card-text">{{ $article['description'] }}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </a>
+                                @endforeach
                             </div>
-                        @endforeach
-
-                    </div>
+                        </div>
+                    @endforeach
                 </div>
-            @endforeach
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
 
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </section>
 
     {{-- Ads --}}
-    <hr>
-   <div class="ads col-md-8 col-lg-6 rounded-1 mb-3 p-4 mx-auto">
-        <div class="row justify-content-between">
-            @foreach ($ads as $ad)
-                <a href="{{ $ad->link }}" target="_blank" class="text-decoration-none text-dark">
-                    <div class="card mb-3" style="width: 14rem;">
-                        <img src="{{ $ad->photo_path ? asset('storage/' . $ad->photo_path) : asset('storage/public/photos/Default_Photo_Landscape.jpg') }}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $ad->title }}</h5>
-                            <p class="card-text">{!! $ad->description !!}</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
+    <section class="section-ads">
+        <div class="container">
+            <h2>Lorem Ipsum</h2>
+            
+            <div class="row g-4 justify-content-center">
+                @php
+                    $dummyAds = [
+                        [
+                            'title' => 'Lorem Ipsum',
+                            'image' => 'https://placehold.co/400x300/4285f4/ffffff?text=Ad+1',
+                            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
+                            'link' => '#'
+                        ],
+                        [
+                            'title' => 'Dolor Sit Amet',
+                            'image' => 'https://placehold.co/400x300/34a853/ffffff?text=Ad+2',
+                            'description' => 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.',
+                            'link' => '#'
+                        ],
+                        [
+                            'title' => 'Consectetur',
+                            'image' => 'https://placehold.co/400x300/fbbc04/ffffff?text=Ad+3',
+                            'description' => 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.',
+                            'link' => '#'
+                        ]
+                    ];
+                @endphp
+
+                @foreach ($dummyAds as $ad)
+                    <div class="col-md-6 col-lg-4">
+                        <a href="{{ $ad['link'] }}" target="_blank" class="text-decoration-none">
+                            <div class="card ads-card">
+                                <img src="{{ $ad['image'] }}" class="card-img-top" alt="{{ $ad['title'] }}">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">{{ $ad['title'] }}</h5>
+                                    <p class="card-text">{{ $ad['description'] }}</p>
+                                    <span class="btn btn-primary mt-auto">Lorem Ipsum</span>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </a>
-            @endforeach
+                @endforeach
+            </div>
         </div>
-    </div>
-
-
-    </div>
+    </section>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var myCarousel = new bootstrap.Carousel(document.getElementById('carouselExampleFade'), {
-                interval: 3000, // Sesuaikan dengan interval yang diinginkan (dalam milidetik)
-                wrap: true // Untuk memastikan carousel berganti gambar secara terus-menerus
+        document.addEventListener('DOMContentLoaded', function () {
+            new bootstrap.Carousel(document.getElementById('carouselExampleFade'), {
+                interval: 3000,
+                wrap: true,
             });
         });
     </script>
