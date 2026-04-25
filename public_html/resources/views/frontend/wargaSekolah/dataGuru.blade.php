@@ -3,7 +3,7 @@
 @section('style')
     <style>
         .section-header {
-            margin-top: 80px;
+            margin-top: 70px;
             padding: 4rem 0 3rem;
             background: linear-gradient(135deg, rgb(19, 123, 191) 0%, rgb(16, 100, 160) 100%);
             color: #ffffff;
@@ -13,7 +13,7 @@
             font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 800;
             text-align: center;
-            margin: 0;
+            margin: 10;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 

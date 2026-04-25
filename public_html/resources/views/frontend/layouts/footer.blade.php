@@ -39,12 +39,13 @@
 
                 {{-- Column: Intro --}}
                 <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                    <h6 class="text-uppercase fw-bold">UPT SMPN 14 BULUKUMBA</h6>
+                    <h6 class="text-uppercase fw-bold">SMP FIKTIF NUSANTARA</h6>
                     <hr class="mb-4 mt-0 d-inline-block mx-auto"
                         style="width: 100px; background-color: #7c4dff; height: 2px;" />
                     <p>
-                        Selamat datang di website UPT SPF SMPN 14 Bulukumba! Temukan informasi
-                        terkini tentang kegiatan dan prestasi kami di sini. Terima kasih atas kunjungan Anda!
+                        Selamat datang di website SMP Fiktif Nusantara. Semua informasi di sini bersifat contoh
+                        untuk keperluan pengujian tampilan dan pengembangan aplikasi. Silakan abaikan data ini
+                        ketika sistem sudah diisi dengan data asli.
                     </p>
                 </div>
 
@@ -53,10 +54,10 @@
                     <h6 class="text-uppercase fw-bold">Profile</h6>
                     <hr class="mb-4 mt-0 d-inline-block mx-auto"
                         style="width: 60px; background-color: #7c4dff; height: 2px;" />
-                    <p><a href="{{ url('/wargaSekolah/dataGuru') }}" class="text-white">Guru</a></p>
-                    <p><a href="{{ url('/wargaSekolah/dataStaff') }}" class="text-white">Staff</a></p>
+                    <p><a href="{{ url('/wargaSekolah/dataGuru') }}" class="text-white">Data Guru (Dummy)</a></p>
+                    <p><a href="{{ url('/wargaSekolah/dataStaff') }}" class="text-white">Data Staff (Dummy)</a></p>
                     <p><a href="{{ url('/alumni') }}" class="text-white">Alumni</a></p>
-                    <p><a href="{{ url('/ekstrakurikuler') }}" class="text-white">Ekstrakurikuler</a></p>
+                    <p><a href="{{ url('/ekstrakurikuler') }}" class="text-white">Ekstrakurikuler Dummy</a></p>
                 </div>
 
                 {{-- Column: About --}}
@@ -64,13 +65,12 @@
                     <h6 class="text-uppercase fw-bold">About</h6>
                     <hr class="mb-4 mt-0 d-inline-block mx-auto"
                         style="width: 60px; background-color: #7c4dff; height: 2px;" />
-                    <p><a href="{{ url('/article') }}" class="text-white">Article</a></p>
-                    <p><a href="{{ url('/fasilitas') }}" class="text-white">Fasilitas</a></p>
-                    <p><a href="{{ url('/prestasi') }}" class="text-white">Prestasi</a></p>
+                    <p><a href="{{ url('/article') }}" class="text-white">Artikel Contoh</a></p>
+                    <p><a href="{{ url('/fasilitas') }}" class="text-white">Fasilitas Dummy</a></p>
+                    <p><a href="{{ url('/prestasi') }}" class="text-white">Prestasi Fiktif</a></p>
                     <p>
-                        <a href="https://guru.kemdikbud.go.id/komunitas/O19oaPwn6v?from=home"
-                           target="_blank" class="text-white">
-                            Macora14
+                        <a href="#" class="text-white">
+                            Komunitas Sekolah Dummy
                         </a>
                     </p>
                 </div>
@@ -82,20 +82,19 @@
                         style="width: 60px; background-color: #7c4dff; height: 2px;" />
                     <p>
                         <i class="fas fa-home me-2"></i>
-                        Jl. Pendidikan No.15, Jawijawi, Kec. Bulukumpa, Kabupaten Bulukumba,
-                        Sulawesi Selatan 92552
+                        Jl. Contoh No. 123, Kelurahan Lorem, Kecamatan Ipsum, Kota Dolor, Indonesia
                     </p>
                     <p>
                         <i class="fas fa-envelope me-2"></i>
-                        smp14bulukumba@gmail.com
+                        info@smpfiktif.test
                     </p>
                     <p>
                         <i class="fas fa-phone me-2"></i>
-                        0413 2586 276
+                        0000-1234-5678
                     </p>
                     <p>
                         <i class="fas fa-print me-2"></i>
-                        +62 812 4104 5704
+                        +62 800 0000 0000
                     </p>
                 </div>
             </div>

@@ -1,0 +1,227 @@
+/* ============================
+   GLOBAL LAYOUT - Padding untuk Fixed Navbar
+============================ */
+body {
+    padding-top: 4px; /* Sesuaikan dengan tinggi navbar */
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+}
+
+/* ============================
+   NAVBAR CUSTOM STYLING
+============================ */
+.navbar-custom {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    background: linear-gradient(135deg, rgba(19, 123, 191, 0.95), rgba(30, 144, 255, 0.90)) !important;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    min-height: 70px;
+}
+
+/* Navbar scrolled effect - lebih solid saat scroll */
+.navbar-custom.scrolled {
+    background: linear-gradient(135deg, rgba(19, 123, 191, 0.98), rgba(30, 144, 255, 0.95)) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================
+   NAVBAR BRAND & TITLE
+============================ */
+.navbar-brand {
+    padding: 0.5rem 0;
+}
+
+.navbar-brand img {
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand img:hover {
+    transform: scale(1.05) rotate(5deg);
+}
+
+.navbar-title {
+    color: white !important;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 0;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================
+   NAV LINKS STYLING
+============================ */
+.navbar-custom .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 0.5rem 1rem;
+}
+
+.navbar-custom .nav-link:hover {
+    color: #ffffff !important;
+    transform: translateY(-2px);
+}
+
+/* Active Link dengan Underline Effect */
+.navbar-custom .nav-link.active {
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+.navbar-custom .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 3px;
+    background: #ffffff;
+    border-radius: 2px;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 60%;
+    }
+}
+
+/* ============================
+   DROPDOWN MENU STYLING
+============================ */
+.navbar-custom .dropdown-menu {
+    background-color: rgba(19, 123, 191, 0.95) !important;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-top: 8px;
+    padding: 0.5rem 0;
+}
+
+.navbar-custom .dropdown-item {
+    color: rgba(255, 255, 255, 0.9) !important;
+    padding: 10px 20px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.navbar-custom .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+    padding-left: 25px;
+}
+
+.navbar-custom .dropdown-toggle::after {
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.navbar-custom .dropdown-toggle[aria-expanded="true"]::after {
+    transform: rotate(180deg);
+}
+
+/* ============================
+   NAVBAR TOGGLER (Mobile)
+============================ */
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5);
+    padding: 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.3);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* ============================
+   RESPONSIVE - MOBILE
+============================ */
+@media (max-width: 991px) {
+    body {
+        padding-top: 65px;
+    }
+
+    .navbar-custom {
+        min-height: 65px;
+    }
+
+    .navbar-collapse {
+        background: rgba(19, 123, 191, 0.98);
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar-custom .nav-link {
+        padding: 0.75rem 1rem;
+    }
+
+    .navbar-custom .nav-link.active::after {
+        display: none;
+    }
+
+    .navbar-custom .nav-link.active {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+    }
+
+    .navbar-title {
+        font-size: 1rem;
+    }
+
+    .navbar-custom .dropdown-menu {
+        background-color: rgba(16, 100, 160, 0.95) !important;
+        margin-top: 0.5rem;
+        margin-left: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        padding-top: 60px;
+    }
+
+    .navbar-custom {
+        min-height: 60px;
+    }
+
+    .navbar-title {
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+    }
+
+    .navbar-brand img {
+        width: 40px !important;
+        height: 40px !important;
+    }
+}
+
+/* ============================
+   SMOOTH SCROLL OFFSET
+============================ */
+html {
+    scroll-padding-top: 80px;
+    scroll-behavior: smooth;
+}
+
+/* ============================
+   LOGIN ICON STYLING
+============================ */
+.navbar-custom .nav-link i.fa-right-to-bracket {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.navbar-custom .nav-link:hover i.fa-right-to-bracket {
+    transform: translateX(3px);
+}

@@ -158,24 +158,44 @@
         </div>
 
         <!-- Photo Field -->
-        <div class="form-group">
-            <x-input-label for="photo" :value="__('Foto Profile')" class="font-weight-bold">
-                <i class="fas fa-camera mr-1 text-primary"></i>
-            </x-input-label>
-            
-            <div class="custom-file mt-2">
-                <input id="photo" name="photo" type="file" 
-                    class="custom-file-input @error('photo') is-invalid @enderror"
-                    accept="image/jpeg,image/png,image/jpg"
-                    onchange="previewPhoto(event)">
-                <label class="custom-file-label" for="photo" id="photoLabel">
-                    <i class="fas fa-cloud-upload-alt mr-2"></i>Pilih foto baru...
-                </label>
-            </div>
-            <x-input-error class="mt-2" :messages="$errors->get('photo')" />
-            <small class="form-text text-muted">
-                <i class="fas fa-info-circle mr-1"></i>Format: JPG, PNG. Maksimal 2MB
-            </small>
+<div class="form-group">
+    <x-input-label for="photo" :value="__('Foto Profile')" class="font-weight-bold">
+        <i class="fas fa-camera mr-1 text-primary"></i>
+    </x-input-label>
+    
+    <div class="custom-file mt-2">
+        <input id="photo" name="photo" type="file" 
+            class="custom-file-input @error('photo') is-invalid @enderror"
+            accept="image/jpeg,image/png,image/jpg"
+            onchange="previewPhoto(event)">
+        <label class="custom-file-label" for="photo" id="photoLabel">
+            <i class="fas fa-cloud-upload-alt mr-2"></i>Pilih foto baru...
+        </label>
+    </div>
+    <x-input-error class="mt-2" :messages="$errors->get('photo')" />
+    <small class="form-text text-muted">
+        <i class="fas fa-info-circle mr-1"></i>Format: JPG, PNG. Maksimal 2MB
+    </small>
+</div>
+
+<!-- Tambahkan CSS ini jika Bootstrap CSS tidak bekerja -->
+<style>
+.custom-file-input {
+    opacity: 0;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    cursor: pointer;
+}
+
+.custom-file-label {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 0;
+    cursor: pointer;
+}
+</style>
 
             @if ($user->photo_path)
                 <div class="mt-3">

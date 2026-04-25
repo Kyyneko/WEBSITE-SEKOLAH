@@ -5,7 +5,7 @@
     <style>
         /* Layout dasar halaman profil */
         .profile-banner {
-            margin-top: 80px;
+            margin-top: 70px;
         }
 
         .profile-banner img {
@@ -250,7 +250,7 @@
         <section class="profile-banner">
             <img
                 src="https://placehold.co/1200x320"
-                alt="Banner Profil Sekolah"
+                alt="Banner Profil Sekolah Fiktif"
                 class="img-fluid">
         </section>
 
@@ -265,19 +265,17 @@
                             src="https://placehold.co/300x400"
                             alt="Foto Kepala Sekolah"
                             class="img-fluid rounded-3 kepsek-photo">
-                        <h2 class="kepsek-name">Andi Tenri Awaru, S.Pd</h2>
-                        <p class="kepsek-role">Kepala Sekolah UPT SPF SMPN 14 Bulukumba</p>
+                        <h2 class="kepsek-name">Rina Kartika, M.Pd</h2>
+                        <p class="kepsek-role">Kepala Sekolah SMP Fiktif Nusantara</p>
                     </div>
 
                     <div class="col-md-8">
                         <p class="kepsek-quote text-justify">
                             <strong><i>
-                                "Selamat datang di website resmi UPT SPF SMPN 14 Bulukumba! Kami dengan bangga menyambut Anda
-                                untuk menjelajahi berbagai informasi terkini seputar kegiatan, prestasi, dan perkembangan pendidikan
-                                di sekolah kami. Melalui platform ini, kami berkomitmen memperkuat kolaborasi antara sekolah, siswa,
-                                orang tua, dan masyarakat. Terima kasih atas dukungan Anda dalam mewujudkan visi dan misi kami untuk
-                                memberikan pendidikan berkualitas dan mempersiapkan generasi masa depan yang tangguh. Selamat menikmati
-                                pengalaman menjelajahi website ini!"
+                                "Selamat datang di halaman profil SMP Fiktif Nusantara. Semua data dan informasi di halaman ini
+                                hanya bersifat contoh tampilan. Halaman ini digunakan untuk pengujian layout, desain, dan konten
+                                tanpa merepresentasikan sekolah tertentu di dunia nyata. Silakan gunakan halaman ini sebagai dummy
+                                page selama proses pengembangan aplikasi."
                             </i></strong>
                         </p>
                     </div>
@@ -285,59 +283,56 @@
             </div>
         </section>
 
-        {{-- SEJARAH SEKOLAH --}}
+        {{-- SEJARAH SEKOLAH (FIKTIF) --}}
         <section class="section-wrapper">
             <div class="container">
-                <h2 class="section-title">Sejarah SMPN 14 Bulukumba</h2>
+                <h2 class="section-title">Sejarah Sekolah (Dummy)</h2>
 
                 <div class="row justify-content-center">
                     <div class="col-lg-10">
                         <p class="text-justify mb-3">
-                            SMP Negeri 14 Bulukumba yang dulunya bernama SMP Negeri 1 berdiri di atas tanah persawahan yang
-                            diwakafkan oleh masyarakat di Tanete - Bulukumpa. Pada tahun 1961, di bawah pimpinan Distrik
-                            atau Karaeng Tanete Andi Abd. Syukur, dirintis pendirian sekolah sederhana bernama
-                            SMP Negeri 1 Tanete. Usaha tersebut dilanjutkan oleh Karaeng Mansur, seiring perubahan sistem
-                            pemerintahan distrik Bulukumpa menjadi Kecamatan Bulukumpa.
+                            SMP Fiktif Nusantara berdiri bermula dari sebuah ide sederhana: menyediakan contoh data acak yang dapat
+                            digunakan oleh para pengembang untuk menguji tampilan website sekolah. Sekolah fiktif ini tidak memiliki
+                            lokasi, siswa, maupun guru sungguhan, tetapi diciptakan sepenuhnya untuk kebutuhan simulasi.
                         </p>
                         <p class="text-justify mb-3">
-                            Sejak saat itu SMP Negeri 1 Bulukumpa (kini SMPN 14 Bulukumba) berkembang menjadi salah satu sekolah
-                            favorit dan telah melahirkan banyak generasi muda bagi bangsa. Perkembangan sarana prasarana,
-                            tenaga pendidik, staf, dan peserta didik terus mengalami peningkatan sejalan dengan tuntutan zaman.
+                            Dalam perjalanannya, sekolah ini sering digunakan sebagai bahan demo, latihan desain, serta uji coba fitur
+                            seperti manajemen profil sekolah, pengisian data, hingga penampilan artikel. Setiap angka, tahun, ataupun
+                            nama yang tercantum di sini tidak perlu dianggap serius dan boleh diabaikan ketika aplikasi sudah siap
+                            diisi dengan data asli.
                         </p>
                         <p class="text-justify mb-0">
-                            Pada tahun 2012 SMP Negeri 1 Bulukumpa resmi berubah status menjadi SMP Negeri 14 Bulukumba
-                            berdasarkan kebijakan Pemerintah Daerah Kabupaten Bulukumba dalam rangka penataan pendidikan
-                            menengah pertama. Hal ini diperkuat dengan Keputusan Bupati Bulukumba
-                            Nomor: Kpts.241/V/2012 tentang penetapan sekolah menengah pertama negeri dan sekolah menengah pertama
-                            negeri satu atap di wilayah Kabupaten Bulukumba.
+                            Pada akhirnya, tujuan utama dari SMP Fiktif Nusantara hanyalah satu: memastikan tampilan dan alur aplikasi
+                            berjalan dengan baik sebelum digunakan oleh pengguna sebenarnya. Jika Anda membaca ini di produksi, berarti
+                            data dummy ini belum diganti dengan data yang sesungguhnya.
                         </p>
                     </div>
                 </div>
             </div>
         </section>
 
-        {{-- KEPALA SEKOLAH YANG PERNAH MENJABAT --}}
+        {{-- KEPALA SEKOLAH YANG PERNAH MENJABAT (FIKTIF) --}}
         <section class="section-wrapper">
             <div class="container">
-                <h2 class="section-title">Kepala Sekolah yang Pernah Menjabat</h2>
+                <h2 class="section-title">Kepala Sekolah yang Pernah Menjabat (Dummy)</h2>
 
                 <div class="row g-4 justify-content-center">
                     @php
                         $kepsekList = [
-                            'Abd. Wahab Dg. Culle',
-                            'Muh. Ansar Dg. Djuppa',
-                            'Muh. Yahya Nur',
-                            'A. Ambo Tuwo Paki',
-                            'Abd. Muin Hamili',
-                            'Muslimin Bibu',
-                            'Abd. Latif Nonci',
-                            'Mahamuddin',
-                            'A. Makmur Andi Accing',
-                            'A. Muh. Jafar Beddang',
-                            'A. Pananrangi',
-                            'Abd. Muis',
-                            'Amiruddin Umar',
-                            'Jumrah',
+                            'Budi Santoso',
+                            'Siti Lestari',
+                            'Agus Pratama',
+                            'Dewi Rahmawati',
+                            'Andi Fikri',
+                            'Nina Kusuma',
+                            'Rafi Alamsyah',
+                            'Lina Purnama',
+                            'Joko Wiryawan',
+                            'Mira Anggraini',
+                            'Dimas Kurnia',
+                            'Rasya Nugraha',
+                            'Intan Maharani',
+                            'Yudha Saputra',
                         ];
                     @endphp
 
@@ -360,10 +355,10 @@
             </div>
         </section>
 
-        {{-- DATA SEKOLAH --}}
+        {{-- DATA SEKOLAH (DUMMY) --}}
         <section class="section-wrapper data-sekolah-section">
             <div class="container">
-                <h2 class="section-title">Data Sekolah</h2>
+                <h2 class="section-title">Data Sekolah (Contoh)</h2>
 
                 <div class="row justify-content-center align-items-start">
                     <div class="col-lg-7 col-xl-6 mb-4 mb-lg-0">
@@ -372,43 +367,47 @@
                                 <tbody>
                                     <tr>
                                         <th class="text-dark">NPSN</th>
-                                        <td class="text-dark">40304206</td>
+                                        <td class="text-dark">99999999</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-dark">Nama Sekolah</th>
+                                        <td class="text-dark">SMP Fiktif Nusantara</td>
                                     </tr>
                                     <tr>
                                         <th class="text-dark">Kepala Sekolah</th>
-                                        <td class="text-dark">Andi Tenri Awaru, S.Pd</td>
+                                        <td class="text-dark">Rina Kartika, M.Pd</td>
                                     </tr>
                                     <tr>
                                         <th class="text-dark">Admin</th>
-                                        <td class="text-dark">Muhammad Amin</td>
+                                        <td class="text-dark">Budi Admin Testing</td>
                                     </tr>
                                     <tr>
                                         <th class="text-dark">Akreditasi</th>
-                                        <td class="text-dark">B</td>
+                                        <td class="text-dark">Z (Dummy)</td>
                                     </tr>
                                     <tr>
                                         <th class="text-dark">Kurikulum</th>
-                                        <td class="text-dark">Kurikulum Merdeka</td>
+                                        <td class="text-dark">Kurikulum Percobaan 4.0</td>
                                     </tr>
                                     <tr>
                                         <th class="text-dark">Status</th>
-                                        <td class="text-dark">Negeri</td>
+                                        <td class="text-dark">Sekolah Contoh</td>
                                     </tr>
                                     <tr>
                                         <th class="text-dark">Bentuk Kepemilikan</th>
-                                        <td class="text-dark">SMP</td>
+                                        <td class="text-dark">SMP (Fiktif)</td>
                                     </tr>
                                     <tr>
                                         <th class="text-dark">Status Kepemilikan</th>
-                                        <td class="text-dark">Pemerintah Daerah</td>
+                                        <td class="text-dark">Tidak Terdaftar</td>
                                     </tr>
                                     <tr>
                                         <th class="text-dark">SK Pendirian Sekolah</th>
-                                        <td class="text-dark">-</td>
+                                        <td class="text-dark">SK FIKTIF/01/2020</td>
                                     </tr>
                                     <tr>
                                         <th class="text-dark">Tanggal SK Pendirian</th>
-                                        <td class="text-dark">1960-01-01</td>
+                                        <td class="text-dark">2020-01-01</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -418,7 +417,7 @@
                             <a class="btn btn-light"
                                href="https://placehold.co/260x260"
                                target="_blank">
-                                Selengkapnya di Dapodik &raquo;
+                                Tautan Dummy &raquo;
                             </a>
                         </div>
                     </div>
@@ -426,7 +425,7 @@
                     <div class="col-lg-5 col-xl-4 text-center">
                         <img
                             src="https://placehold.co/260x260"
-                            alt="Logo SMPN 14 Bulukumba"
+                            alt="Logo Dummy Sekolah"
                             class="img-fluid"
                             style="max-width: 280px;">
                     </div>
@@ -434,18 +433,18 @@
             </div>
         </section>
 
-        {{-- VISI & MISI --}}
+        {{-- VISI & MISI (DUMMY) --}}
         <section class="section-wrapper visi-misi-section">
             <div class="container">
-                <h2 class="section-title">Visi &amp; Misi</h2>
+                <h2 class="section-title">Visi &amp; Misi (Contoh)</h2>
 
                 <div class="row justify-content-center">
                     <div class="col-lg-10">
                         <h3 class="section-title-small">Visi</h3>
                         <p class="text-justify mb-4">
                             <strong><i>
-                                "Berprestasi dalam bidang akademik dan non akademik berdasarkan imtaq serta berperan aktif
-                                dalam mencegah pencemaran dan kerusakan lingkungan hidup berdasarkan imtaq, iptek, dan norma."
+                                "Menjadi sekolah contoh yang digunakan untuk pengembangan, pengujian, dan demonstrasi aplikasi
+                                pendidikan tanpa terikat data nyata, sehingga pengembang dapat berkreasi dengan bebas."
                             </i></strong>
                         </p>
 
@@ -453,65 +452,61 @@
 
                         <h3 class="section-title-small">Misi</h3>
                         <ul class="text-justify">
-                            <li>Melaksanakan penerimaan siswa baru secara bertahap, transparan, dan objektif.</li>
-                            <li>Meningkatkan kedisiplinan warga sekolah untuk menciptakan SDM berkualitas dan sekolah berwawasan lingkungan.</li>
-                            <li>Melaksanakan Kurikulum Merdeka/K13 secara efisien dengan inovasi pembelajaran bernuansa IMTAQ, IPTEK, dan lingkungan.</li>
-                            <li>Menyediakan dan memanfaatkan sarana prasarana akademik untuk pengembangan sekolah dan peningkatan mutu pendidikan.</li>
-                            <li>Melaksanakan evaluasi belajar (ulangan, analisis, remedial, pengayaan) secara optimal.</li>
-                            <li>Menerapkan manajemen partisipatif dengan melibatkan masyarakat, komite sekolah, dan pemerintah.</li>
-                            <li>Memberdayakan potensi lingkungan untuk pengembangan keterampilan produktif dan kepedulian lingkungan.</li>
+                            <li>Menyediakan data fiktif yang konsisten untuk kebutuhan uji coba tampilan dan fitur aplikasi.</li>
+                            <li>Mempermudah proses pengembangan dengan contoh konten yang siap pakai dan mudah diganti.</li>
+                            <li>Menjadi sandbox bagi pengembang untuk memodifikasi desain dan struktur informasi sekolah.</li>
+                            <li>Mendorong eksperimen UI/UX tanpa risiko mengubah data asli dari sekolah sungguhan.</li>
+                            <li>Menyajikan struktur halaman yang lengkap agar mudah diintegrasikan dengan data dinamis nantinya.</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        {{-- INFO 1 - KEMENDIKBUD --}}
+        {{-- INFO 1 - KEMENDIKBUD (BIARKAN UMUM SAJA) --}}
         <section class="section-wrapper info-section-blue">
             <div class="container">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-lg-4 text-center mb-4 mb-lg-0">
                         <img
                             src="https://placehold.co/280x280"
-                            alt="Logo Kemendikbud"
+                            alt="Logo Kemendikbud (Dummy)"
                             class="img-fluid"
                             style="max-width: 260px;">
                     </div>
 
                     <div class="col-lg-8">
-                        <h3 class="section-title-small">Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi</h3>
+                        <h3 class="section-title-small">Informasi Pendidikan (Umum)</h3>
                         <p class="text-justify mb-3">
-                            Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi (Kemendikbudristek) adalah kementerian
-                            yang menyelenggarakan urusan pendidikan, kebudayaan, penelitian, riset, dan pengembangan teknologi
-                            di Indonesia. Kemendikbudristek berada di bawah dan bertanggung jawab kepada Presiden Republik
-                            Indonesia dan dipimpin oleh seorang Menteri Pendidikan, Kebudayaan, Riset, dan Teknologi.
+                            Bagian ini dapat digunakan untuk menampilkan tautan atau informasi penting seputar dunia pendidikan,
+                            baik itu menuju situs resmi kementerian, dinas pendidikan, ataupun portal lain yang relevan. Saat ini
+                            konten yang tampil masih berupa teks contoh dan dapat diganti kapan saja sesuai kebutuhan.
                         </p>
                         <a href="https://www.kemdikbud.go.id/" target="_blank">
-                            Selengkapnya &raquo;
+                            Buka Situs Resmi &raquo;
                         </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        {{-- INFO 2 - MERDEKA BELAJAR --}}
+        {{-- INFO 2 - MERDEKA BELAJAR (UMUM) --}}
         <section class="section-wrapper">
             <div class="container">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-lg-8 mb-4 mb-lg-0 order-lg-1 order-2">
-                        <h3 class="section-title-small">Merdeka Belajar</h3>
+                        <h3 class="section-title-small">Contoh Informasi Tambahan</h3>
                         <p class="text-justify mb-0">
-                            Merdeka Belajar merupakan kebijakan yang memberikan ruang bagi satuan pendidikan, guru, dan siswa
-                            untuk lebih leluasa berinovasi, berkreasi, dan berkolaborasi dalam proses pembelajaran. Fokusnya
-                            adalah pada penguatan kompetensi, karakter, serta relevansi pembelajaran dengan kehidupan nyata
-                            sehingga peserta didik siap menghadapi tantangan masa depan.
+                            Bagian ini hanya berfungsi sebagai placeholder untuk menjelaskan program, kegiatan, atau informasi
+                            lain yang ingin ditampilkan di halaman profil sekolah. Anda dapat menggantinya dengan deskripsi
+                            program unggulan, ekstrakurikuler, atau kebijakan sekolah setelah data asli tersedia.
                         </p>
                     </div>
 
                     <div class="col-lg-4 text-center order-lg-2 order-1">
                         <img
                             src="https://placehold.co/260x260"
-                            alt="Logo Merdeka Belajar"
+                            alt="Ilustrasi Program Sekolah"
                             class="img-fluid"
                             style="max-width: 260px;">
                     </div>
