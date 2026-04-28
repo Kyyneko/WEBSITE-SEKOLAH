@@ -119,5 +119,10 @@ Route::middleware(['auth','role:admin'])->group(function () {
 });
 
 
+// Google OAuth
+use App\Http\Controllers\Auth\GoogleController;
+Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('auth.google');
+Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('auth.google.callback');
+
 // Login
 require __DIR__.'/auth.php';

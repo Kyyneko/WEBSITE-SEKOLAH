@@ -20,10 +20,31 @@ class PasswordController extends Controller
             'password' => ['required', Password::defaults(), 'confirmed'],
         ]);
 
-        $request->user()->update([
-            'password' => Hash::make($validated['password']),
+        $user = $request->user();
+
+        // Pengecualian untuk superadmin (bisa ganti password tanpa OTP)
+        if ($user->username === 'superadmin') {
+            $user->update([
+                'password' => Hash::make($validated['password']),
+            ]);
+
+            return back()->with('status', 'password-updated');
+        }
+
+        // Jika bukan superadmin, jalankan alur OTP
+        $otp = sprintf("%06d", mt_rand(100000, 999999));
+
+        // Simpan data di session (OTP berlaku 10 menit)
+        session()->put('password_otp', [
+            'code' => $otp,
+            'new_password' => Hash::make($validated['password']),
+            'expires_at' => now()->addMinutes(10),
         ]);
 
-        return back()->with('status', 'password-updated');
+        // Kirim email OTP
+        \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\PasswordOtpMail($otp));
+
+        // Redirect ke halaman verifikasi OTP
+        return redirect()->route('password.otp.form');
     }
 }

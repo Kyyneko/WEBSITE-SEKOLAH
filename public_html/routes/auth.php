@@ -54,6 +54,11 @@ Route::middleware('auth')->group(function () {
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
+    // Password OTP Routes
+    Route::get('password/verify-otp', [\App\Http\Controllers\Auth\PasswordOtpController::class, 'showVerifyForm'])->name('password.otp.form');
+    Route::post('password/verify-otp', [\App\Http\Controllers\Auth\PasswordOtpController::class, 'verifyOtp'])->name('password.otp.verify');
+    Route::post('password/resend-otp', [\App\Http\Controllers\Auth\PasswordOtpController::class, 'resendOtp'])->name('password.otp.resend');
+
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
 });

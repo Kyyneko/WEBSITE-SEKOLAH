@@ -1,176 +1,116 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+        <h2 class="font-semibold text-xl leading-tight">
+            {{ __('Perangkat Pembelajaran') }}
         </h2>
     </x-slot>
 
-    <div class="py-12 bg-slate-50 min-h-screen">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="py-6">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
 
             {{-- Upload Section --}}
-            <div class="bg-white border border-slate-200/70 overflow-hidden shadow-sm sm:rounded-xl mb-8">
-                <div class="p-6 sm:p-8">
-                    <div class="text-center mb-8">
-                        <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">
-                            <i class="fas fa-cloud-upload-alt mr-2"></i>
-                            Upload Dokumen
-                        </h2>
-                        <p class="text-slate-500 text-sm sm:text-base">
-                            Unggah file PDF atau Word untuk dibagikan
-                        </p>
-                    </div>
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-4">
+                <div class="p-4">
+                    <h5 class="perangkat-section-title mb-3">
+                        <i class="fas fa-cloud-upload-alt me-2"></i>Upload Dokumen
+                    </h5>
 
-                    <form action="/upload" method="POST" enctype="multipart/form-data" class="max-w-2xl mx-auto space-y-6">
+                    <form action="/upload" method="POST" enctype="multipart/form-data">
                         @csrf
-
-                        <div>
-                            <label for="file" class="block text-sm font-semibold text-slate-700 mb-2">
-                                Pilih File (PDF/Word)
-                            </label>
-
-                            <div class="flex flex-col items-center justify-center w-full">
-                                <label for="file"
-                                       class="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed rounded-xl cursor-pointer bg-slate-50 border-slate-300 hover:bg-slate-100 hover:border-blue-400 transition-all duration-200">
-                                    <div class="flex flex-col items-center justify-center pt-4 pb-5 text-center px-4">
-                                        <svg class="w-12 h-12 mb-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                                        </svg>
-                                        <p class="mb-1 text-sm text-slate-600">
-                                            <span class="font-semibold text-slate-700">Klik untuk upload</span> atau drag and drop
-                                        </p>
-                                        <p class="text-xs text-slate-500">
-                                            PDF, DOC, atau DOCX (MAX. 10MB)
-                                        </p>
-                                    </div>
-                                    <input type="file" id="file" name="file" class="hidden" accept=".pdf,.doc,.docx">
-                                </label>
-
-                                <div id="file-selected" class="mt-4 hidden w-full">
-                                    <div class="flex items-center p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                                        <svg class="w-8 h-8 text-blue-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                  d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
-                                                  clip-rule="evenodd" />
-                                        </svg>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-xs font-semibold text-slate-700 uppercase tracking-wide">
-                                                File terpilih
-                                            </p>
-                                            <p id="file-name" class="text-sm text-slate-700 truncate"></p>
-                                        </div>
-                                        <button type="button" id="remove-file"
-                                                class="ml-3 text-red-500 hover:text-red-600 transition-colors">
-                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd"
-                                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                                      clip-rule="evenodd" />
-                                            </svg>
-                                        </button>
-                                    </div>
+                        <div class="perangkat-upload-row">
+                            <label for="file" class="perangkat-upload-zone mb-0" id="uploadZone">
+                                <div class="perangkat-upload-icon">
+                                    <i class="fas fa-cloud-upload-alt"></i>
                                 </div>
-                            </div>
+                                <div>
+                                    <div class="perangkat-upload-text">
+                                        <strong>Klik untuk pilih file</strong> atau drag & drop
+                                    </div>
+                                    <div class="perangkat-upload-hint">PDF, DOC, DOCX — Maks. 10MB</div>
+                                </div>
+                                <input type="file" id="file" name="file" style="display:none" accept=".pdf,.doc,.docx">
+                            </label>
+                            <button type="submit" class="btn btn-primary perangkat-upload-btn">
+                                <i class="fas fa-upload me-1"></i> Upload
+                            </button>
                         </div>
 
-                        <div class="text-center">
-                            <button type="submit"
-                                    class="inline-flex items-center px-6 py-3 bg-black hover:bg-blue-700 text-white text-sm sm:text-base font-semibold rounded-lg shadow-md transition-all duration-200 transform hover:scale-[1.02]">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                                </svg>
-                                Upload Dokumen
+                        <div id="file-selected" class="perangkat-file-preview d-none mt-2">
+                            <i class="fas fa-file-alt" style="color: var(--dash-primary-light);"></i>
+                            <span id="file-name" class="perangkat-file-name"></span>
+                            <button type="button" id="remove-file" class="perangkat-file-remove">
+                                <i class="fas fa-times"></i>
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            {{-- Table Dokumen untuk File Admin --}}
-            <div class="bg-white border border-slate-200/70 overflow-hidden shadow-sm sm:rounded-xl mb-8">
-                <div class="p-6 sm:p-8">
-                    <div class="mb-6">
-                        <h2 class="text-xl sm:text-2xl font-bold text-slate-800 mb-1 flex items-center">
-                            <i class="fas fa-folder text-yellow-500 mr-2"></i>
+            {{-- Admin Documents Table --}}
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-4">
+                <div class="p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h5 class="perangkat-section-title mb-0" style="border: none; padding-bottom: 0;">
+                            <i class="fas fa-folder me-2" style="color: var(--dash-primary-light);"></i>
                             @if (auth()->user()->role == 'admin')
                                 File Yang Anda Upload
                             @else
                                 File Dari Admin
                             @endif
-                        </h2>
-                        <p class="text-slate-500 text-sm">
-                            Daftar dokumen yang telah diunggah oleh admin
-                        </p>
+                        </h5>
+                        <span class="perangkat-count">
+                            {{ $adminDocuments ? count($adminDocuments) : 0 }} file
+                        </span>
                     </div>
 
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full text-sm divide-y divide-slate-200">
-                            <thead class="bg-slate-100/80">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-[0.7rem] font-semibold text-slate-500 uppercase tracking-wider">#</th>
-                                    <th class="px-6 py-3 text-left text-[0.7rem] font-semibold text-slate-500 uppercase tracking-wider">Nama Dokumen</th>
-                                    <th class="px-6 py-3 text-center text-[0.7rem] font-semibold text-slate-500 uppercase tracking-wider">Uploader</th>
-                                    <th class="px-6 py-3 text-center text-[0.7rem] font-semibold text-slate-500 uppercase tracking-wider">Waktu Upload</th>
-                                    <th class="px-6 py-3 text-center text-[0.7rem] font-semibold text-slate-500 uppercase tracking-wider">Aksi</th>
+                                    <th width="5%" class="text-center">#</th>
+                                    <th>Nama Dokumen</th>
+                                    <th class="text-center">Uploader</th>
+                                    <th class="text-center">Waktu Upload</th>
+                                    <th class="text-center" width="18%">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-slate-100">
+                            <tbody>
                                 @if ($adminDocuments && count($adminDocuments) > 0)
                                     @foreach ($adminDocuments as $document)
-                                        <tr class="hover:bg-slate-50 transition-colors">
-                                            <td class="px-6 py-4 whitespace-nowrap text-slate-800">{{ $loop->iteration }}</td>
-                                            <td class="px-6 py-4 text-slate-800">
-                                                <div class="flex items-center">
-                                                    <svg class="w-5 h-5 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path fill-rule="evenodd"
-                                                              d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
-                                                              clip-rule="evenodd" />
-                                                    </svg>
-                                                    <span class="truncate max-w-[260px] sm:max-w-xs">
+                                        <tr>
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <div class="perangkat-file-icon">
+                                                        <i class="fas fa-file-pdf"></i>
+                                                    </div>
+                                                    <span class="perangkat-doc-name">
                                                         {{ substr(basename($document->file_path), 11) }}
                                                     </span>
                                                 </div>
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-center">
-                                                @if (auth()->user()->role == 'admin')
-                                                    <span class="inline-flex px-2.5 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-full text-xs font-semibold">
-                                                        {{ $document->user->name }}
-                                                    </span>
-                                                @else
-                                                    <span class="inline-flex px-2.5 py-1 bg-purple-50 text-purple-700 border border-purple-100 rounded-full text-xs font-semibold">
-                                                        Admin
-                                                    </span>
-                                                @endif
+                                            <td class="text-center">
+                                                <span class="badge badge-primary">
+                                                    {{ $document->user->name }}
+                                                </span>
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-slate-500 text-center">
+                                            <td class="text-center" style="color: var(--dash-text-light); font-size: 0.82rem;">
                                                 {{ $document->created_at->diffForHumans() }}
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-center">
-                                                <div class="flex items-center justify-center gap-2">
+                                            <td class="text-center">
+                                                <div class="d-flex justify-content-center gap-1">
                                                     @if (auth()->user()->role == 'admin')
-                                                        <form action="{{ route('documents.destroy', $document->id) }}" method="POST" class="inline">
+                                                        <form action="{{ route('documents.destroy', $document->id) }}" method="POST" class="d-inline">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit"
-                                                                    class="inline-flex items-center px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-[0.7rem] font-semibold rounded-md transition-colors"
-                                                                    onclick="return confirm('Yakin ingin menghapus dokumen ini?')">
-                                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                                </svg>
-                                                                Hapus
+                                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                                    onclick="return confirm('Yakin ingin menghapus?')">
+                                                                <i class="fas fa-trash"></i>
                                                             </button>
                                                         </form>
                                                     @endif
-
-                                                    <a href="{{ route('documents.download', $document->id) }}"
-                                                       class="inline-flex items-center px-3 py-2 bg-red-600 hover:!bg-blue-700 text-white text-[0.7rem] font-semibold rounded-md transition-colors">
-                                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                                        </svg>
-                                                        Download
+                                                    <a href="{{ route('documents.download', $document->id) }}" class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-download"></i>
                                                     </a>
                                                 </div>
                                             </td>
@@ -178,14 +118,11 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="5" class="px-6 py-12 text-center text-slate-500">
-                                            <div class="inline-flex flex-col items-center">
-                                                <svg class="w-16 h-16 mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                </svg>
-                                                <p class="text-base font-semibold mb-1">Belum ada dokumen</p>
-                                                <p class="text-sm">Dokumen yang diunggah akan muncul di sini</p>
+                                        <td colspan="5" class="text-center py-5">
+                                            <div class="perangkat-empty">
+                                                <i class="fas fa-folder-open"></i>
+                                                <p>Belum ada dokumen</p>
+                                                <small>Dokumen yang diunggah akan muncul di sini</small>
                                             </div>
                                         </td>
                                     </tr>
@@ -196,84 +133,71 @@
                 </div>
             </div>
 
-            {{-- Table Dokumen untuk File Non-Admin --}}
-            <div class="bg-white border border-slate-200/70 overflow-hidden shadow-sm sm:rounded-xl">
-                <div class="p-6 sm:p-8">
-                    <div class="mb-6">
-                        <h2 class="text-xl sm:text-2xl font-bold text-slate-800 mb-1 flex items-center">
-                            <i class="fas fa-users text-green-500 mr-2"></i>
+            {{-- Non-Admin Documents Table --}}
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h5 class="perangkat-section-title mb-0" style="border: none; padding-bottom: 0;">
+                            <i class="fas fa-users me-2" style="color: var(--dash-accent);"></i>
                             @if (auth()->user()->role == 'admin')
-                                File Yang Telah Di Upload User
+                                File Dari Guru
                             @else
                                 File Yang Anda Upload
                             @endif
-                        </h2>
-                        <p class="text-slate-500 text-sm">
-                            Daftar dokumen yang telah diunggah oleh pengguna
-                        </p>
+                        </h5>
+                        <span class="perangkat-count">
+                            {{ $nonAdminDocuments ? count($nonAdminDocuments) : 0 }} file
+                        </span>
                     </div>
 
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full text-sm divide-y divide-slate-200">
-                            <thead class="bg-slate-100/80">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-[0.7rem] font-semibold text-slate-500 uppercase tracking-wider">#</th>
-                                    <th class="px-6 py-3 text-left text-[0.7rem] font-semibold text-slate-500 uppercase tracking-wider">Nama Dokumen</th>
-                                    <th class="px-6 py-3 text-left text-[0.7rem] font-semibold text-slate-500 uppercase tracking-wider">Uploader</th>
-                                    <th class="px-6 py-3 text-center text-[0.7rem] font-semibold text-slate-500 uppercase tracking-wider">Waktu Upload</th>
-                                    <th class="px-6 py-3 text-center text-[0.7rem] font-semibold text-slate-500 uppercase tracking-wider">Aksi</th>
+                                    <th width="5%" class="text-center">#</th>
+                                    <th>Nama Dokumen</th>
+                                    <th>Uploader</th>
+                                    <th class="text-center">Waktu Upload</th>
+                                    <th class="text-center" width="18%">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-slate-100">
+                            <tbody>
                                 @if ($nonAdminDocuments && count($nonAdminDocuments) > 0)
                                     @foreach ($nonAdminDocuments as $document)
-                                        <tr class="hover:bg-slate-50 transition-colors">
-                                            <td class="px-6 py-4 whitespace-nowrap text-slate-800">{{ $loop->iteration }}</td>
-                                            <td class="px-6 py-4 text-slate-800">
-                                                <div class="flex items-center">
-                                                    <svg class="w-5 h-5 text-emerald-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path fill-rule="evenodd"
-                                                              d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
-                                                              clip-rule="evenodd" />
-                                                    </svg>
-                                                    <span class="truncate max-w-[260px] sm:max-w-xs">
+                                        <tr>
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <div class="perangkat-file-icon" style="background: rgba(13,148,136,0.08); color: var(--dash-accent);">
+                                                        <i class="fas fa-file-alt"></i>
+                                                    </div>
+                                                    <span class="perangkat-doc-name">
                                                         {{ substr(basename($document->file_path), 22) }}
                                                     </span>
                                                 </div>
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-slate-800">
-                                                <span class="inline-flex px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full text-xs font-semibold">
+                                            <td>
+                                                <span class="badge badge-success">
                                                     {{ $document->user->name }}
                                                 </span>
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-slate-500 text-center">
+                                            <td class="text-center" style="color: var(--dash-text-light); font-size: 0.82rem;">
                                                 {{ $document->created_at->diffForHumans() }}
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-center">
-                                                <div class="flex items-center justify-center gap-2">
+                                            <td class="text-center">
+                                                <div class="d-flex justify-content-center gap-1">
                                                     @if (auth()->user()->role == 'teacher')
-                                                        <form action="{{ route('documents.destroy', $document->id) }}" method="POST" class="inline">
+                                                        <form action="{{ route('documents.destroy', $document->id) }}" method="POST" class="d-inline">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit"
-                                                                    class="inline-flex items-center px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-[0.7rem] font-semibold rounded-md transition-colors"
-                                                                    onclick="return confirm('Yakin ingin menghapus dokumen ini?')">
-                                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                                </svg>
-                                                                Hapus
+                                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                                    onclick="return confirm('Yakin ingin menghapus?')">
+                                                                <i class="fas fa-trash"></i>
                                                             </button>
                                                         </form>
                                                     @endif
-
-                                                    <a href="{{ route('documents.download', $document->id) }}"
-                                                       class="inline-flex items-center px-3 py-2 bg-red-600 hover:!bg-blue-700 text-white text-[0.7rem] font-semibold rounded-md transition-colors">
-                                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                                        </svg>
-                                                        Download
+                                                    <a href="{{ route('documents.download', $document->id) }}" class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-download"></i>
                                                     </a>
                                                 </div>
                                             </td>
@@ -281,14 +205,11 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="5" class="px-6 py-12 text-center text-slate-500">
-                                            <div class="inline-flex flex-col items-center">
-                                                <svg class="w-16 h-16 mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                </svg>
-                                                <p class="text-base font-semibold mb-1">Belum ada dokumen</p>
-                                                <p class="text-sm">Dokumen yang diunggah akan muncul di sini</p>
+                                        <td colspan="5" class="text-center py-5">
+                                            <div class="perangkat-empty">
+                                                <i class="fas fa-folder-open"></i>
+                                                <p>Belum ada dokumen</p>
+                                                <small>Dokumen yang diunggah akan muncul di sini</small>
                                             </div>
                                         </td>
                                     </tr>
@@ -303,48 +224,219 @@
     </div>
 
     <script>
-        // File input handler (dikasih guard biar aman kalau element tidak ketemu)
         document.addEventListener('DOMContentLoaded', () => {
             const fileInput = document.getElementById('file');
             const fileSelected = document.getElementById('file-selected');
             const fileName = document.getElementById('file-name');
             const removeFileBtn = document.getElementById('remove-file');
+            const uploadZone = document.getElementById('uploadZone');
 
             if (!fileInput || !fileSelected || !fileName || !removeFileBtn) return;
 
             fileInput.addEventListener('change', function () {
                 if (this.files && this.files[0]) {
                     fileName.textContent = this.files[0].name;
-                    fileSelected.classList.remove('hidden');
+                    fileSelected.classList.remove('d-none');
+                    uploadZone.classList.add('has-file');
                 }
             });
 
             removeFileBtn.addEventListener('click', function () {
                 fileInput.value = '';
-                fileSelected.classList.add('hidden');
+                fileSelected.classList.add('d-none');
                 fileName.textContent = '';
+                uploadZone.classList.remove('has-file');
             });
+
+            // Drag & Drop
+            if (uploadZone) {
+                ['dragenter', 'dragover'].forEach(e => {
+                    uploadZone.addEventListener(e, (ev) => { ev.preventDefault(); uploadZone.classList.add('dragover'); });
+                });
+                ['dragleave', 'drop'].forEach(e => {
+                    uploadZone.addEventListener(e, (ev) => { ev.preventDefault(); uploadZone.classList.remove('dragover'); });
+                });
+                uploadZone.addEventListener('drop', (ev) => {
+                    const dt = ev.dataTransfer;
+                    if (dt.files && dt.files[0]) {
+                        fileInput.files = dt.files;
+                        fileName.textContent = dt.files[0].name;
+                        fileSelected.classList.remove('d-none');
+                        uploadZone.classList.add('has-file');
+                    }
+                });
+            }
         });
     </script>
 
+    @push('styles')
     <style>
-        /* Custom scrollbar for tables */
-        .overflow-x-auto::-webkit-scrollbar {
-            height: 8px;
+        /* Upload Row */
+        .perangkat-upload-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
 
-        .overflow-x-auto::-webkit-scrollbar-track {
-            background: #f1f5f9;
+        .perangkat-upload-btn {
+            padding: 0.7rem 1.5rem;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 575.98px) {
+            .perangkat-upload-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        /* Upload Zone */
+        .perangkat-upload-zone {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid var(--dash-border);
+            border-radius: var(--dash-radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #fafbfc;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .perangkat-upload-zone:hover,
+        .perangkat-upload-zone.dragover {
+            border-color: var(--dash-primary-light);
+            background: rgba(37,99,235,0.02);
+        }
+
+        .perangkat-upload-zone.has-file {
+            border-color: var(--dash-success);
+            background: rgba(16,185,129,0.02);
+        }
+
+        .perangkat-upload-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: rgba(37,99,235,0.08);
+            color: var(--dash-primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            flex-shrink: 0;
+        }
+
+        .perangkat-upload-text {
+            font-size: 0.85rem;
+            color: var(--dash-text);
+        }
+
+        .perangkat-upload-hint {
+            font-size: 0.72rem;
+            color: var(--dash-text-light);
+            margin-top: 0.1rem;
+        }
+
+        /* File Preview */
+        .perangkat-file-preview {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.55rem 0.85rem;
+            background: rgba(37,99,235,0.04);
+            border-radius: 6px;
+            border: 1px solid rgba(37,99,235,0.1);
+        }
+
+        .perangkat-file-name {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--dash-text);
+            flex: 1;
+        }
+
+        .perangkat-file-remove {
+            background: none;
+            border: none;
+            color: var(--dash-danger);
+            cursor: pointer;
+            padding: 0.15rem 0.35rem;
             border-radius: 4px;
+            font-size: 0.75rem;
+            transition: all 0.15s ease;
         }
 
-        .overflow-x-auto::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
+        .perangkat-file-remove:hover {
+            background: rgba(239,68,68,0.08);
         }
 
-        .overflow-x-auto::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+        /* Section Title */
+        .perangkat-section-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--dash-text);
+            border-bottom: 2px solid var(--dash-border);
+            padding-bottom: 0.65rem;
+        }
+
+        /* File Count Badge */
+        .perangkat-count {
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.3rem 0.65rem;
+            background: rgba(37,99,235,0.06);
+            color: var(--dash-primary-light);
+            border-radius: 20px;
+        }
+
+        /* File Icon */
+        .perangkat-file-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 7px;
+            background: rgba(37,99,235,0.08);
+            color: var(--dash-primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .perangkat-doc-name {
+            font-size: 0.84rem;
+            font-weight: 500;
+            color: var(--dash-text);
+            max-width: 280px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Empty State */
+        .perangkat-empty {
+            color: var(--dash-text-light);
+        }
+
+        .perangkat-empty i {
+            font-size: 2.5rem;
+            color: #e2e8f0;
+            margin-bottom: 0.5rem;
+        }
+
+        .perangkat-empty p {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.15rem;
+        }
+
+        .perangkat-empty small {
+            font-size: 0.78rem;
         }
     </style>
+    @endpush
 </x-app-layout>

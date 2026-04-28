@@ -3,23 +3,43 @@
 @section('style')
     <style>
         .section-header {
-            margin-top: 80px;
-            padding: 4rem 0 3rem;
-            background: linear-gradient(135deg, rgb(19, 123, 191) 0%, rgb(16, 100, 160) 100%);
+            margin-top: 0;
+            padding: calc(4rem + 70px) 0 3rem;
+            background: var(--gradient-primary);
             color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
         }
 
         .section-header h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: clamp(1.75rem, 4vw, 2.75rem);
             font-weight: 800;
             text-align: center;
             margin: 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            letter-spacing: -0.02em;
+        }
+
+        .section-header p {
+            text-align: center;
+            font-size: 1rem;
+            margin-top: 0.75rem;
+            opacity: 0.85;
         }
 
         .section-content {
             padding: 4rem 0;
-            background-color: #f8fafc;
+            background-color: var(--color-bg);
         }
 
         /* Organizations Grid */
@@ -27,22 +47,22 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
-            padding: 0 1rem;
         }
 
         .organization-card {
             background: #ffffff;
-            border-radius: 16px;
+            border-radius: var(--radius-lg);
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             height: 100%;
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--color-border);
         }
 
         .organization-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-xl);
+            border-color: transparent;
         }
 
         .organization-card a {
@@ -55,28 +75,19 @@
 
         .organization-card-image {
             width: 100%;
-            height: 220px;
+            height: 210px;
             overflow: hidden;
-            background: #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .organization-card-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s ease;
+            transition: transform 0.4s ease;
         }
 
         .organization-card:hover .organization-card-image img {
-            transform: scale(1.05);
-        }
-
-        .organization-card-image .no-photo {
-            color: #a0aec0;
-            font-size: 0.9rem;
+            transform: scale(1.06);
         }
 
         .organization-card-body {
@@ -86,160 +97,167 @@
             flex-grow: 1;
         }
 
-        .organization-meta {
-            font-size: 0.75rem;
-            color: #718096;
+        .organization-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.7rem;
+            background: rgba(13, 148, 136, 0.08);
+            color: var(--color-accent);
+            border-radius: 20px;
+            font-size: 0.7rem;
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
+            width: fit-content;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .organization-name {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: 700;
-            color: #1a202c;
-            margin-bottom: 0.75rem;
+            color: var(--color-text);
+            margin-bottom: 0.5rem;
             line-height: 1.4;
         }
 
         .organization-description {
-            font-size: 0.95rem;
-            color: #4a5568;
+            font-size: 0.875rem;
+            color: var(--color-text-light);
             line-height: 1.6;
             flex-grow: 1;
         }
 
+        .org-read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-primary-light);
+            transition: gap 0.3s ease;
+        }
+
+        .organization-card:hover .org-read-more {
+            gap: 0.7rem;
+        }
+
         @media (max-width: 768px) {
-            .section-header {
-                padding: 3rem 0 2rem;
-            }
-
-            .section-content {
-                padding: 3rem 0;
-            }
-
-            .organizations-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 1.5rem;
-            }
+            .section-header { padding: 3rem 0 2rem; }
+            .section-content { padding: 3rem 0; }
+            .organizations-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
         }
 
         @media (max-width: 576px) {
-            .organizations-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Animation */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .organization-card {
-            animation: fadeInUp 0.6s ease-out;
+            .organizations-grid { grid-template-columns: 1fr; }
         }
     </style>
 @endsection
 
 @section('content')
-    {{-- Header Section --}}
+    {{-- Header --}}
     <div class="section-header">
         <div class="container">
-            <h1>Lorem Ipsum Organisasi</h1>
+            <h1 data-aos="fade-up">Organisasi & Ekstrakurikuler</h1>
+            <p data-aos="fade-up" data-aos-delay="100">Wadah pengembangan minat, bakat, dan kreativitas siswa</p>
         </div>
     </div>
 
-    {{-- Organizations Section --}}
+    {{-- Breadcrumb --}}
+    <nav class="page-breadcrumb">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url('/') }}">Beranda</a></li>
+                <li class="breadcrumb-item active">Organisasi & Ekstrakurikuler</li>
+            </ol>
+        </div>
+    </nav>
+
+    {{-- Organizations --}}
     <div class="section-content">
         <div class="container">
             <div class="organizations-grid">
                 @php
-                    $dummyOrganizations = [
+                    $organizations = [
                         [
-                            'name' => 'Lorem Ipsum',
-                            'slug' => 'lorem-ipsum',
-                            'date' => 'Senin, 15 Januari 2024',
-                            'image' => 'https://placehold.co/400x300/4285f4/ffffff?text=Org+1',
-                            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+                            'name' => 'OSIS',
+                            'slug' => 'osis',
+                            'type' => 'Organisasi',
+                            'image' => 'https://placehold.co/400x300/1e3a5f/ffffff?text=OSIS',
+                            'description' => 'Organisasi Siswa Intra Sekolah sebagai wadah kepemimpinan dan pengembangan diri siswa dalam berorganisasi.'
                         ],
                         [
-                            'name' => 'Dolor Sit Amet',
-                            'slug' => 'dolor-sit-amet',
-                            'date' => 'Selasa, 16 Januari 2024',
-                            'image' => 'https://placehold.co/400x300/34a853/ffffff?text=Org+2',
-                            'description' => 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                            'name' => 'Pramuka',
+                            'slug' => 'pramuka',
+                            'type' => 'Ekstrakurikuler',
+                            'image' => 'https://placehold.co/400x300/f59e0b/ffffff?text=PRAMUKA',
+                            'description' => 'Gerakan Pramuka sebagai kegiatan wajib yang membentuk karakter, kedisiplinan, dan jiwa kepemimpinan siswa.'
                         ],
                         [
-                            'name' => 'Consectetur Adipiscing',
-                            'slug' => 'consectetur-adipiscing',
-                            'date' => 'Rabu, 17 Januari 2024',
-                            'image' => 'https://placehold.co/400x300/fbbc04/ffffff?text=Org+3',
-                            'description' => 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
+                            'name' => 'Palang Merah Remaja (PMR)',
+                            'slug' => 'pmr',
+                            'type' => 'Ekstrakurikuler',
+                            'image' => 'https://placehold.co/400x300/ea4335/ffffff?text=PMR',
+                            'description' => 'Kegiatan kepalangmerahan yang melatih siswa dalam bidang pertolongan pertama dan kepedulian sosial.'
                         ],
                         [
-                            'name' => 'Sed Do Eiusmod',
-                            'slug' => 'sed-do-eiusmod',
-                            'date' => 'Kamis, 18 Januari 2024',
-                            'image' => 'https://placehold.co/400x300/ea4335/ffffff?text=Org+4',
-                            'description' => 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+                            'name' => 'Seni Tari',
+                            'slug' => 'seni-tari',
+                            'type' => 'Ekstrakurikuler',
+                            'image' => 'https://placehold.co/400x300/0d9488/ffffff?text=SENI+TARI',
+                            'description' => 'Ekstrakurikuler seni tari untuk melestarikan budaya daerah dan mengembangkan bakat seni siswa.'
                         ],
                         [
-                            'name' => 'Tempor Incididunt',
-                            'slug' => 'tempor-incididunt',
-                            'date' => 'Jumat, 19 Januari 2024',
-                            'image' => 'https://placehold.co/400x300/9c27b0/ffffff?text=Org+5',
-                            'description' => 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.'
+                            'name' => 'Olahraga (Voli & Futsal)',
+                            'slug' => 'olahraga',
+                            'type' => 'Ekstrakurikuler',
+                            'image' => 'https://placehold.co/400x300/2563eb/ffffff?text=OLAHRAGA',
+                            'description' => 'Pembinaan olahraga bola voli dan futsal untuk mengembangkan bakat olahraga dan sportivitas siswa.'
                         ],
                         [
-                            'name' => 'Ut Labore',
-                            'slug' => 'ut-labore',
-                            'date' => 'Sabtu, 20 Januari 2024',
-                            'image' => 'https://placehold.co/400x300/00bcd4/ffffff?text=Org+6',
-                            'description' => 'Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt.'
+                            'name' => 'Rohani Islam (Rohis)',
+                            'slug' => 'rohis',
+                            'type' => 'Ekstrakurikuler',
+                            'image' => 'https://placehold.co/400x300/1e3a5f/ffffff?text=ROHIS',
+                            'description' => 'Kegiatan keagamaan Islam yang meliputi kajian, tahfidz, dan kegiatan sosial bernuansa islami.'
                         ],
                         [
-                            'name' => 'Dolore Magna',
-                            'slug' => 'dolore-magna',
-                            'date' => 'Minggu, 21 Januari 2024',
-                            'image' => 'https://placehold.co/400x300/ff5722/ffffff?text=Org+7',
-                            'description' => 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.'
+                            'name' => 'English Club',
+                            'slug' => 'english-club',
+                            'type' => 'Ekstrakurikuler',
+                            'image' => 'https://placehold.co/400x300/0d9488/ffffff?text=ENGLISH+CLUB',
+                            'description' => 'Klub bahasa Inggris untuk meningkatkan kemampuan berbahasa Inggris melalui diskusi, debat, dan storytelling.'
                         ],
                         [
-                            'name' => 'Aliqua Enim',
-                            'slug' => 'aliqua-enim',
-                            'date' => 'Senin, 22 Januari 2024',
-                            'image' => 'https://placehold.co/400x300/795548/ffffff?text=Org+8',
-                            'description' => 'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.'
+                            'name' => 'Seni Baca Al-Quran',
+                            'slug' => 'tilawah',
+                            'type' => 'Ekstrakurikuler',
+                            'image' => 'https://placehold.co/400x300/f59e0b/ffffff?text=TILAWAH',
+                            'description' => 'Pembinaan seni baca Al-Quran (tilawah) untuk meningkatkan kemampuan membaca dan menghafalkan Al-Quran.'
                         ],
                         [
-                            'name' => 'Quis Nostrud',
-                            'slug' => 'quis-nostrud',
-                            'date' => 'Selasa, 23 Januari 2024',
-                            'image' => 'https://placehold.co/400x300/607d8b/ffffff?text=Org+9',
-                            'description' => 'Ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida risus commodo viverra.'
+                            'name' => 'Drum Band',
+                            'slug' => 'drum-band',
+                            'type' => 'Ekstrakurikuler',
+                            'image' => 'https://placehold.co/400x300/2563eb/ffffff?text=DRUM+BAND',
+                            'description' => 'Kegiatan drum band yang melatih kekompakan, musikalitas, dan seni pertunjukan siswa.'
                         ]
                     ];
                 @endphp
 
-                @foreach ($dummyOrganizations as $org)
-                    <div class="organization-card">
+                @foreach ($organizations as $index => $org)
+                    <div class="organization-card" data-aos="fade-up" data-aos-delay="{{ min($index * 60, 360) }}">
                         <a href="{{ url('/ekstrakurikuler/' . $org['slug']) }}">
                             <div class="organization-card-image">
                                 <img src="{{ $org['image'] }}" alt="{{ $org['name'] }}">
                             </div>
                             <div class="organization-card-body">
-                                <p class="organization-meta">
-                                    {{ $org['name'] }}<br>
-                                    {{ $org['date'] }}
-                                </p>
+                                <span class="organization-badge">{{ $org['type'] }}</span>
                                 <h3 class="organization-name">{{ $org['name'] }}</h3>
                                 <p class="organization-description">{{ $org['description'] }}</p>
+                                <span class="org-read-more">
+                                    Lihat Detail <i class="fas fa-arrow-right"></i>
+                                </span>
                             </div>
                         </a>
                     </div>

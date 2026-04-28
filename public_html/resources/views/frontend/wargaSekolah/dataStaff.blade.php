@@ -3,247 +3,250 @@
 @section('style')
     <style>
         .section-header {
-            margin-top: 70px;
-            padding: 4rem 0 3rem;
-            background: linear-gradient(135deg, rgb(19, 123, 191) 0%, rgb(16, 100, 160) 100%);
+            margin-top: 0;
+            padding: calc(4rem + 70px) 0 3rem;
+            background: var(--gradient-primary);
             color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
         }
 
         .section-header h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: clamp(1.75rem, 4vw, 2.75rem);
             font-weight: 800;
             text-align: center;
             margin: 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            letter-spacing: -0.02em;
+        }
+
+        .section-header p {
+            text-align: center;
+            font-size: 1rem;
+            margin-top: 0.75rem;
+            opacity: 0.85;
         }
 
         .section-content {
             padding: 4rem 0;
-            background-color: #f8fafc;
+            background-color: var(--color-bg);
+        }
+
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 2rem;
         }
 
         .staff-card {
             background: #ffffff;
-            border-radius: 16px;
+            border-radius: var(--radius-lg);
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             height: 100%;
-            border: 1px solid #e2e8f0;
-            margin-bottom: 2rem;
+            border: 1px solid var(--color-border);
         }
 
         .staff-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-xl);
+            border-color: transparent;
         }
 
         .staff-card-image {
             width: 100%;
-            height: 280px;
+            height: 260px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
             padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .staff-card-image::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .staff-card-image::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(13, 148, 136, 0.05);
         }
 
         .staff-card-image img {
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             object-fit: cover;
             border: 4px solid #ffffff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .staff-card:hover .staff-card-image img {
+            transform: scale(1.05);
         }
 
         .staff-card-body {
-            padding: 1.5rem;
+            padding: 1.25rem;
             text-align: center;
         }
 
         .staff-name {
-            font-size: 1.25rem;
+            font-size: 1.05rem;
             font-weight: 700;
-            color: #1a202c;
-            margin-bottom: 0.5rem;
+            color: var(--color-text);
+            margin-bottom: 0.35rem;
         }
 
         .staff-position {
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: 600;
-            color: rgb(19, 123, 191);
+            color: var(--color-primary-light);
             margin: 0;
         }
 
         .staff-position.not-assigned {
-            color: #718096;
+            color: var(--color-text-light);
             font-style: italic;
+            font-weight: 400;
         }
 
-        /* Badge for position type */
         .position-badge {
             display: inline-block;
-            padding: 0.25rem 0.75rem;
+            padding: 0.2rem 0.65rem;
             border-radius: 20px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             margin-top: 0.5rem;
+            letter-spacing: 0.02em;
         }
 
-        .badge-admin {
-            background-color: #e0f2fe;
-            color: #0369a1;
-        }
-
-        .badge-operator {
-            background-color: #dcfce7;
-            color: #15803d;
-        }
-
-        .badge-support {
-            background-color: #fef3c7;
-            color: #a16207;
-        }
-
-        .badge-other {
-            background-color: #f3e8ff;
-            color: #7e22ce;
-        }
-
-        /* Grid Layout */
-        .staff-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            padding: 0 1rem;
-        }
+        .badge-admin { background-color: rgba(37,99,235,0.08); color: #2563eb; }
+        .badge-operator { background-color: rgba(13,148,136,0.08); color: #0d9488; }
+        .badge-support { background-color: rgba(245,158,11,0.08); color: #d97706; }
+        .badge-other { background-color: rgba(100,116,139,0.08); color: #64748b; }
 
         @media (max-width: 768px) {
-            .section-header {
-                padding: 3rem 0 2rem;
-            }
-
-            .section-content {
-                padding: 3rem 0;
-            }
-
-            .staff-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 1.5rem;
-            }
-
-            .staff-card-image {
-                height: 250px;
-            }
-
-            .staff-card-image img {
-                width: 180px;
-                height: 180px;
-            }
+            .section-header { padding: 3rem 0 2rem; }
+            .section-content { padding: 3rem 0; }
+            .staff-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; }
+            .staff-card-image { height: 230px; }
+            .staff-card-image img { width: 160px; height: 160px; }
         }
 
         @media (max-width: 576px) {
-            .staff-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
+            .staff-grid { grid-template-columns: 1fr; gap: 1.5rem; }
         }
-
-        /* Animation */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .staff-card {
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        .staff-card:nth-child(1) { animation-delay: 0.1s; }
-        .staff-card:nth-child(2) { animation-delay: 0.2s; }
-        .staff-card:nth-child(3) { animation-delay: 0.3s; }
-        .staff-card:nth-child(4) { animation-delay: 0.4s; }
-        .staff-card:nth-child(5) { animation-delay: 0.5s; }
-        .staff-card:nth-child(6) { animation-delay: 0.6s; }
-        .staff-card:nth-child(7) { animation-delay: 0.7s; }
-        .staff-card:nth-child(8) { animation-delay: 0.8s; }
     </style>
 @endsection
 
 @section('content')
-    {{-- Header Section --}}
+    {{-- Header --}}
     <div class="section-header">
         <div class="container">
-            <h1>Lorem Ipsum Staff</h1>
+            <h1 data-aos="fade-up">Data Staff</h1>
+            <p data-aos="fade-up" data-aos-delay="100">Tenaga kependidikan UPT SPF SMPN 14 BULUKUMBA</p>
         </div>
     </div>
 
-    {{-- Content Section --}}
+    {{-- Breadcrumb --}}
+    <nav class="page-breadcrumb">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url('/') }}">Beranda</a></li>
+                <li class="breadcrumb-item"><a href="#">Warga Sekolah</a></li>
+                <li class="breadcrumb-item active">Data Staff</li>
+            </ol>
+        </div>
+    </nav>
+
+    {{-- Content --}}
     <div class="section-content">
         <div class="container">
             <div class="staff-grid">
                 @php
-                    $dummyStaff = [
+                    $staffList = [
                         [
-                            'name' => 'Lorem Ipsum',
-                            'position' => 'Administrator',
+                            'name' => 'Hj. Sumarni',
+                            'position' => 'Kepala Tata Usaha',
                             'type' => 'admin',
-                            'image' => 'https://placehold.co/200x200/4285f4/ffffff?text=LI'
+                            'image' => 'https://placehold.co/200x200/1e3a5f/ffffff?text=SM'
                         ],
                         [
-                            'name' => 'Dolor Sit Amet',
-                            'position' => 'Operator Consectetur',
+                            'name' => 'Muh. Yusuf',
+                            'position' => 'Operator Sekolah',
                             'type' => 'operator',
-                            'image' => 'https://placehold.co/200x200/34a853/ffffff?text=DS'
+                            'image' => 'https://placehold.co/200x200/0d9488/ffffff?text=MY'
                         ],
                         [
-                            'name' => 'Consectetur Adipiscing',
-                            'position' => 'Elit Support',
-                            'type' => 'support',
-                            'image' => 'https://placehold.co/200x200/fbbc04/ffffff?text=CA'
-                        ],
-                        [
-                            'name' => 'Sed Do Eiusmod',
-                            'position' => 'Tempor Administrator',
+                            'name' => 'Andi Sulfiani',
+                            'position' => 'Bendahara BOS',
                             'type' => 'admin',
-                            'image' => 'https://placehold.co/200x200/ea4335/ffffff?text=SE'
+                            'image' => 'https://placehold.co/200x200/f59e0b/ffffff?text=AS'
                         ],
                         [
-                            'name' => 'Incididunt Ut',
-                            'position' => 'Labore Operator',
-                            'type' => 'operator',
-                            'image' => 'https://placehold.co/200x200/9c27b0/ffffff?text=IU'
-                        ],
-                        [
-                            'name' => 'Dolore Magna',
-                            'position' => 'Aliqua Staff',
-                            'type' => 'other',
-                            'image' => 'https://placehold.co/200x200/00bcd4/ffffff?text=DM'
-                        ],
-                        [
-                            'name' => 'Ut Enim Ad',
-                            'position' => 'Minim Support',
+                            'name' => 'Baharuddin',
+                            'position' => 'Penjaga Sekolah',
                             'type' => 'support',
-                            'image' => 'https://placehold.co/200x200/ff5722/ffffff?text=UE'
+                            'image' => 'https://placehold.co/200x200/2563eb/ffffff?text=BH'
                         ],
                         [
-                            'name' => 'Veniam Quis',
+                            'name' => 'Nursyamsi',
+                            'position' => 'Petugas Kebersihan',
+                            'type' => 'support',
+                            'image' => 'https://placehold.co/200x200/1e3a5f/ffffff?text=NS'
+                        ],
+                        [
+                            'name' => 'Rusdi',
+                            'position' => 'Pustakawan',
+                            'type' => 'operator',
+                            'image' => 'https://placehold.co/200x200/0d9488/ffffff?text=RD'
+                        ],
+                        [
+                            'name' => 'Fatimah',
+                            'position' => 'Administrasi Umum',
+                            'type' => 'admin',
+                            'image' => 'https://placehold.co/200x200/f59e0b/ffffff?text=FT'
+                        ],
+                        [
+                            'name' => 'Sapri',
                             'position' => null,
                             'type' => 'other',
-                            'image' => 'https://placehold.co/200x200/795548/ffffff?text=VQ'
+                            'image' => 'https://placehold.co/200x200/2563eb/ffffff?text=SP'
                         ]
                     ];
                 @endphp
 
-                @foreach ($dummyStaff as $staff)
-                    <div class="staff-card">
+                @foreach ($staffList as $index => $staff)
+                    <div class="staff-card" data-aos="fade-up" data-aos-delay="{{ min($index * 60, 360) }}">
                         <div class="staff-card-image">
                             <img src="{{ $staff['image'] }}" alt="{{ $staff['name'] }}">
                         </div>
@@ -255,8 +258,8 @@
                                     {{ ucfirst($staff['type']) }}
                                 </span>
                             @else
-                                <p class="staff-position not-assigned">Lorem Ipsum Dolor</p>
-                                <span class="position-badge badge-other">Unassigned</span>
+                                <p class="staff-position not-assigned">Belum ditetapkan</p>
+                                <span class="position-badge badge-other">Lainnya</span>
                             @endif
                         </div>
                     </div>

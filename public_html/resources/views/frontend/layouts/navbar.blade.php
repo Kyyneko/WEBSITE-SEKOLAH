@@ -1,15 +1,15 @@
-<div class="header">
-    <nav class="navbar navbar-expand-lg py-1 rounded-bottom-3 fixed-top navbar-custom">
+﻿<div class="header">
+    <nav class="navbar navbar-expand-lg py-1 fixed-top navbar-custom">
         <div class="container-fluid">
-            <div class="navbar-header d-flex">
+            <div class="navbar-header d-flex align-items-center">
                 <a class="navbar-brand ml-auto py-2" href="/">
                     <img
-                        src="https://placehold.co/60x60?text=K"
-                        alt="Logo Dummy Kyyschool"
-                        style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                        src="{{ asset('image/Logo.png') }}"
+                        alt="Logo UPT SPF SMPN 14 BULUKUMBA"
+                        style="width: 46px; height: 46px; object-fit: contain;">
                 </a>
                 <p class="navbar-brand ml-auto text-wrap navbar-title" style="padding-top: 15px">
-                    KYYSCHOOL WEBSITE
+                    UPT SPF SMPN 14 BULUKUMBA
                 </p>
             </div>
 
@@ -21,21 +21,21 @@
 
             <div class="collapse navbar-collapse pe-2" id="navbarNav" style="justify-content: end">
                 <ul class="navbar-nav">
-                    <li class="nav-item px-3">
+                    <li class="nav-item px-2">
                         <a class="nav-link {{ request()->is('/') ? 'active' : '' }}"
                            href="{{ url('/') }}">
                             Beranda
                         </a>
                     </li>
 
-                    <li class="nav-item px-3">
+                    <li class="nav-item px-2">
                         <a class="nav-link {{ request()->is('profil') ? 'active' : '' }}"
                            href="{{ url('/profil') }}">
-                            Profile
+                            Profil
                         </a>
                     </li>
 
-                    <li class="nav-item px-3 dropdown">
+                    <li class="nav-item px-2 dropdown">
                         <a class="nav-link dropdown-toggle {{ request()->is('wargaSekolah/*') ? 'active' : '' }}"
                            href="#" id="dropdownWargaSekolah" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
@@ -53,7 +53,7 @@
                         </ul>
                     </li>
 
-                    <li class="nav-item px-3 dropdown">
+                    <li class="nav-item px-2 dropdown">
                         <a class="nav-link dropdown-toggle {{ request()->is('kombel/*') ? 'active' : '' }}"
                            href="#" id="dropdownKombel" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
@@ -69,21 +69,21 @@
                         </ul>
                     </li>
 
-                    <li class="nav-item px-3 dropdown">
+                    <li class="nav-item px-2 dropdown">
                         <a class="nav-link dropdown-toggle {{ Str::startsWith(request()->path(), ['article', 'ekstrakurikuler', 'fasilitas', 'prestasi']) ? 'active' : '' }}"
                            href="#" id="dropdownLainnya" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
                             Lainnya
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownLainnya">
-                            <li><a class="dropdown-item text-white" href="{{ url('/article') }}">Article</a></li>
-                            <li><a class="dropdown-item text-white" href="{{ url('/ekstrakurikuler') }}">Organisasi</a></li>
+                            <li><a class="dropdown-item text-white" href="{{ url('/article') }}">Artikel</a></li>
+                            <li><a class="dropdown-item text-white" href="{{ url('/ekstrakurikuler') }}">Organisasi & Ekskul</a></li>
                             <li><a class="dropdown-item text-white" href="{{ url('/fasilitas') }}">Fasilitas</a></li>
                             <li><a class="dropdown-item text-white" href="{{ url('/prestasi') }}">Prestasi</a></li>
                         </ul>
                     </li>
 
-                    <li class="nav-item px-3">
+                    <li class="nav-item px-2">
                         <a class="nav-link {{ request()->is('login') ? 'active' : '' }}"
                            href="{{ url('/login') }}">
                             <i class="fa-solid fa-right-to-bracket"></i>

@@ -1,66 +1,56 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Article Management') }}
+        <h2 class="font-semibold text-xl leading-tight">
+            {{ __('Kelola Artikel') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Header Section -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                <div class="p-6">
-                    <div class="row align-items-center mb-4">
-                        <div class="col-md-6">
-                            <h2 class="text-2xl font-weight-bold mb-2">
-                                <i class="fas fa-newspaper text-primary mr-2"></i>Daftar Artikel
-                            </h2>
-                            <p class="text-muted mb-0">Kelola artikel dan berita sekolah</p>
-                        </div>
-                        <div class="col-md-6 text-md-right">
-                            <a href="{{ route('articles.create') }}" class="btn btn-primary btn-lg">
-                                <i class="fas fa-plus mr-2"></i>Tambah Artikel
-                            </a>
-                        </div>
+    <div class="py-6">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+
+            {{-- Header + Stats --}}
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-4">
+                <div class="p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h5 class="art-section-title mb-0" style="border:none; padding-bottom:0;">
+                            <i class="fas fa-newspaper me-2"></i>Daftar Artikel
+                        </h5>
+                        <a href="{{ route('articles.create') }}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus me-1"></i> Tambah Artikel
+                        </a>
                     </div>
 
-                    <!-- Statistics Card -->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card border-primary shadow-sm stat-card">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <p class="mb-1 small text-primary font-weight-bold">Total Artikel</p>
-                                            <h3 class="mb-0 font-weight-bold text-primary">
-                                                @if(method_exists($articles, 'total'))
-                                                    {{ $articles->total() }}
-                                                @else
-                                                    {{ $articles->count() }}
-                                                @endif
-                                            </h3>
-                                        </div>
-                                        <div class="stat-icon bg-primary">
-                                            <i class="fas fa-newspaper fa-2x text-white"></i>
-                                        </div>
-                                    </div>
+                    {{-- Stats Row --}}
+                    <div class="art-stat-row">
+                        <div class="art-stat-card">
+                            <div class="art-stat-icon" style="background: rgba(37,99,235,0.08); color: #2563eb;">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+                            <div>
+                                <div class="art-stat-value">
+                                    @if(method_exists($articles, 'total'))
+                                        {{ $articles->total() }}
+                                    @else
+                                        {{ $articles->count() }}
+                                    @endif
                                 </div>
+                                <div class="art-stat-label">Total Artikel</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Table Section -->
+            {{-- Table --}}
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
+                <div class="p-4">
                     <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead class="bg-light">
+                        <table class="table table-hover mb-0">
+                            <thead>
                                 <tr>
                                     <th class="text-center" width="5%">#</th>
-                                    <th width="30%">Judul Artikel</th>
-                                    <th class="text-center" width="20%">Foto</th>
+                                    <th width="35%">Judul Artikel</th>
+                                    <th class="text-center" width="15%">Foto</th>
                                     <th class="text-center" width="20%">Penulis</th>
                                     <th class="text-center" width="15%">Aksi</th>
                                 </tr>
@@ -77,16 +67,15 @@
                                         </td>
                                         
                                         <td class="align-middle">
-                                            <div class="d-flex align-items-center">
-                                                <div class="article-icon bg-primary text-white mr-3">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div class="art-file-icon">
                                                     <i class="fas fa-file-alt"></i>
                                                 </div>
                                                 <div>
-                                                    <span class="font-weight-medium d-block">{{ Str::limit($article->title, 50) }}</span>
-                                                    <small class="text-muted">
-                                                        <i class="far fa-clock mr-1"></i>
-                                                        {{ $article->created_at->format('d M Y') }}
-                                                    </small>
+                                                    <div class="art-title">{{ Str::limit($article->title, 50) }}</div>
+                                                    <div class="art-date">
+                                                        <i class="far fa-clock me-1"></i>{{ $article->created_at->format('d M Y') }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
@@ -98,55 +87,47 @@
                                             @endphp
                                             
                                             @if($photoCount > 0)
-                                                <div class="photo-gallery">
-                                                    @php
-                                                        $firstPhoto = $photos[0];
-                                                        
-                                                        // Handle multiple path formats
-                                                        if (str_starts_with($firstPhoto, 'public/article_photos/')) {
-                                                            $imageUrl = asset('storage/' . str_replace('public/', '', $firstPhoto));
-                                                        } elseif (str_starts_with($firstPhoto, 'public/image/')) {
-                                                            $imageUrl = asset(str_replace('public/', '', $firstPhoto));
-                                                        } elseif (str_starts_with($firstPhoto, 'article_photos/')) {
-                                                            $imageUrl = asset('storage/' . $firstPhoto);
-                                                        } elseif (str_starts_with($firstPhoto, 'image/')) {
-                                                            $imageUrl = asset($firstPhoto);
-                                                        } else {
-                                                            $imageUrl = asset('storage/' . $firstPhoto);
-                                                        }
-                                                    @endphp
-                                                    
+                                                @php
+                                                    $firstPhoto = $photos[0];
+                                                    if (str_starts_with($firstPhoto, 'public/article_photos/')) {
+                                                        $imageUrl = asset('storage/' . str_replace('public/', '', $firstPhoto));
+                                                    } elseif (str_starts_with($firstPhoto, 'public/image/')) {
+                                                        $imageUrl = asset(str_replace('public/', '', $firstPhoto));
+                                                    } elseif (str_starts_with($firstPhoto, 'article_photos/')) {
+                                                        $imageUrl = asset('storage/' . $firstPhoto);
+                                                    } elseif (str_starts_with($firstPhoto, 'image/')) {
+                                                        $imageUrl = asset($firstPhoto);
+                                                    } else {
+                                                        $imageUrl = asset('storage/' . $firstPhoto);
+                                                    }
+                                                @endphp
+                                                
+                                                <div class="art-photo-wrap">
                                                     <img src="{{ $imageUrl }}" 
                                                          alt="{{ $article->title }}" 
-                                                         class="img-thumbnail photo-preview"
-                                                         data-toggle="modal" 
-                                                         data-target="#photoModal{{ $article->id }}"
-                                                         onerror="this.src='{{ asset('image/placeholder-article.png') }}'; this.classList.add('error-img');">
-                                                    
+                                                         class="art-photo-thumb"
+                                                         data-bs-toggle="modal" 
+                                                         data-bs-target="#photoModal{{ $article->id }}"
+                                                         onerror="this.src='{{ asset('image/placeholder-article.png') }}';">
                                                     @if($photoCount > 1)
-                                                        <span class="badge badge-primary mt-2">
-                                                            <i class="fas fa-images mr-1"></i>{{ $photoCount }} foto
-                                                        </span>
+                                                        <span class="art-photo-count">+{{ $photoCount - 1 }}</span>
                                                     @endif
                                                 </div>
 
-                                                <!-- Photo Modal -->
-                                                <div class="modal fade" id="photoModal{{ $article->id }}" tabindex="-1" role="dialog">
-                                                    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                                                {{-- Photo Modal --}}
+                                                <div class="modal fade" id="photoModal{{ $article->id }}" tabindex="-1">
+                                                    <div class="modal-dialog modal-xl modal-dialog-centered">
                                                         <div class="modal-content">
-                                                            <div class="modal-header bg-primary text-white">
-                                                                <h5 class="modal-title">
-                                                                    <i class="fas fa-images mr-2"></i>Foto {{ Str::limit($article->title, 40) }}
-                                                                </h5>
-                                                                <button type="button" class="close text-white" data-dismiss="modal">
-                                                                    <span>&times;</span>
-                                                                </button>
+                                                            <div class="modal-header">
+                                                                <h6 class="modal-title">
+                                                                    <i class="fas fa-images me-2"></i>Foto: {{ Str::limit($article->title, 40) }}
+                                                                </h6>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                             </div>
-                                                            <div class="modal-body" style="background: #f8f9fa;">
-                                                                <div class="row">
+                                                            <div class="modal-body" style="background: var(--dash-bg);">
+                                                                <div class="row g-3">
                                                                     @foreach ($photos as $index => $photo)
                                                                         @php
-                                                                            // Handle path for each photo
                                                                             if (str_starts_with($photo, 'public/article_photos/')) {
                                                                                 $photoUrl = asset('storage/' . str_replace('public/', '', $photo));
                                                                             } elseif (str_starts_with($photo, 'public/image/')) {
@@ -159,72 +140,47 @@
                                                                                 $photoUrl = asset('storage/' . $photo);
                                                                             }
                                                                         @endphp
-                                                                        
-                                                                        <div class="col-md-6 col-lg-4 mb-4">
-                                                                            <div class="photo-card">
+                                                                        <div class="col-md-6 col-lg-4">
+                                                                            <div class="art-modal-photo">
                                                                                 <img src="{{ $photoUrl }}" 
                                                                                      alt="Foto {{ $index + 1 }}" 
-                                                                                     class="img-fluid rounded shadow-sm"
-                                                                                     onerror="this.parentElement.innerHTML='<div class=\'photo-error\'><i class=\'fas fa-exclamation-triangle fa-3x text-warning\'></i><p class=\'text-muted mt-2\'>Foto tidak ditemukan</p></div>';">
-                                                                                <div class="photo-number">
-                                                                                    <span class="badge badge-primary">
-                                                                                        <i class="fas fa-image mr-1"></i>#{{ $index + 1 }}
-                                                                                    </span>
-                                                                                </div>
+                                                                                     class="img-fluid rounded"
+                                                                                     onerror="this.parentElement.innerHTML='<div class=\'art-photo-error\'><i class=\'fas fa-image\'></i><small>Foto tidak ditemukan</small></div>';">
+                                                                                <span class="art-modal-badge">#{{ $index + 1 }}</span>
                                                                             </div>
                                                                         </div>
                                                                     @endforeach
                                                                 </div>
                                                             </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                                                    <i class="fas fa-times mr-1"></i>Tutup
-                                                                </button>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             @else
-                                                <div class="no-photo-placeholder">
-                                                    <i class="fas fa-image text-muted"></i>
-                                                    <small class="text-muted d-block mt-1">Tidak ada foto</small>
+                                                <div class="art-no-photo">
+                                                    <i class="fas fa-image"></i>
                                                 </div>
                                             @endif
                                         </td>
 
                                         <td class="text-center align-middle">
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                @php
-                                                    $colors = ['success', 'info', 'warning', 'danger', 'primary', 'secondary'];
-                                                    $colorIndex = ord(strtoupper($article->user->name[0])) % count($colors);
-                                                @endphp
-                                                <div class="author-avatar bg-{{ $colors[$colorIndex] }} text-white mr-2">
-                                                    {{ strtoupper(substr($article->user->name, 0, 1)) }}
-                                                </div>
-                                                <div class="text-left">
-                                                    <span class="font-weight-medium d-block">{{ Str::limit($article->user->name, 20) }}</span>
-                                                    <small class="text-muted">
-                                                        <i class="fas fa-user-circle mr-1"></i>
-                                                        {{ ucfirst($article->user->role ?? 'Author') }}
-                                                    </small>
-                                                </div>
-                                            </div>
+                                            <span class="badge badge-primary">
+                                                {{ Str::limit($article->user->name, 20) }}
+                                            </span>
                                         </td>
                                         
                                         <td class="text-center align-middle">
-                                            <div class="btn-group-vertical btn-group-sm" role="group">
+                                            <div class="d-flex justify-content-center gap-1">
                                                 <a href="{{ route('articles.edit', $article->id) }}" 
-                                                   class="btn btn-warning text-white mb-1">
-                                                    <i class="fas fa-edit mr-1"></i>Edit
+                                                   class="btn btn-sm btn-warning">
+                                                    <i class="fas fa-edit"></i>
                                                 </a>
                                                 <form action="{{ route('articles.destroy', $article->id) }}" 
-                                                      method="POST" 
-                                                      class="d-inline"
-                                                      onsubmit="return confirm('Apakah Anda yakin ingin menghapus artikel \'{{ $article->title }}\' beserta semua fotonya?')">
+                                                      method="POST" class="d-inline"
+                                                      onsubmit="return confirm('Hapus artikel \'{{ $article->title }}\'?')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm w-100">
-                                                        <i class="fas fa-trash mr-1"></i>Hapus
+                                                    <button type="submit" class="btn btn-sm btn-danger">
+                                                        <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
                                             </div>
@@ -233,13 +189,15 @@
                                 @empty
                                     <tr>
                                         <td colspan="5" class="text-center py-5">
-                                            <div class="empty-state">
-                                                <i class="fas fa-newspaper fa-4x text-muted mb-3"></i>
-                                                <h5 class="text-muted mb-2">Belum ada artikel</h5>
-                                                <p class="text-muted mb-4">Klik tombol "Tambah Artikel" untuk menambahkan artikel baru</p>
-                                                <a href="{{ route('articles.create') }}" class="btn btn-primary">
-                                                    <i class="fas fa-plus mr-2"></i>Tambah Artikel Pertama
-                                                </a>
+                                            <div class="art-empty">
+                                                <i class="fas fa-newspaper"></i>
+                                                <p>Belum ada artikel</p>
+                                                <small>Klik "Tambah Artikel" untuk mulai menulis</small>
+                                                <div class="mt-3">
+                                                    <a href="{{ route('articles.create') }}" class="btn btn-primary btn-sm">
+                                                        <i class="fas fa-plus me-1"></i> Tambah Artikel Pertama
+                                                    </a>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>
@@ -248,251 +206,203 @@
                         </table>
                     </div>
 
-                    <!-- Pagination -->
+                    {{-- Pagination --}}
                     @if(method_exists($articles, 'links'))
-                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center mt-4">
-                            <div class="text-muted small mb-3 mb-sm-0">
-                                Menampilkan <strong>{{ $articles->firstItem() ?? 0 }}</strong> sampai 
+                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center mt-3 pt-3" style="border-top: 1px solid var(--dash-border);">
+                            <div style="font-size: 0.78rem; color: var(--dash-text-light);">
+                                Menampilkan <strong>{{ $articles->firstItem() ?? 0 }}</strong> – 
                                 <strong>{{ $articles->lastItem() ?? 0 }}</strong> dari 
                                 <strong>{{ $articles->total() }}</strong> artikel
                             </div>
-                            <div>
-                                {{ $articles->links() }}
-                            </div>
-                        </div>
-                    @elseif($articles->count() > 0)
-                        <div class="text-center text-muted small mt-4">
-                            Total <strong>{{ $articles->count() }}</strong> artikel
+                            <div>{{ $articles->links() }}</div>
                         </div>
                     @endif
                 </div>
             </div>
+
         </div>
     </div>
 
+    @push('styles')
     <style>
-        /* Article Icon */
-        .article-icon {
-            width: 40px;
-            height: 40px;
+        .art-section-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--dash-text);
+        }
+
+        /* Stat */
+        .art-stat-row {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .art-stat-card {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--dash-border);
+            border-radius: 10px;
+        }
+
+        .art-stat-icon {
+            width: 38px;
+            height: 38px;
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
-            flex-shrink: 0;
-        }
-
-        /* Author Avatar */
-        .author-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
             font-size: 0.9rem;
             flex-shrink: 0;
         }
 
-        /* Statistics Card */
-        .stat-card {
-            transition: transform 0.2s, box-shadow 0.2s;
-            border-width: 2px;
+        .art-stat-value {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--dash-text);
+            line-height: 1.2;
         }
 
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1) !important;
-        }
-
-        .stat-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0.9;
-        }
-
-        /* Table Styling */
-        .table th {
+        .art-stat-label {
+            font-size: 0.65rem;
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-            background-color: #f8f9fa !important;
-            border-bottom: 2px solid #dee2e6;
+            letter-spacing: 0.04em;
+            color: var(--dash-text-light);
         }
 
-        .table td {
-            vertical-align: middle;
-        }
-
-        .font-weight-medium {
-            font-weight: 500;
-        }
-
-        .table-hover tbody tr:hover {
-            background-color: rgba(13, 110, 253, 0.05);
-        }
-
-        /* Photo Gallery */
-        .photo-gallery {
+        /* Table items */
+        .art-file-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: rgba(37,99,235,0.08);
+            color: var(--dash-primary-light);
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
         }
 
-        .photo-preview {
-            width: 100px;
-            height: 80px;
-            object-fit: cover;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px solid #0d6efd;
+        .art-title {
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: var(--dash-text);
         }
 
-        .photo-preview:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 12px rgba(13, 110, 253, 0.3);
-            z-index: 10;
+        .art-date {
+            font-size: 0.7rem;
+            color: var(--dash-text-light);
+            margin-top: 0.1rem;
         }
 
-        .error-img {
-            opacity: 0.5;
-            filter: grayscale(100%);
-        }
-
-        /* No Photo Placeholder */
-        .no-photo-placeholder {
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 0.5rem;
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .no-photo-placeholder i {
-            font-size: 1.5rem;
-        }
-
-        /* Photo Card in Modal */
-        .photo-card {
+        /* Photo */
+        .art-photo-wrap {
             position: relative;
-            border-radius: 0.5rem;
+            display: inline-block;
+        }
+
+        .art-photo-thumb {
+            width: 64px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1.5px solid var(--dash-border);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .art-photo-thumb:hover {
+            border-color: var(--dash-primary-light);
+            box-shadow: 0 2px 8px rgba(37,99,235,0.15);
+            transform: scale(1.05);
+        }
+
+        .art-photo-count {
+            position: absolute;
+            bottom: -4px;
+            right: -6px;
+            background: var(--dash-primary-light);
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 0.1rem 0.35rem;
+            border-radius: 4px;
+            line-height: 1.3;
+        }
+
+        .art-no-photo {
+            width: 48px;
+            height: 36px;
+            border-radius: 6px;
+            background: var(--dash-bg);
+            border: 1.5px solid var(--dash-border);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #cbd5e1;
+            font-size: 0.85rem;
+        }
+
+        /* Modal */
+        .art-modal-photo {
+            position: relative;
+            border-radius: 8px;
             overflow: hidden;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
+            background: #fff;
+            border: 1px solid var(--dash-border);
         }
 
-        .photo-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .photo-card img {
+        .art-modal-photo img {
             width: 100%;
-            height: 250px;
+            height: 220px;
             object-fit: cover;
         }
 
-        .photo-number {
+        .art-modal-badge {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 6px;
+            right: 6px;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
         }
 
-        .photo-error {
-            width: 100%;
-            height: 250px;
+        .art-photo-error {
+            height: 220px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: #f8f9fa;
+            color: #cbd5e1;
+            gap: 0.3rem;
         }
 
-        /* Button Group */
-        .btn-group-vertical .btn {
-            border-radius: 0.25rem !important;
+        /* Empty */
+        .art-empty {
+            color: var(--dash-text-light);
         }
 
-        /* Empty State */
-        .empty-state {
-            padding: 3rem 1rem;
+        .art-empty > i {
+            font-size: 2.5rem;
+            color: #e2e8f0;
+            margin-bottom: 0.5rem;
         }
 
-        /* Badge Styling */
-        .badge {
-            font-size: 0.75rem;
-            padding: 0.4rem 0.6rem;
+        .art-empty p {
+            font-size: 0.9rem;
             font-weight: 600;
+            margin-bottom: 0.15rem;
         }
 
-        /* Custom scrollbar for table */
-        .table-responsive::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .table-responsive::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-        }
-
-        .table-responsive::-webkit-scrollbar-thumb {
-            background: #0d6efd;
-            border-radius: 4px;
-        }
-
-        .table-responsive::-webkit-scrollbar-thumb:hover {
-            background: #0b5ed7;
-        }
-
-        /* Modal Styling */
-        .modal-header {
-            border-bottom: 2px solid #e9ecef;
-        }
-
-        .modal-body img {
-            transition: transform 0.2s;
-        }
-
-        .modal-body img:hover {
-            transform: scale(1.02);
-        }
-
-        /* Smooth transitions */
-        button, a {
-            transition: all 0.2s ease-in-out;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .photo-preview {
-                width: 80px;
-                height: 60px;
-            }
-
-            .photo-card img {
-                height: 200px;
-            }
-
-            .btn-group-vertical .btn {
-                font-size: 0.8rem;
-                padding: 0.4rem 0.6rem;
-            }
-
-            .author-avatar {
-                width: 30px;
-                height: 30px;
-                font-size: 0.8rem;
-            }
+        .art-empty small {
+            font-size: 0.78rem;
         }
     </style>
+    @endpush
 </x-app-layout>
