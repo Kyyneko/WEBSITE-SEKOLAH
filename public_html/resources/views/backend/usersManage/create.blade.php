@@ -1,174 +1,252 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Create New User') }}
+        <h2 class="font-semibold text-xl leading-tight">
+            {{ __('Tambah Pengguna') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <!-- Header -->
-                    <div class="mb-4 pb-3 border-bottom">
-                        <h3 class="text-2xl font-weight-bold text-dark mb-1">
-                            <i class="fas fa-user-plus text-primary mr-2"></i>Tambah Pengguna Baru
-                        </h3>
-                        <p class="text-muted mb-0">Lengkapi form di bawah untuk menambahkan pengguna baru</p>
+    <div class="py-6">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+
+            {{-- Page Header Card --}}
+            <div class="create-user-header mb-4">
+                <div class="create-user-header-content">
+                    <div class="create-user-header-icon">
+                        <i class="fas fa-user-plus"></i>
                     </div>
+                    <div>
+                        <h3 class="create-user-header-title">Tambah Pengguna Baru</h3>
+                        <p class="create-user-header-desc">Lengkapi form di bawah untuk menambahkan pengguna baru ke sistem</p>
+                    </div>
+                </div>
+                <div class="create-user-header-deco1"></div>
+                <div class="create-user-header-deco2"></div>
+            </div>
 
-                    <form action="{{ route('users.store') }}" method="POST">
+            {{-- Validation Errors --}}
+            @if ($errors->any())
+            <div class="create-user-errors mb-4">
+                <div class="create-user-errors-header">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Terdapat {{ $errors->count() }} kesalahan pada form</span>
+                </div>
+                <ul class="create-user-errors-list">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+
+            {{-- Form Card --}}
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-4">
+                    <form action="{{ route('users.store') }}" method="POST" id="createUserForm">
                         @csrf
-                        
-                        <!-- Name Field -->
-                        <div class="mb-4">
-                            <label for="name" class="form-label font-weight-bold">
-                                <i class="fas fa-user text-primary mr-1"></i>Nama Lengkap
-                                <span class="text-danger">*</span>
-                            </label>
-                            <input type="text" 
-                                   class="form-control form-control-lg @error('name') is-invalid @enderror" 
-                                   id="name" 
-                                   name="name" 
-                                   value="{{ old('name') }}"
-                                   placeholder="Masukkan nama lengkap"
-                                   required>
-                            @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                            <small class="form-text text-muted">
-                                <i class="fas fa-info-circle mr-1"></i>Masukkan nama lengkap pengguna
-                            </small>
-                        </div>
 
-                        <!-- Email Field -->
-                        <div class="mb-4">
-                            <label for="email" class="form-label font-weight-bold">
-                                <i class="fas fa-envelope text-primary mr-1"></i>Email
-                                <span class="text-danger">*</span>
-                            </label>
-                            <input type="email" 
-                                   class="form-control form-control-lg @error('email') is-invalid @enderror" 
-                                   id="email" 
-                                   name="email" 
-                                   value="{{ old('email') }}"
-                                   placeholder="contoh@email.com"
-                                   required>
-                            @error('email')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                            <small class="form-text text-muted">
-                                <i class="fas fa-info-circle mr-1"></i>Email akan digunakan untuk login
-                            </small>
-                        </div>
+                        {{-- Section: Informasi Dasar --}}
+                        <div class="create-user-section">
+                            <h5 class="create-user-section-title">
+                                <i class="fas fa-id-card me-2"></i>Informasi Dasar
+                            </h5>
 
-                        <!-- Role Field -->
-                        <div class="mb-4">
-                            <label for="role" class="form-label font-weight-bold">
-                                <i class="fas fa-user-tag text-primary mr-1"></i>Jabatan
-                                <span class="text-danger">*</span>
-                            </label>
-                            <select class="form-select form-select-lg @error('role') is-invalid @enderror" 
-                                    id="role" 
-                                    name="role" 
-                                    required>
-                                <option value="">-- Pilih Jabatan --</option>
-                                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                                <option value="teacher" {{ old('role') == 'teacher' ? 'selected' : '' }}>Guru</option>
-                            </select>
-                            @error('role')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                            <div class="row g-3 mt-1">
+                                {{-- Name --}}
+                                <div class="col-12">
+                                    <div class="create-user-field">
+                                        <label for="name" class="create-user-label">
+                                            Nama Lengkap <span class="create-user-required">*</span>
+                                        </label>
+                                        <div class="create-user-input-wrap">
+                                            <div class="create-user-input-icon">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            <input type="text"
+                                                   class="form-control create-user-input @error('name') is-invalid @enderror"
+                                                   id="name"
+                                                   name="name"
+                                                   value="{{ old('name') }}"
+                                                   placeholder="Masukkan nama lengkap"
+                                                   required>
+                                        </div>
+                                        @error('name')
+                                            <div class="create-user-error-text">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
 
-                        <!-- Subject Field (Conditional) -->
-                        <div class="mb-4" id="subject-field" style="display: none;">
-                            <label for="subject_id" class="form-label font-weight-bold">
-                                <i class="fas fa-book text-primary mr-1"></i>Mata Pelajaran
-                                <span class="text-danger">*</span>
-                            </label>
-                            <select class="form-select form-select-lg @error('subject_id') is-invalid @enderror" 
-                                    id="subject_id" 
-                                    name="subject_id">
-                                <option value="">-- Pilih Mata Pelajaran --</option>
-                                @foreach ($subjects as $subject)
-                                    <option value="{{ $subject->id }}" {{ old('subject_id') == $subject->id ? 'selected' : '' }}>
-                                        {{ $subject->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('subject_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                            <small class="form-text text-muted">
-                                <i class="fas fa-info-circle mr-1"></i>Pilih mata pelajaran yang diampu
-                            </small>
-                        </div>
-
-                        <!-- Password Field -->
-                        <div class="mb-4">
-                            <label for="password" class="form-label font-weight-bold">
-                                <i class="fas fa-lock text-primary mr-1"></i>Password
-                                <span class="text-danger">*</span>
-                            </label>
-                            <div class="input-group input-group-lg">
-                                <input type="password" 
-                                       class="form-control @error('password') is-invalid @enderror" 
-                                       id="password" 
-                                       name="password" 
-                                       placeholder="Masukkan password"
-                                       required>
-                                <button class="btn btn-outline-secondary" 
-                                        type="button" 
-                                        id="togglePassword">
-                                    <i class="fas fa-eye" id="eyeIcon"></i>
-                                </button>
-                                @error('password')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                                {{-- Email --}}
+                                <div class="col-12">
+                                    <div class="create-user-field">
+                                        <label for="email" class="create-user-label">
+                                            Email <span class="create-user-required">*</span>
+                                        </label>
+                                        <div class="create-user-input-wrap">
+                                            <div class="create-user-input-icon">
+                                                <i class="fas fa-envelope"></i>
+                                            </div>
+                                            <input type="email"
+                                                   class="form-control create-user-input @error('email') is-invalid @enderror"
+                                                   id="email"
+                                                   name="email"
+                                                   value="{{ old('email') }}"
+                                                   placeholder="contoh@email.com"
+                                                   required>
+                                        </div>
+                                        <div class="create-user-hint">
+                                            <i class="fas fa-info-circle me-1"></i>Email akan digunakan untuk login
+                                        </div>
+                                        @error('email')
+                                            <div class="create-user-error-text">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
-                            <small class="form-text text-muted">
-                                <i class="fas fa-info-circle mr-1"></i>Password minimal 8 karakter
-                            </small>
                         </div>
 
-                        <!-- Password Confirmation Field -->
-                        <div class="mb-4">
-                            <label for="password_confirmation" class="form-label font-weight-bold">
-                                <i class="fas fa-lock text-primary mr-1"></i>Konfirmasi Password
-                                <span class="text-danger">*</span>
-                            </label>
-                            <div class="input-group input-group-lg">
-                                <input type="password" 
-                                       class="form-control" 
-                                       id="password_confirmation" 
-                                       name="password_confirmation" 
-                                       placeholder="Masukkan ulang password"
-                                       required>
-                                <button class="btn btn-outline-secondary" 
-                                        type="button" 
-                                        id="togglePasswordConfirm">
-                                    <i class="fas fa-eye" id="eyeIconConfirm"></i>
-                                </button>
+                        {{-- Section: Role & Mata Pelajaran --}}
+                        <div class="create-user-section">
+                            <h5 class="create-user-section-title">
+                                <i class="fas fa-user-tag me-2"></i>Jabatan & Penugasan
+                            </h5>
+
+                            <div class="row g-3 mt-1">
+                                {{-- Role --}}
+                                <div class="col-md-6">
+                                    <div class="create-user-field">
+                                        <label for="role" class="create-user-label">
+                                            Jabatan <span class="create-user-required">*</span>
+                                        </label>
+                                        <div class="create-user-input-wrap">
+                                            <div class="create-user-input-icon">
+                                                <i class="fas fa-shield-alt"></i>
+                                            </div>
+                                            <select class="form-select create-user-input @error('role') is-invalid @enderror"
+                                                    id="role"
+                                                    name="role"
+                                                    required>
+                                                <option value="">-- Pilih Jabatan --</option>
+                                                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                                <option value="teacher" {{ old('role') == 'teacher' ? 'selected' : '' }}>Guru</option>
+                                            </select>
+                                        </div>
+                                        @error('role')
+                                            <div class="create-user-error-text">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                {{-- Subject (Conditional) --}}
+                                <div class="col-md-6" id="subject-field" style="display: none;">
+                                    <div class="create-user-field">
+                                        <label for="subject_id" class="create-user-label">
+                                            Mata Pelajaran <span class="create-user-required">*</span>
+                                        </label>
+                                        <div class="create-user-input-wrap">
+                                            <div class="create-user-input-icon">
+                                                <i class="fas fa-book"></i>
+                                            </div>
+                                            <select class="form-select create-user-input @error('subject_id') is-invalid @enderror"
+                                                    id="subject_id"
+                                                    name="subject_id">
+                                                <option value="">-- Pilih Mata Pelajaran --</option>
+                                                @foreach ($subjects as $subject)
+                                                    <option value="{{ $subject->id }}" {{ old('subject_id') == $subject->id ? 'selected' : '' }}>
+                                                        {{ $subject->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        @error('subject_id')
+                                            <div class="create-user-error-text">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
-                            <small class="form-text text-muted">
-                                <i class="fas fa-info-circle mr-1"></i>Masukkan password yang sama
-                            </small>
                         </div>
 
-                        <!-- Alert Info -->
-                        <div class="alert alert-info" role="alert">
-                            <i class="fas fa-info-circle mr-2"></i>
-                            <strong>Catatan:</strong> Semua field yang bertanda <span class="text-danger">*</span> wajib diisi.
+                        {{-- Section: Keamanan --}}
+                        <div class="create-user-section">
+                            <h5 class="create-user-section-title">
+                                <i class="fas fa-lock me-2"></i>Keamanan
+                            </h5>
+
+                            <div class="row g-3 mt-1">
+                                {{-- Password --}}
+                                <div class="col-md-6">
+                                    <div class="create-user-field">
+                                        <label for="password" class="create-user-label">
+                                            Password <span class="create-user-required">*</span>
+                                        </label>
+                                        <div class="create-user-input-wrap">
+                                            <div class="create-user-input-icon">
+                                                <i class="fas fa-key"></i>
+                                            </div>
+                                            <input type="password"
+                                                   class="form-control create-user-input @error('password') is-invalid @enderror"
+                                                   id="password"
+                                                   name="password"
+                                                   placeholder="Masukkan password"
+                                                   required>
+                                            <button class="create-user-toggle-pw" type="button" id="togglePassword">
+                                                <i class="fas fa-eye" id="eyeIcon"></i>
+                                            </button>
+                                        </div>
+                                        <div class="create-user-hint">
+                                            <i class="fas fa-info-circle me-1"></i>Minimal 6 karakter
+                                        </div>
+                                        @error('password')
+                                            <div class="create-user-error-text">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                {{-- Password Confirmation --}}
+                                <div class="col-md-6">
+                                    <div class="create-user-field">
+                                        <label for="password_confirmation" class="create-user-label">
+                                            Konfirmasi Password <span class="create-user-required">*</span>
+                                        </label>
+                                        <div class="create-user-input-wrap">
+                                            <div class="create-user-input-icon">
+                                                <i class="fas fa-key"></i>
+                                            </div>
+                                            <input type="password"
+                                                   class="form-control create-user-input"
+                                                   id="password_confirmation"
+                                                   name="password_confirmation"
+                                                   placeholder="Masukkan ulang password"
+                                                   required>
+                                            <button class="create-user-toggle-pw" type="button" id="togglePasswordConfirm">
+                                                <i class="fas fa-eye" id="eyeIconConfirm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- Buttons -->
-                        <div class="d-flex gap-2 justify-content-end mt-4 pt-3 border-top">
-                            <a href="{{ route('users.index') }}" class="btn btn-secondary btn-lg">
-                                <i class="fas fa-times mr-2"></i>Batal
+                        {{-- Info Note --}}
+                        <div class="create-user-note">
+                            <div class="create-user-note-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div>
+                                <div class="create-user-note-title">Catatan</div>
+                                <p class="create-user-note-text">
+                                    Semua field yang bertanda <span class="create-user-required">*</span> wajib diisi.
+                                    Pengguna baru akan menerima email verifikasi sebelum dapat mengakses dashboard.
+                                </p>
+                            </div>
+                        </div>
+
+                        {{-- Action Buttons --}}
+                        <div class="create-user-actions">
+                            <a href="{{ route('users.index') }}" class="btn btn-secondary create-user-btn-cancel">
+                                <i class="fas fa-arrow-left me-2"></i>Kembali
                             </a>
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="fas fa-save mr-2"></i>Simpan Pengguna
+                            <button type="submit" class="btn btn-primary create-user-btn-submit">
+                                <i class="fas fa-save me-2"></i>Simpan Pengguna
                             </button>
                         </div>
                     </form>
@@ -182,7 +260,7 @@
         document.getElementById('togglePassword').addEventListener('click', function() {
             const password = document.getElementById('password');
             const eyeIcon = document.getElementById('eyeIcon');
-            
+
             if (password.type === 'password') {
                 password.type = 'text';
                 eyeIcon.classList.remove('fa-eye');
@@ -197,7 +275,7 @@
         document.getElementById('togglePasswordConfirm').addEventListener('click', function() {
             const password = document.getElementById('password_confirmation');
             const eyeIcon = document.getElementById('eyeIconConfirm');
-            
+
             if (password.type === 'password') {
                 password.type = 'text';
                 eyeIcon.classList.remove('fa-eye');
@@ -213,7 +291,7 @@
         document.getElementById('role').addEventListener('change', function() {
             const subjectField = document.getElementById('subject-field');
             const subjectSelect = document.getElementById('subject_id');
-            
+
             if (this.value === 'teacher') {
                 subjectField.style.display = 'block';
                 subjectSelect.required = true;
@@ -234,51 +312,277 @@
         });
     </script>
 
+    @push('styles')
     <style>
-        .form-label {
-            color: #333;
+        /* ===== PAGE HEADER ===== */
+        .create-user-header {
+            background: linear-gradient(135deg, var(--dash-primary, #1e3a5f) 0%, var(--dash-primary-light, #2563eb) 100%);
+            border-radius: var(--dash-radius, 12px);
+            padding: 1.75rem 2rem;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .create-user-header-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .create-user-header-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            flex-shrink: 0;
+        }
+
+        .create-user-header-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 0 0 0.15rem;
+        }
+
+        .create-user-header-desc {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .create-user-header-deco1 {
+            position: absolute;
+            top: -50px;
+            right: -20px;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+        }
+
+        .create-user-header-deco2 {
+            position: absolute;
+            bottom: -60px;
+            right: 120px;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+        }
+
+        /* ===== SECTION TITLES ===== */
+        .create-user-section {
+            margin-bottom: 1.75rem;
+        }
+
+        .create-user-section-title {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--dash-text, #1e293b);
+            margin-bottom: 0;
+            padding-bottom: 0.6rem;
+            border-bottom: 2px solid var(--dash-border, #e2e8f0);
+        }
+
+        /* ===== FORM FIELDS ===== */
+        .create-user-field {
+            margin-bottom: 0;
+        }
+
+        .create-user-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--dash-text-light, #64748b);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+
+        .create-user-required {
+            color: var(--dash-danger, #ef4444);
+            font-weight: 700;
+        }
+
+        .create-user-input-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .create-user-input-icon {
+            position: absolute;
+            left: 0.85rem;
+            color: var(--dash-text-light, #64748b);
+            font-size: 0.85rem;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .create-user-input {
+            padding-left: 2.5rem !important;
+            border-radius: var(--dash-radius-sm, 8px) !important;
+            border: 1.5px solid var(--dash-border, #e2e8f0) !important;
+            font-size: 0.875rem;
+            padding-top: 0.6rem;
+            padding-bottom: 0.6rem;
+            transition: all 0.2s ease;
+        }
+
+        .create-user-input:focus {
+            border-color: var(--dash-primary-light, #2563eb) !important;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+        }
+
+        .create-user-input.is-invalid {
+            border-color: var(--dash-danger, #ef4444) !important;
+        }
+
+        .create-user-input.is-invalid:focus {
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important;
+        }
+
+        .create-user-toggle-pw {
+            position: absolute;
+            right: 0.5rem;
+            background: none;
+            border: none;
+            color: var(--dash-text-light, #64748b);
+            cursor: pointer;
+            padding: 0.35rem 0.5rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            z-index: 2;
+        }
+
+        .create-user-toggle-pw:hover {
+            background: rgba(0,0,0,0.04);
+            color: var(--dash-text, #1e293b);
+        }
+
+        .create-user-hint {
+            font-size: 0.72rem;
+            color: var(--dash-text-light, #64748b);
+            margin-top: 0.35rem;
+        }
+
+        .create-user-error-text {
+            font-size: 0.75rem;
+            color: var(--dash-danger, #ef4444);
+            margin-top: 0.3rem;
+            font-weight: 500;
+        }
+
+        /* ===== VALIDATION ERRORS BOX ===== */
+        .create-user-errors {
+            background: rgba(239, 68, 68, 0.06);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            border-radius: var(--dash-radius, 12px);
+            padding: 1rem 1.25rem;
+        }
+
+        .create-user-errors-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #dc2626;
             margin-bottom: 0.5rem;
         }
 
-        .form-control-lg, .form-select-lg {
-            padding: 0.75rem 1rem;
-            font-size: 1rem;
+        .create-user-errors-list {
+            margin: 0;
+            padding-left: 1.25rem;
+            font-size: 0.8rem;
+            color: #991b1b;
         }
 
-        .form-control:focus, .form-select:focus {
-            border-color: #4f46e5;
-            box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
+        .create-user-errors-list li {
+            margin-bottom: 0.15rem;
         }
 
-        .btn-lg {
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
+        /* ===== INFO NOTE ===== */
+        .create-user-note {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            padding: 1rem 1.15rem;
+            border-radius: var(--dash-radius-sm, 8px);
+            background: rgba(59, 130, 246, 0.06);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            margin-bottom: 1.5rem;
         }
 
-        .gap-2 {
-            gap: 0.5rem;
+        .create-user-note-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--dash-info, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            flex-shrink: 0;
         }
 
-        .input-group .btn {
-            border-left: none;
+        .create-user-note-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--dash-text, #1e293b);
+            margin-bottom: 0.1rem;
         }
 
-        .input-group .form-control:focus + .btn {
-            border-color: #4f46e5;
+        .create-user-note-text {
+            font-size: 0.75rem;
+            color: var(--dash-text-light, #64748b);
+            margin: 0;
+            line-height: 1.5;
         }
 
-        .alert-info {
-            background-color: #e0f2fe;
-            border-color: #bae6fd;
-            color: #075985;
+        /* ===== ACTION BUTTONS ===== */
+        .create-user-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            padding-top: 1.25rem;
+            border-top: 2px solid var(--dash-border, #e2e8f0);
         }
 
-        .border-bottom {
-            border-bottom: 2px solid #e5e7eb !important;
+        .create-user-btn-cancel {
+            background: #f1f5f9;
+            color: var(--dash-text-light, #64748b);
+            border: 1px solid var(--dash-border, #e2e8f0);
+            font-size: 0.82rem;
+            padding: 0.55rem 1.25rem;
         }
 
-        .border-top {
-            border-top: 2px solid #e5e7eb !important;
+        .create-user-btn-cancel:hover {
+            background: #e2e8f0;
+            color: var(--dash-text, #1e293b);
+        }
+
+        .create-user-btn-submit {
+            font-size: 0.82rem;
+            padding: 0.55rem 1.5rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .create-user-header { padding: 1.25rem 1.5rem; }
+            .create-user-header-title { font-size: 1rem; }
+            .create-user-header-icon { display: none; }
+            .create-user-actions { flex-direction: column-reverse; }
+            .create-user-actions .btn { width: 100%; justify-content: center; }
         }
     </style>
+    @endpush
 </x-app-layout>

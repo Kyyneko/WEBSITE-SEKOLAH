@@ -29,12 +29,19 @@ public function create()
 public function store(Request $request)
 {
     // Validasi data
-    $request->validate([
+    $rules = [
         'name' => 'required',
-        'email' => 'required|email|unique:users,email', // Menambahkan aturan unik untuk email
+        'email' => 'required|email|unique:users,email',
         'password' => 'required|min:6',
-        'subject_id' => 'required|exists:subjects,id', // Pastikan subject yang dipilih ada dalam tabel subjects
-    ]);
+        'role' => 'required|in:admin,teacher',
+    ];
+
+    // subject_id hanya wajib jika role adalah teacher
+    if ($request->role === 'teacher') {
+        $rules['subject_id'] = 'required|exists:subjects,id';
+    }
+
+    $request->validate($rules);
 
     // Enkripsi password
     $password = Hash::make($request->password);
@@ -44,10 +51,11 @@ public function store(Request $request)
         'name' => $request->name,
         'email' => $request->email,
         'password' => $password,
-        'subject_id' => $request->subject_id, // Simpan subject_id yang dipilih
+        'role' => $request->role,
+        'subject_id' => $request->role === 'teacher' ? $request->subject_id : null,
     ]);
 
-    return redirect()->route('users.index')->with('success', 'User created successfully');
+    return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan');
 }
 
 

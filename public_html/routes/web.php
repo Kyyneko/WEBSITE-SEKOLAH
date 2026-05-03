@@ -29,9 +29,11 @@ use App\Http\Controllers\EkstrakurikulerController;
 
 
 
-    Route::view('/ekstrakurikuler', 'frontend.ekstrakurikuler.index', [
-        'organisasis' => Organisasi::all()
-    ]);
+    Route::get('/ekstrakurikuler', function() {
+        return view('frontend.ekstrakurikuler.index', [
+            'organisasis' => Organisasi::all()
+        ]);
+    });
 
     Route::get('/article/{slug}', function($slug) {
         $article = Article::where('slug', $slug)->firstOrFail();
