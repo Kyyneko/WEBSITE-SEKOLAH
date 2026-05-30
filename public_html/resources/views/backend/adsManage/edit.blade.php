@@ -1,21 +1,29 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit Ad') }}
+            {{ __('Edit Announcement') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <!-- Header -->
-                    <div class="mb-4 pb-3 border-bottom">
-                        <h3 class="text-2xl font-weight-bold text-dark mb-1">
-                            <i class="fas fa-ad text-warning mr-2"></i>Edit Iklan
-                        </h3>
-                        <p class="text-muted mb-0">Perbarui informasi iklan <strong>{{ $ad->title }}</strong></p>
+    <div class="py-6">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+            {{-- Page Header Card --}}
+            <div class="dash-header-card mb-4">
+                <div class="dash-header-card-content">
+                    <div class="dash-header-card-icon">
+                        <i class="fas fa-bullhorn text-white"></i>
                     </div>
+                    <div>
+                        <h3 class="dash-header-card-title">Edit Pengumuman</h3>
+                        <p class="dash-header-card-desc">Perbarui informasi pengumuman: <strong>{{ $ad->title }}</strong></p>
+                    </div>
+                </div>
+                <div class="dash-header-card-deco1"></div>
+                <div class="dash-header-card-deco2"></div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-4">
 
                     <form action="{{ route('ads.update', $ad->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -24,7 +32,7 @@
                         <!-- Title Field -->
                         <div class="mb-4">
                             <label for="title" class="form-label font-weight-bold">
-                                <i class="fas fa-heading text-primary mr-1"></i>Judul Iklan
+                                <i class="fas fa-heading text-primary mr-1"></i>Judul Pengumuman
                                 <span class="text-danger">*</span>
                             </label>
                             <input type="text" 
@@ -32,7 +40,7 @@
                                    id="title" 
                                    name="title"
                                    value="{{ old('title', $ad->title) }}" 
-                                   placeholder="Masukkan judul iklan"
+                                   placeholder="Masukkan judul pengumuman"
                                    required>
                             @error('title')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -59,7 +67,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             <small class="form-text text-muted">
-                                <i class="fas fa-info-circle mr-1"></i>URL lengkap tempat iklan akan mengarahkan pengguna
+                                <i class="fas fa-info-circle mr-1"></i>URL lengkap tempat pengumuman akan mengarahkan pengguna
                             </small>
                         </div>
 
@@ -71,7 +79,7 @@
                             </label>
                             <div class="trix-wrapper">
                                 <input id="description" type="hidden" name="description" value="{{ old('description', $ad->description) }}">
-                                <trix-editor input="description" placeholder="Tuliskan deskripsi iklan yang menarik..."></trix-editor>
+                                <trix-editor input="description" placeholder="Tuliskan deskripsi pengumuman yang menarik..."></trix-editor>
                             </div>
                             @error('description')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -83,20 +91,43 @@
 
                         <!-- Photo Field -->
                         <div class="mb-4">
-                            <label for="photo" class="form-label font-weight-bold">
-                                <i class="fas fa-image text-primary mr-1"></i>Foto Iklan
+                            <label class="form-label font-weight-bold">
+                                <i class="fas fa-image text-primary mr-1"></i>Foto Pengumuman
                             </label>
-                            <input type="file" 
-                                   class="form-control form-control-lg @error('photo') is-invalid @enderror" 
-                                   id="photo" 
-                                   name="photo"
-                                   accept="image/*">
+                            <label for="photo" class="upload-zone-premium mb-0">
+                                <div class="upload-zone-icon" style="background: rgba(239, 68, 68, 0.08); color: var(--dash-danger);">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <div>
+                                    <div class="upload-zone-text" id="fileLabel">Klik untuk memilih gambar atau seret ke sini</div>
+                                    <div class="upload-zone-hint">Format: JPG, JPEG, PNG, WEBP, HEIC — Otomatis dikompres dengan kualitas terbaik.</div>
+                                </div>
+                                <input type="file" 
+                                       class="d-none @error('photo') is-invalid @enderror" 
+                                       id="photo" 
+                                       name="photo"
+                                       accept="image/*,.heic,.heif"
+                                       onchange="previewImage(event)">
+                            </label>
                             @error('photo')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                             
+                            <!-- Image Preview (New) -->
+                            <div id="imagePreview" class="mt-3" style="display: none;">
+                                <label class="font-weight-bold text-dark mb-2">
+                                    <i class="fas fa-eye mr-1"></i>Preview Foto Baru:
+                                </label>
+                                <div class="position-relative d-inline-block">
+                                    <img id="preview" src="" alt="Preview" class="img-thumbnail" style="max-width: 300px; max-height: 200px; object-fit: cover;">
+                                    <button type="button" class="btn btn-sm btn-danger position-absolute" style="top: 10px; right: 10px; border-radius: 50%; width: 30px; height: 30px; padding: 0; display: flex; align-items: center; justify-content: center;" onclick="removePreview()">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
                             @if ($ad->photo_path)
-                                <div class="mt-3 p-3 border rounded bg-light">
+                                <div id="currentPhotoContainer" class="mt-3 p-3 border rounded bg-light transition-all">
                                     <p class="text-muted small mb-2">
                                         <i class="fas fa-eye mr-1"></i>Foto saat ini:
                                     </p>
@@ -107,8 +138,8 @@
                                 </div>
                             @endif
                             
-                            <small class="form-text text-muted">
-                                <i class="fas fa-info-circle mr-1"></i>Upload foto baru jika ingin mengganti. Format: JPG, PNG, maksimal 2MB
+                            <small class="form-text text-muted mt-2">
+                                <i class="fas fa-info-circle mr-1"></i>Upload foto baru jika ingin mengganti. Format: JPG, PNG, WEBP, HEIC. Maksimal 100MB.
                             </small>
                         </div>
 
@@ -124,7 +155,7 @@
                                 <i class="fas fa-times mr-2"></i>Batal
                             </a>
                             <button type="submit" class="btn btn-warning btn-lg text-white">
-                                <i class="fas fa-save mr-2"></i>Update Iklan
+                                <i class="fas fa-save mr-2"></i>Update Pengumuman
                             </button>
                         </div>
                     </form>
@@ -255,4 +286,45 @@
             border-radius: 0.25rem;
         }
     </style>
+
+    <script>
+        // Image Preview Function
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('preview');
+            const previewContainer = document.getElementById('imagePreview');
+            const fileLabel = document.getElementById('fileLabel');
+            const currentPhoto = document.getElementById('currentPhotoContainer');
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                    if (currentPhoto) {
+                        currentPhoto.style.opacity = '0.5';
+                    }
+                    if (fileLabel) {
+                        fileLabel.innerHTML = '<i class="fas fa-image mr-2"></i>' + file.name;
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Remove Preview Function
+        function removePreview() {
+            document.getElementById('photo').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('preview').src = '';
+            const currentPhoto = document.getElementById('currentPhotoContainer');
+            if (currentPhoto) {
+                currentPhoto.style.opacity = '1';
+            }
+            const fileLabel = document.getElementById('fileLabel');
+            if (fileLabel) {
+                fileLabel.innerHTML = 'Klik untuk memilih gambar atau seret ke sini';
+            }
+        }
+    </script>
 </x-app-layout>

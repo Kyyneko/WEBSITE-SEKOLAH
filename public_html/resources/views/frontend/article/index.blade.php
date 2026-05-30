@@ -77,63 +77,117 @@
             width: 100%;
             height: 210px;
             overflow: hidden;
+            position: relative;
         }
 
         .article-card-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.4s ease;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .article-card:hover .article-card-image img {
-            transform: scale(1.06);
+            transform: scale(1.08);
         }
 
-        .article-card-body {
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .article-meta {
-            font-size: 0.7rem;
-            color: var(--color-text-light);
-            font-weight: 600;
-            margin-bottom: 0.75rem;
+        /* Floating Glassmorphic Category Badges on Image */
+        .badge-cat-floating {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font-size: 0.65rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            padding: 0.3rem 0.65rem;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            backdrop-filter: blur(4px);
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+
+        .badge-cat-org {
+            background: rgba(37, 99, 235, 0.9) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .badge-cat-umum {
+            background: rgba(30, 41, 59, 0.8) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* Floating Date Badge on Image Bottom Right */
+        .badge-date-floating {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #ffffff;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            z-index: 10;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        .article-card:hover .badge-date-floating {
+            background: rgba(37, 99, 235, 0.85);
+        }
+
+        .article-reading-time {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #64748b;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
         }
 
         .article-title {
-            font-size: 1.1rem;
+            font-size: 0.88rem;
             font-weight: 700;
             color: var(--color-text);
-            margin-bottom: 0.6rem;
             line-height: 1.4;
+            transition: color 0.2s ease;
         }
 
-        .article-excerpt {
-            font-size: 0.875rem;
-            color: var(--color-text-light);
-            line-height: 1.6;
-            flex-grow: 1;
+        .article-card:hover .article-title {
+            color: #2563eb;
         }
 
         .read-more {
-            display: inline-flex;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #2563eb;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
             align-items: center;
-            gap: 0.4rem;
-            margin-top: 1rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--color-primary-light);
-            transition: gap 0.3s ease;
+            gap: 0.35rem;
+            margin-top: auto;
+            transition: color 0.2s ease;
         }
 
-        .article-card:hover .read-more {
-            gap: 0.7rem;
+        .read-more i {
+            transition: transform 0.2s ease;
+        }
+
+        .article-card:hover .read-more i {
+            transform: translateX(4px);
         }
 
         @media (max-width: 768px) {
@@ -171,102 +225,60 @@
     <div class="section-content">
         <div class="container">
             <div class="articles-grid">
-                @php
-                    $articles = [
-                        [
-                            'title' => 'Pelaksanaan Ujian Akhir Semester Genap 2024',
-                            'author' => 'Admin',
-                            'date' => 'Senin, 15 Januari 2024',
-                            'slug' => 'pelaksanaan-uas-genap',
-                            'image' => 'https://placehold.co/400x300/1e3a5f/ffffff?text=UAS+2024',
-                            'excerpt' => 'Kegiatan Ujian Akhir Semester Genap tahun ajaran 2023/2024 telah dilaksanakan dengan tertib. Seluruh siswa mengikuti ujian dengan penuh semangat.'
-                        ],
-                        [
-                            'title' => 'Peringatan Hari Pendidikan Nasional',
-                            'author' => 'Admin',
-                            'date' => 'Kamis, 2 Mei 2024',
-                            'slug' => 'hari-pendidikan-nasional',
-                            'image' => 'https://placehold.co/400x300/0d9488/ffffff?text=HARDIKNAS',
-                            'excerpt' => 'Seluruh warga sekolah memperingati Hari Pendidikan Nasional dengan upacara bendera dan berbagai lomba kreativitas siswa.'
-                        ],
-                        [
-                            'title' => 'Kegiatan Kemah Bakti Pramuka',
-                            'author' => 'Pembina Pramuka',
-                            'date' => 'Sabtu, 17 Agustus 2024',
-                            'slug' => 'kemah-bakti-pramuka',
-                            'image' => 'https://placehold.co/400x300/f59e0b/ffffff?text=PRAMUKA',
-                            'excerpt' => 'Siswa mengikuti kemah bakti dalam rangka peringatan Hari Kemerdekaan RI ke-79 dengan berbagai kegiatan kepanduan.'
-                        ],
-                        [
-                            'title' => 'Sosialisasi Kurikulum Merdeka',
-                            'author' => 'Kurikulum',
-                            'date' => 'Jumat, 20 September 2024',
-                            'slug' => 'sosialisasi-kurikulum-merdeka',
-                            'image' => 'https://placehold.co/400x300/2563eb/ffffff?text=KURIKULUM',
-                            'excerpt' => 'Sosialisasi implementasi Kurikulum Merdeka kepada guru dan orang tua siswa untuk peningkatan kualitas pembelajaran.'
-                        ],
-                        [
-                            'title' => 'Tim LCC Raih Juara 2 Tingkat Kabupaten',
-                            'author' => 'Kesiswaan',
-                            'date' => 'Senin, 5 Oktober 2024',
-                            'slug' => 'juara-lcc-kabupaten',
-                            'image' => 'https://placehold.co/400x300/1e3a5f/ffffff?text=LCC',
-                            'excerpt' => 'Tim cerdas cermat SMPN 14 berhasil meraih Juara 2 dalam kompetisi tingkat Kabupaten Bulukumba tahun 2024.'
-                        ],
-                        [
-                            'title' => 'Workshop Literasi Digital untuk Siswa',
-                            'author' => 'BK',
-                            'date' => 'Rabu, 15 November 2024',
-                            'slug' => 'workshop-literasi-digital',
-                            'image' => 'https://placehold.co/400x300/0d9488/ffffff?text=LITERASI',
-                            'excerpt' => 'Workshop literasi digital untuk meningkatkan kesadaran siswa dalam penggunaan teknologi secara bijak dan bertanggung jawab.'
-                        ],
-                        [
-                            'title' => 'Pentas Seni Akhir Tahun 2024',
-                            'author' => 'OSIS',
-                            'date' => 'Jumat, 20 Desember 2024',
-                            'slug' => 'pentas-seni-2024',
-                            'image' => 'https://placehold.co/400x300/f59e0b/ffffff?text=PENTAS+SENI',
-                            'excerpt' => 'Pentas seni akhir tahun menampilkan berbagai bakat siswa dalam bidang musik, tari tradisional, dan drama.'
-                        ],
-                        [
-                            'title' => 'Informasi PPDB Tahun Ajaran 2025/2026',
-                            'author' => 'Panitia PPDB',
-                            'date' => 'Minggu, 5 Januari 2025',
-                            'slug' => 'ppdb-2025',
-                            'image' => 'https://placehold.co/400x300/2563eb/ffffff?text=PPDB+2025',
-                            'excerpt' => 'Informasi lengkap mengenai jadwal, persyaratan, dan tata cara pendaftaran peserta didik baru tahun ajaran 2025/2026.'
-                        ],
-                        [
-                            'title' => 'Kegiatan Jumat Bersih dan Penghijauan',
-                            'author' => 'Admin',
-                            'date' => 'Jumat, 24 Januari 2025',
-                            'slug' => 'jumat-bersih',
-                            'image' => 'https://placehold.co/400x300/0d9488/ffffff?text=LINGKUNGAN',
-                            'excerpt' => 'Program Jumat Bersih rutin dilaksanakan untuk menjaga kebersihan lingkungan sekolah dan menanamkan kesadaran lingkungan.'
-                        ]
-                    ];
-                @endphp
-
-                @foreach ($articles as $index => $article)
+                @forelse ($articles as $index => $article)
                     <div class="article-card" data-aos="fade-up" data-aos-delay="{{ min($index * 60, 360) }}">
-                        <a href="{{ url('/article/' . $article['slug']) }}">
-                            <div class="article-card-image">
-                                <img src="{{ $article['image'] }}" alt="{{ $article['title'] }}">
+                        <a href="{{ route('article.show', $article->slug) }}">
+                            <div class="article-card-image position-relative overflow-hidden">
+                                @php $photos = $article->photo_path ? (is_array($article->photo_path) ? $article->photo_path : json_decode($article->photo_path, true)) : []; @endphp
+                                @if(count($photos) > 0)
+                                    <img src="{{ asset('storage/' . str_replace('public/', '', $photos[0])) }}" alt="{{ $article->title }}">
+                                @else
+                                    <div class="d-flex align-items-center justify-content-center w-100 h-100" style="min-height: 210px; background: linear-gradient(135deg,#1e3a5f,#2563eb);">
+                                        <i class="fas fa-newspaper text-white-50" style="font-size: 2.5rem;"></i>
+                                    </div>
+                                @endif
+                                
+                                {{-- Floating Category Badge --}}
+                                @if($article->organisasi)
+                                    <span class="badge-cat-floating badge-cat-org">
+                                        <i class="fas fa-users"></i> {{ $article->organisasi->nama }}
+                                    </span>
+                                @else
+                                    <span class="badge-cat-floating badge-cat-umum">
+                                        <i class="fas fa-globe"></i> Umum
+                                    </span>
+                                @endif
+
+                                {{-- Floating Date Badge --}}
+                                <span class="badge-date-floating">
+                                    <i class="far fa-calendar-alt"></i> {{ $article->created_at->translatedFormat('d M Y') }}
+                                </span>
                             </div>
-                            <div class="article-card-body">
-                                <p class="article-meta">
-                                    {{ $article['author'] }} &middot; {{ $article['date'] }}
-                                </p>
-                                <h3 class="article-title">{{ $article['title'] }}</h3>
-                                <p class="article-excerpt">{{ $article['excerpt'] }}</p>
+                            
+                            <div class="article-card-body d-flex flex-column" style="padding: 1.25rem; min-height: 135px; flex-grow: 1;">
+                                <div class="article-reading-time mb-2">
+                                    <i class="far fa-clock"></i> {{ max(1, ceil(str_word_count(strip_tags($article->description)) / 200)) }} Menit Baca
+                                </div>
+                                <h3 class="article-title mb-3" style="font-size: 0.88rem; font-weight: 700; color: var(--color-text); line-height: 1.4; transition: color 0.2s ease; margin: 0;">
+                                    {{ Str::limit($article->title, 55) }}
+                                </h3>
                                 <span class="read-more">
-                                    Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                                    Selengkapnya <i class="fas fa-arrow-right"></i>
                                 </span>
                             </div>
                         </a>
                     </div>
-                @endforeach
+                @empty
+                    <div class="text-center py-5 w-100" style="grid-column: 1 / -1;">
+                        <div style="width:80px;height:80px;border-radius:50%;background:rgba(0,0,0,0.04);display:inline-flex;align-items:center;justify-content:center;margin-bottom:1.25rem;color:#94a3b8;">
+                            <i class="fas fa-newspaper" style="font-size:2rem;"></i>
+                        </div>
+                        <h4 class="fw-bold text-dark mb-2">Belum Ada Artikel</h4>
+                        <p class="text-muted mx-auto" style="font-size: 0.95rem; max-width: 400px;">
+                            Artikel dan berita sekolah belum diterbitkan. Nantikan informasi terbaru dari kami!
+                        </p>
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>

@@ -49,8 +49,9 @@
                             <thead>
                                 <tr>
                                     <th class="text-center" width="5%">#</th>
-                                    <th width="35%">Judul Artikel</th>
+                                    <th width="30%">Judul Artikel</th>
                                     <th class="text-center" width="15%">Foto</th>
+                                    <th class="text-center" width="15%">Kategori</th>
                                     <th class="text-center" width="20%">Penulis</th>
                                     <th class="text-center" width="15%">Aksi</th>
                                 </tr>
@@ -159,6 +160,18 @@
                                                 <div class="art-no-photo">
                                                     <i class="fas fa-image"></i>
                                                 </div>
+                                            @endif
+                                        </td>
+
+                                        <td class="text-center align-middle">
+                                            @if($article->organisasi)
+                                                <span class="badge bg-info text-white" style="font-size: 0.75rem; padding: 0.35rem 0.6rem; font-weight: 600;">
+                                                    <i class="fas fa-users me-1"></i>{{ $article->organisasi->nama }}
+                                                </span>
+                                            @else
+                                                <span class="badge bg-secondary text-white" style="font-size: 0.75rem; padding: 0.35rem 0.6rem; font-weight: 600;">
+                                                    <i class="fas fa-globe me-1"></i>Umum
+                                                </span>
                                             @endif
                                         </td>
 

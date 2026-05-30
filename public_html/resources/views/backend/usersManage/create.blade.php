@@ -9,18 +9,18 @@
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
 
             {{-- Page Header Card --}}
-            <div class="create-user-header mb-4">
-                <div class="create-user-header-content">
-                    <div class="create-user-header-icon">
+            <div class="dash-header-card mb-4">
+                <div class="dash-header-card-content">
+                    <div class="dash-header-card-icon">
                         <i class="fas fa-user-plus"></i>
                     </div>
                     <div>
-                        <h3 class="create-user-header-title">Tambah Pengguna Baru</h3>
-                        <p class="create-user-header-desc">Lengkapi form di bawah untuk menambahkan pengguna baru ke sistem</p>
+                        <h3 class="dash-header-card-title">Tambah Pengguna Baru</h3>
+                        <p class="dash-header-card-desc">Lengkapi form di bawah untuk menambahkan pengguna baru ke sistem</p>
                     </div>
                 </div>
-                <div class="create-user-header-deco1"></div>
-                <div class="create-user-header-deco2"></div>
+                <div class="dash-header-card-deco1"></div>
+                <div class="dash-header-card-deco2"></div>
             </div>
 
             {{-- Validation Errors --}}
@@ -41,7 +41,7 @@
             {{-- Form Card --}}
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-4">
-                    <form action="{{ route('users.store') }}" method="POST" id="createUserForm">
+                    <form action="{{ route('users.store') }}" method="POST" id="createUserForm" enctype="multipart/form-data">
                         @csrf
 
                         {{-- Section: Informasi Dasar --}}
@@ -101,6 +101,19 @@
                                         @enderror
                                     </div>
                                 </div>
+
+                                {{-- Photo Profil --}}
+                                <div class="col-12 mt-2">
+                                    <div class="create-user-field">
+                                        <label class="create-user-label">Foto Profil</label>
+                                        <div class="upload-zone-premium border-dashed p-3 rounded-lg d-flex flex-column align-items-center justify-content-center text-center cursor-pointer" onclick="document.getElementById('photo').click()" style="border: 2px dashed #cbd5e1; background: #f8fafc; transition: all 0.2s ease; border-radius: 8px;">
+                                            <i class="fas fa-cloud-upload-alt text-primary mb-2" style="font-size: 1.75rem;"></i>
+                                            <span id="photo-label-text" class="text-sm font-semibold text-slate-600" style="font-size: 0.85rem;">Klik untuk memilih foto profil</span>
+                                            <span class="text-xxs text-slate-400 mt-1" style="font-size: 0.7rem; color: #64748b;">Format yang didukung: JPG, PNG, WEBP, HEIC. Otomatis dikompres secara cerdas.</span>
+                                            <input type="file" id="photo" name="photo" accept="image/*,.heic,.heif" class="d-none" onchange="updatePhotoLabel(this)">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -128,7 +141,37 @@
                                                 <option value="">-- Pilih Jabatan --</option>
                                                 <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
                                                 <option value="teacher" {{ old('role') == 'teacher' ? 'selected' : '' }}>Guru</option>
+                                                <option value="staff" {{ old('role') == 'staff' ? 'selected' : '' }}>Staff (Tenaga Kependidikan)</option>
                                             </select>
+                                        </div>
+                                        @error('role')
+                                            <div class="create-user-error-text">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                {{-- Position (Jabatan/Posisi) --}}
+                                <div class="col-md-6" id="position-field" style="display: none;">
+                                    <div class="create-user-field">
+                                        <label for="position" class="create-user-label">
+                                            Nama Jabatan / Posisi <span class="create-user-required">*</span>
+                                        </label>
+                                        <div class="create-user-input-wrap">
+                                            <div class="create-user-input-icon">
+                                                <i class="fas fa-briefcase"></i>
+                                            </div>
+                                            <input type="text"
+                                                   class="form-control create-user-input @error('position') is-invalid @enderror"
+                                                   id="position"
+                                                   name="position"
+                                                   value="{{ old('position') }}"
+                                                   placeholder="Contoh: Kepala Tata Usaha, Operator Sekolah, Penjaga">
+                                        </div>
+                                        @error('position')
+                                            <div class="create-user-error-text">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
                                         </div>
                                         @error('role')
                                             <div class="create-user-error-text">{{ $message }}</div>
@@ -158,6 +201,33 @@
                                             </select>
                                         </div>
                                         @error('subject_id')
+                                            <div class="create-user-error-text">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                {{-- Organisasi (Conditional) --}}
+                                <div class="col-md-6" id="organisasi-field" style="display: none;">
+                                    <div class="create-user-field">
+                                        <label for="organisasi_id" class="create-user-label">
+                                            Organisasi Yang Diampu
+                                        </label>
+                                        <div class="create-user-input-wrap">
+                                            <div class="create-user-input-icon">
+                                                <i class="fas fa-users"></i>
+                                            </div>
+                                            <select class="form-select create-user-input @error('organisasi_id') is-invalid @enderror"
+                                                    id="organisasi_id"
+                                                    name="organisasi_id">
+                                                <option value="">-- Tanpa Organisasi / Umum --</option>
+                                                @foreach ($organisasis as $organisasi)
+                                                    <option value="{{ $organisasi->id }}" {{ old('organisasi_id') == $organisasi->id ? 'selected' : '' }}>
+                                                        {{ $organisasi->nama }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        @error('organisasi_id')
                                             <div class="create-user-error-text">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -287,27 +357,74 @@
             }
         });
 
-        // Show/hide subject field based on role
+        function updatePhotoLabel(input) {
+            const labelText = document.getElementById('photo-label-text');
+            if (input.files && input.files[0]) {
+                labelText.textContent = `File terpilih: ${input.files[0].name}`;
+                labelText.style.color = '#0d9488';
+            } else {
+                labelText.textContent = 'Klik untuk memilih foto profil';
+                labelText.style.color = '';
+            }
+        }
+
+        // Show/hide fields based on role
         document.getElementById('role').addEventListener('change', function() {
             const subjectField = document.getElementById('subject-field');
             const subjectSelect = document.getElementById('subject_id');
+            const organisasiField = document.getElementById('organisasi-field');
+            const organisasiSelect = document.getElementById('organisasi_id');
+            const positionField = document.getElementById('position-field');
+            const positionInput = document.getElementById('position');
 
             if (this.value === 'teacher') {
                 subjectField.style.display = 'block';
                 subjectSelect.required = true;
+                organisasiField.style.display = 'block';
+                
+                positionField.style.display = 'block';
+                positionInput.required = false;
+                positionInput.placeholder = 'Contoh: Wali Kelas VII-A (Opsional)';
+            } else if (this.value === 'staff') {
+                subjectField.style.display = 'none';
+                subjectSelect.required = false;
+                subjectSelect.value = '';
+                organisasiField.style.display = 'none';
+                organisasiSelect.value = '';
+                
+                positionField.style.display = 'block';
+                positionInput.required = true;
+                positionInput.placeholder = 'Contoh: Kepala Tata Usaha, Operator Sekolah';
             } else {
                 subjectField.style.display = 'none';
                 subjectSelect.required = false;
                 subjectSelect.value = '';
+                organisasiField.style.display = 'none';
+                organisasiSelect.value = '';
+                
+                positionField.style.display = 'none';
+                positionInput.required = false;
+                positionInput.value = '';
             }
         });
 
         // Trigger on page load if old value exists
         document.addEventListener('DOMContentLoaded', function() {
             const roleSelect = document.getElementById('role');
+            const subjectField = document.getElementById('subject-field');
+            const subjectSelect = document.getElementById('subject_id');
+            const organisasiField = document.getElementById('organisasi-field');
+            const positionField = document.getElementById('position-field');
+            const positionInput = document.getElementById('position');
+            
             if (roleSelect.value === 'teacher') {
-                document.getElementById('subject-field').style.display = 'block';
-                document.getElementById('subject_id').required = true;
+                subjectField.style.display = 'block';
+                subjectSelect.required = true;
+                organisasiField.style.display = 'block';
+                positionField.style.display = 'block';
+            } else if (roleSelect.value === 'staff') {
+                positionField.style.display = 'block';
+                positionInput.required = true;
             }
         });
     </script>

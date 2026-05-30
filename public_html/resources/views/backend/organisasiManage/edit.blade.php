@@ -5,17 +5,25 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <!-- Header -->
-                    <div class="mb-4 pb-3 border-bottom">
-                        <h3 class="text-2xl font-weight-bold text-dark mb-1">
-                            <i class="fas fa-sitemap text-warning mr-2"></i>Edit Organisasi
-                        </h3>
-                        <p class="text-muted mb-0">Perbarui informasi organisasi <strong>{{ $organisasi->nama }}</strong></p>
+    <div class="py-6">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+            {{-- Page Header Card --}}
+            <div class="dash-header-card mb-4">
+                <div class="dash-header-card-content">
+                    <div class="dash-header-card-icon">
+                        <i class="fas fa-sitemap text-white"></i>
                     </div>
+                    <div>
+                        <h3 class="dash-header-card-title">Edit Organisasi</h3>
+                        <p class="dash-header-card-desc">Perbarui informasi organisasi: <strong>{{ $organisasi->nama }}</strong></p>
+                    </div>
+                </div>
+                <div class="dash-header-card-deco1"></div>
+                <div class="dash-header-card-deco2"></div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-4">
 
                     <form action="{{ route('organisasi.update', $organisasi->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -162,21 +170,25 @@
 
                         <!-- New Photos Field -->
                         <div class="mb-4">
-                            <label for="new_photo" class="form-label font-weight-bold">
+                            <label class="form-label font-weight-bold">
                                 <i class="fas fa-upload text-primary mr-1"></i>Tambah Foto Baru
                             </label>
-                            <div class="custom-file">
+                            <label for="new_photo" class="upload-zone-premium mb-0">
+                                <div class="upload-zone-icon">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <div>
+                                    <div class="upload-zone-text" id="fileLabel">Klik untuk memilih gambar atau seret ke sini</div>
+                                    <div class="upload-zone-hint">Format: JPG, JPEG, PNG, WEBP, HEIC — Otomatis dikompres dengan kualitas terbaik (Bisa memilih beberapa foto sekaligus)</div>
+                                </div>
                                 <input type="file" 
-                                       class="custom-file-input @error('new_photo') is-invalid @enderror @error('new_photo.*') is-invalid @enderror" 
+                                       class="d-none" 
                                        id="new_photo" 
                                        name="new_photo[]" 
                                        multiple
-                                       accept="image/jpeg,image/png,image/jpg"
+                                       accept="image/*,.heic,.heif"
                                        onchange="previewNewImages(event)">
-                                <label class="custom-file-label" for="new_photo" id="fileLabel">
-                                    <i class="fas fa-cloud-upload-alt mr-2"></i>Pilih file gambar...
-                                </label>
-                            </div>
+                            </label>
                             @error('new_photo')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
@@ -184,7 +196,7 @@
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                             <small class="form-text text-muted">
-                                <i class="fas fa-info-circle mr-1"></i>Upload satu atau lebih foto baru. Format: JPG, PNG. Maksimal 2MB per foto
+                                <i class="fas fa-info-circle mr-1"></i>Upload satu atau lebih foto baru. Format: JPG, PNG, WEBP, HEIC. Maksimal 100MB per foto.
                             </small>
                             
                             <!-- New Images Preview Container -->

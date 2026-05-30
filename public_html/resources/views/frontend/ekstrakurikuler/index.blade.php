@@ -177,91 +177,38 @@
     <div class="section-content">
         <div class="container">
             <div class="organizations-grid">
-                @php
-                    $organizations = [
-                        [
-                            'name' => 'OSIS',
-                            'slug' => 'osis',
-                            'type' => 'Organisasi',
-                            'image' => 'https://placehold.co/400x300/1e3a5f/ffffff?text=OSIS',
-                            'description' => 'Organisasi Siswa Intra Sekolah sebagai wadah kepemimpinan dan pengembangan diri siswa dalam berorganisasi.'
-                        ],
-                        [
-                            'name' => 'Pramuka',
-                            'slug' => 'pramuka',
-                            'type' => 'Ekstrakurikuler',
-                            'image' => 'https://placehold.co/400x300/f59e0b/ffffff?text=PRAMUKA',
-                            'description' => 'Gerakan Pramuka sebagai kegiatan wajib yang membentuk karakter, kedisiplinan, dan jiwa kepemimpinan siswa.'
-                        ],
-                        [
-                            'name' => 'Palang Merah Remaja (PMR)',
-                            'slug' => 'pmr',
-                            'type' => 'Ekstrakurikuler',
-                            'image' => 'https://placehold.co/400x300/ea4335/ffffff?text=PMR',
-                            'description' => 'Kegiatan kepalangmerahan yang melatih siswa dalam bidang pertolongan pertama dan kepedulian sosial.'
-                        ],
-                        [
-                            'name' => 'Seni Tari',
-                            'slug' => 'seni-tari',
-                            'type' => 'Ekstrakurikuler',
-                            'image' => 'https://placehold.co/400x300/0d9488/ffffff?text=SENI+TARI',
-                            'description' => 'Ekstrakurikuler seni tari untuk melestarikan budaya daerah dan mengembangkan bakat seni siswa.'
-                        ],
-                        [
-                            'name' => 'Olahraga (Voli & Futsal)',
-                            'slug' => 'olahraga',
-                            'type' => 'Ekstrakurikuler',
-                            'image' => 'https://placehold.co/400x300/2563eb/ffffff?text=OLAHRAGA',
-                            'description' => 'Pembinaan olahraga bola voli dan futsal untuk mengembangkan bakat olahraga dan sportivitas siswa.'
-                        ],
-                        [
-                            'name' => 'Rohani Islam (Rohis)',
-                            'slug' => 'rohis',
-                            'type' => 'Ekstrakurikuler',
-                            'image' => 'https://placehold.co/400x300/1e3a5f/ffffff?text=ROHIS',
-                            'description' => 'Kegiatan keagamaan Islam yang meliputi kajian, tahfidz, dan kegiatan sosial bernuansa islami.'
-                        ],
-                        [
-                            'name' => 'English Club',
-                            'slug' => 'english-club',
-                            'type' => 'Ekstrakurikuler',
-                            'image' => 'https://placehold.co/400x300/0d9488/ffffff?text=ENGLISH+CLUB',
-                            'description' => 'Klub bahasa Inggris untuk meningkatkan kemampuan berbahasa Inggris melalui diskusi, debat, dan storytelling.'
-                        ],
-                        [
-                            'name' => 'Seni Baca Al-Quran',
-                            'slug' => 'tilawah',
-                            'type' => 'Ekstrakurikuler',
-                            'image' => 'https://placehold.co/400x300/f59e0b/ffffff?text=TILAWAH',
-                            'description' => 'Pembinaan seni baca Al-Quran (tilawah) untuk meningkatkan kemampuan membaca dan menghafalkan Al-Quran.'
-                        ],
-                        [
-                            'name' => 'Drum Band',
-                            'slug' => 'drum-band',
-                            'type' => 'Ekstrakurikuler',
-                            'image' => 'https://placehold.co/400x300/2563eb/ffffff?text=DRUM+BAND',
-                            'description' => 'Kegiatan drum band yang melatih kekompakan, musikalitas, dan seni pertunjukan siswa.'
-                        ]
-                    ];
-                @endphp
-
-                @foreach ($organizations as $index => $org)
+                @forelse ($organisasis ?? [] as $index => $org)
+                    @php
+                        $photos = json_decode($org->photo_path, true) ?? [];
+                        $image = !empty($photos) && isset($photos[0]) 
+                            ? asset('storage/' . str_replace('public/', '', $photos[0])) 
+                            : 'https://placehold.co/400x300/1e3a5f/ffffff?text=' . urlencode($org->nama);
+                        $type = (strtoupper($org->nama) === 'OSIS') ? 'Organisasi' : 'Ekstrakurikuler';
+                    @endphp
                     <div class="organization-card" data-aos="fade-up" data-aos-delay="{{ min($index * 60, 360) }}">
-                        <a href="{{ url('/ekstrakurikuler/' . $org['slug']) }}">
+                        <a href="{{ url('/ekstrakurikuler/' . $org->slug) }}">
                             <div class="organization-card-image">
-                                <img src="{{ $org['image'] }}" alt="{{ $org['name'] }}">
+                                <img src="{{ $image }}" alt="{{ $org->nama }}">
                             </div>
                             <div class="organization-card-body">
-                                <span class="organization-badge">{{ $org['type'] }}</span>
-                                <h3 class="organization-name">{{ $org['name'] }}</h3>
-                                <p class="organization-description">{{ $org['description'] }}</p>
+                                <span class="organization-badge">{{ $type }}</span>
+                                <h3 class="organization-name">{{ $org->nama }}</h3>
+                                <p class="organization-description">{!! Str::limit(strip_tags($org->description), 120) !!}</p>
                                 <span class="org-read-more">
                                     Lihat Detail <i class="fas fa-arrow-right"></i>
                                 </span>
                             </div>
                         </a>
                     </div>
-                @endforeach
+                @empty
+                    <div class="col-12 text-center py-5">
+                        <div class="mgmt-empty text-muted">
+                            <i class="fas fa-sitemap mb-3" style="font-size: 3.5rem; color: #cbd5e1;"></i>
+                            <p class="font-semibold text-slate-600 mb-1" style="font-size: 1.1rem; font-weight: 700;">Belum ada data Organisasi / Ekstrakurikuler</p>
+                            <small class="text-slate-400">Data akan muncul secara dinamis setelah ditambahkan oleh admin melalui dashboard.</small>
+                        </div>
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>

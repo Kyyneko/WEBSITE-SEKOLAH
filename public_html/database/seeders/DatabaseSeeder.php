@@ -15,11 +15,18 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UsersTableSeeder::class,
-            // Add more seeders here if you have
+            SubjectSeeder::class,
+            AdSeeder::class,
+            ArticleSeeder::class,
+            OrganisasiSeeder::class,
+            FormerPrincipalSeeder::class,
+            FacilitySeeder::class,
+            AchievementSeeder::class,
         ]);
 
-        $this->call([
-            SubjectSeeder::class,
-        ]);
+        // Seed default school settings if not present
+        if (\App\Models\SchoolSetting::count() === 0) {
+            \App\Models\SchoolSetting::createDefault();
+        }
     }
 }

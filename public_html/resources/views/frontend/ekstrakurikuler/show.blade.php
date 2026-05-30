@@ -145,7 +145,7 @@
         </div>
 
         @if (!empty($photos) && isset($photos[0]))
-            <img src="{{ asset('storage/' . $photos[0]) }}"
+            <img src="{{ asset('storage/' . str_replace('public/', '', $photos[0])) }}"
                  class="article-image"
                  alt="Foto utama ekstrakurikuler {{ $ekstrakurikuler->nama }}">
         @endif
@@ -162,7 +162,7 @@
             <div class="row">
                 @foreach (array_slice($photos, 1) as $photo)
                     <div class="col-md-4 mb-3 mx-auto">
-                        <img src="{{ asset('storage/' . $photo) }}"
+                        <img src="{{ asset('storage/' . str_replace('public/', '', $photo)) }}"
                              class="img-fluid rounded"
                              alt="Foto ekstrakurikuler {{ $ekstrakurikuler->nama }}">
                     </div>

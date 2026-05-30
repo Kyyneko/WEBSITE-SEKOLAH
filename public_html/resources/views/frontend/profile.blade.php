@@ -380,7 +380,7 @@
 
         {{-- BANNER --}}
         <section class="profile-banner">
-            <img src="{{ asset('image/DSCF4258.JPG') }}" alt="Banner UPT SPF SMPN 14 BULUKUMBA" class="img-fluid">
+            <img src="{{ $settings->profile_banner_photo ? asset('storage/' . str_replace('public/', '', $settings->profile_banner_photo)) : asset('image/DSCF4258.JPG') }}" alt="Banner UPT SPF SMPN 14 BULUKUMBA" class="img-fluid">
             <div class="banner-overlay"></div>
             <div class="banner-text" data-aos="fade-up">
                 <h1>Profil Sekolah</h1>
@@ -405,21 +405,16 @@
 
                 <div class="row align-items-center justify-content-center">
                     <div class="col-md-4 text-center mb-4 mb-md-0" data-aos="fade-right">
-                        <img src="https://placehold.co/300x400/1e3a5f/ffffff?text=Kepala+Sekolah"
+                        <img src="{{ $settings->kepsek_photo_path ? asset('storage/' . str_replace('public/', '', $settings->kepsek_photo_path)) : 'https://placehold.co/300x400/1e3a5f/ffffff?text=' . urlencode($settings->kepsek_name) }}"
                             alt="Foto Kepala Sekolah" class="img-fluid rounded-3 kepsek-photo">
-                        <h2 class="kepsek-name">Nama Kepala Sekolah, S.Pd</h2>
-                        <p class="kepsek-role">Kepala UPT SPF SMPN 14 BULUKUMBA</p>
+                        <h2 class="kepsek-name">{{ $settings->kepsek_name }}</h2>
+                        <p class="kepsek-role">Kepala {{ $settings->school_name }}</p>
                     </div>
 
                     <div class="col-md-8" data-aos="fade-left" data-aos-delay="100">
                         <p class="kepsek-quote text-justify">
                             <em>
-                                "Selamat datang di website resmi UPT SPF SMPN 14 BULUKUMBA. Kami berkomitmen untuk 
-                                memberikan pendidikan yang berkualitas dan berkarakter bagi seluruh peserta didik. 
-                                Dengan semangat Kurikulum Merdeka, kami terus berinovasi dalam proses pembelajaran 
-                                agar siswa-siswi kami tumbuh menjadi generasi yang cerdas, kreatif, dan berakhlak 
-                                mulia. Semoga website ini dapat menjadi sarana informasi yang bermanfaat bagi 
-                                seluruh warga sekolah dan masyarakat."
+                                "{{ $settings->kepsek_welcome_text }}"
                             </em>
                         </p>
                     </div>
@@ -430,28 +425,14 @@
         {{-- SEJARAH SEKOLAH --}}
         <section class="section-wrapper">
             <div class="container">
-                <h2 class="section-title" data-aos="fade-up">Sejarah Sekolah</h2>
+                <h2 class="section-title" data-aos="fade-up">{{ $settings->history_title }}</h2>
                 <p class="section-title-desc" data-aos="fade-up">Perjalanan panjang menuju pendidikan yang lebih baik</p>
 
                 <div class="row justify-content-center">
                     <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
-                        <p class="text-justify mb-3">
-                            UPT SPF SMPN 14 BULUKUMBA didirikan sebagai bentuk kepedulian pemerintah daerah terhadap 
-                            pemerataan pendidikan di Kabupaten Bulukumba. Sekolah ini berdiri di wilayah Kecamatan 
-                            Bulukumpa dengan tujuan menyediakan akses pendidikan menengah pertama yang berkualitas 
-                            bagi masyarakat sekitar.
-                        </p>
-                        <p class="text-justify mb-3">
-                            Sepanjang perjalanannya, sekolah ini terus mengalami perkembangan baik dari segi 
-                            infrastruktur, sumber daya manusia, maupun prestasi akademik dan non-akademik. 
-                            Berbagai kegiatan pembinaan siswa, pelatihan guru, dan peningkatan fasilitas terus 
-                            dilakukan demi menciptakan lingkungan belajar yang kondusif dan inspiratif.
-                        </p>
-                        <p class="text-justify mb-0">
-                            Dengan dukungan dari berbagai pihak, UPT SPF SMPN 14 BULUKUMBA kini menjadi salah satu 
-                            sekolah yang diperhitungkan di tingkat kabupaten, menghasilkan lulusan yang siap 
-                            melanjutkan ke jenjang pendidikan yang lebih tinggi dan berkontribusi positif bagi masyarakat.
-                        </p>
+                        <div class="text-justify mb-0" style="line-height: 1.8; color: var(--color-text-light);">
+                            {!! nl2br(e($settings->history_description)) !!}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -464,36 +445,58 @@
                 <p class="section-title-desc" data-aos="fade-up">Deretan pemimpin yang telah mengabdi</p>
 
                 <div class="row g-3 justify-content-center">
-                    @php
-                        $kepsekList = [
-                            'Budi Santoso, S.Pd',
-                            'Siti Lestari, M.Pd',
-                            'Agus Pratama, S.Pd',
-                            'Dewi Rahmawati, M.Pd',
-                            'Andi Fikri, S.Pd',
-                            'Nina Kusuma, M.Pd',
-                            'Rafi Alamsyah, S.Pd',
-                            'Lina Purnama, M.Pd',
-                            'Joko Wiryawan, S.Pd',
-                            'Mira Anggraini, M.Pd',
-                            'Dimas Kurnia, S.Pd',
-                            'Rasya Nugraha, S.Pd',
-                            'Intan Maharani, M.Pd',
-                            'Yudha Saputra, S.Pd',
-                        ];
-                    @endphp
-
-                    @foreach ($kepsekList as $index => $nama)
+                    @forelse ($formerPrincipals ?? [] as $index => $principal)
                         <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="fade-up" data-aos-delay="{{ min($index * 50, 300) }}">
                             <div class="card text-center border-0 shadow-sm h-100 kepsek-card">
-                                <div class="card-body d-flex flex-column align-items-center justify-content-start">
-                                    <img src="https://placehold.co/150x190/f1f5f9/475569?text={{ urlencode(explode(' ', $nama)[0]) }}"
-                                        class="mb-2" alt="Foto {{ $nama }}">
-                                    <p class="mb-0">{{ $nama }}</p>
+                                <div class="card-body d-flex flex-column align-items-center justify-content-start p-2.5">
+                                    <div class="w-100 rounded bg-slate-100 d-flex align-items-center justify-content-center overflow-hidden mb-2" style="aspect-ratio: 150 / 190; background-color: #f1f5f9 !important;">
+                                        @if($principal->photo_path)
+                                            <img src="{{ asset('storage/' . str_replace('public/', '', $principal->photo_path)) }}" alt="Foto {{ $principal->name }}" class="w-100 h-100" style="object-fit: cover;">
+                                        @else
+                                            <div class="text-center py-4">
+                                                <i class="fas fa-user-tie text-slate-400" style="font-size: 3rem; color: #94a3b8 !important;"></i>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <p class="mb-1 font-semibold text-slate-700" style="font-size: 0.8rem; line-height: 1.25;">{{ $principal->name }}</p>
+                                    @if($principal->period)
+                                        <span class="badge bg-light text-slate-500 border px-2 py-0.5" style="font-size: 0.65rem; color: #64748b; font-weight: 500;"><i class="far fa-calendar-alt me-1" style="margin-right: 5px;"></i>{{ $principal->period }}</span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        @php
+                            $kepsekList = [
+                                'Budi Santoso, S.Pd',
+                                'Siti Lestari, M.Pd',
+                                'Agus Pratama, S.Pd',
+                                'Dewi Rahmawati, M.Pd',
+                                'Andi Fikri, S.Pd',
+                                'Nina Kusuma, M.Pd',
+                                'Rafi Alamsyah, S.Pd',
+                                'Lina Purnama, M.Pd',
+                                'Joko Wiryawan, S.Pd',
+                                'Mira Anggraini, M.Pd',
+                                'Dimas Kurnia, S.Pd',
+                                'Rasya Nugraha, S.Pd',
+                                'Intan Maharani, M.Pd',
+                                'Yudha Saputra, S.Pd',
+                            ];
+                        @endphp
+
+                        @foreach ($kepsekList as $index => $nama)
+                            <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="fade-up" data-aos-delay="{{ min($index * 50, 300) }}">
+                                <div class="card text-center border-0 shadow-sm h-100 kepsek-card">
+                                    <div class="card-body d-flex flex-column align-items-center justify-content-start">
+                                        <img src="https://placehold.co/150x190/f1f5f9/475569?text={{ urlencode(explode(' ', $nama)[0]) }}"
+                                            class="mb-2" alt="Foto {{ $nama }}">
+                                        <p class="mb-0" style="font-size: 0.8rem; line-height: 1.25; font-weight: 600;">{{ $nama }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endforelse
                 </div>
             </div>
         </section>
@@ -508,21 +511,21 @@
                     {{-- Logo Card --}}
                     <div class="data-logo-card" data-aos="fade-up" data-aos-delay="0">
                         <img src="{{ asset('image/Logo.png') }}" alt="Logo">
-                        <div class="school-name">UPT SPF SMPN 14 BULUKUMBA</div>
-                        <div class="school-tagline">Bulukumba</div>
+                        <div class="school-name">{{ $settings->school_name }}</div>
+                        <div class="school-tagline">{{ $settings->kabupaten }}</div>
                     </div>
 
                     @php
                         $dataSekolah = [
-                            ['icon' => 'fas fa-hashtag', 'label' => 'NPSN', 'value' => '40313565'],
-                            ['icon' => 'fas fa-user-tie', 'label' => 'Kepala Sekolah', 'value' => 'Nama Kepala Sekolah, S.Pd'],
-                            ['icon' => 'fas fa-award', 'label' => 'Akreditasi', 'value' => 'B'],
-                            ['icon' => 'fas fa-book-open', 'label' => 'Kurikulum', 'value' => 'Kurikulum Merdeka'],
-                            ['icon' => 'fas fa-landmark', 'label' => 'Status', 'value' => 'Negeri'],
-                            ['icon' => 'fas fa-graduation-cap', 'label' => 'Bentuk Pendidikan', 'value' => 'SMP'],
-                            ['icon' => 'fas fa-map-pin', 'label' => 'Kecamatan', 'value' => 'Bulukumpa'],
-                            ['icon' => 'fas fa-map-marked-alt', 'label' => 'Kabupaten', 'value' => 'Bulukumba'],
-                            ['icon' => 'fas fa-globe-asia', 'label' => 'Provinsi', 'value' => 'Sulawesi Selatan'],
+                            ['icon' => 'fas fa-hashtag', 'label' => 'NPSN', 'value' => $settings->npsn],
+                            ['icon' => 'fas fa-user-tie', 'label' => 'Kepala Sekolah', 'value' => $settings->kepsek_name],
+                            ['icon' => 'fas fa-award', 'label' => 'Akreditasi', 'value' => $settings->akreditasi],
+                            ['icon' => 'fas fa-book-open', 'label' => 'Kurikulum', 'value' => $settings->kurikulum],
+                            ['icon' => 'fas fa-landmark', 'label' => 'Status', 'value' => $settings->status_sekolah],
+                            ['icon' => 'fas fa-graduation-cap', 'label' => 'Bentuk Pendidikan', 'value' => $settings->bentuk_pendidikan],
+                            ['icon' => 'fas fa-map-pin', 'label' => 'Kecamatan', 'value' => $settings->kecamatan],
+                            ['icon' => 'fas fa-map-marked-alt', 'label' => 'Kabupaten', 'value' => $settings->kabupaten],
+                            ['icon' => 'fas fa-globe-asia', 'label' => 'Provinsi', 'value' => $settings->provinsi],
                         ];
                     @endphp
 
@@ -538,7 +541,7 @@
                 </div>
 
                 <div class="text-center">
-                    <a class="btn-dapodik" href="https://dapo.kemdikbud.go.id/" target="_blank">
+                    <a class="btn-dapodik" href="{{ $settings->dapodik_link }}" target="_blank">
                         <i class="fas fa-external-link-alt"></i> Lihat Data Dapodik
                     </a>
                 </div>
@@ -557,8 +560,7 @@
                             <h3 class="section-title-small">Visi</h3>
                             <p class="visi-text mb-4">
                                 <em>
-                                    "Terwujudnya peserta didik yang beriman, bertakwa, berakhlak mulia, cerdas, 
-                                    terampil, dan berdaya saing tinggi berdasarkan nilai-nilai Pancasila."
+                                    "{{ $settings->visi }}"
                                 </em>
                             </p>
                         </div>
@@ -568,12 +570,11 @@
                         <div data-aos="fade-up" data-aos-delay="200">
                             <h3 class="section-title-small">Misi</h3>
                             <ul class="text-justify">
-                                <li>Meningkatkan keimanan dan ketakwaan melalui pembiasaan dan kegiatan keagamaan.</li>
-                                <li>Mengembangkan proses pembelajaran yang aktif, kreatif, efektif, dan menyenangkan.</li>
-                                <li>Meningkatkan kompetensi dan profesionalisme tenaga pendidik dan kependidikan.</li>
-                                <li>Mewujudkan lingkungan sekolah yang bersih, aman, nyaman, dan kondusif.</li>
-                                <li>Mengembangkan potensi siswa di bidang akademik, olahraga, seni, dan budaya.</li>
-                                <li>Menjalin kerja sama yang harmonis antara sekolah, orang tua, dan masyarakat.</li>
+                                @foreach(explode("\n", str_replace("\r", "", $settings->misi)) as $misiItem)
+                                    @if(trim($misiItem) !== '')
+                                        <li>{{ trim($misiItem) }}</li>
+                                    @endif
+                                @endforeach
                             </ul>
                         </div>
                     </div>

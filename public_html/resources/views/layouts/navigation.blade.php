@@ -1,4 +1,4 @@
-﻿{{-- Sidebar Navigation --}}
+{{-- Sidebar Navigation --}}
 <aside class="dash-sidebar" id="dashSidebar">
 
     {{-- Sidebar Header --}}
@@ -23,22 +23,22 @@
         <a href="{{ route('perangkat') }}"
            class="dash-nav-item {{ request()->routeIs('perangkat') ? 'active' : '' }}">
             <i class="fas fa-file-alt"></i>
-            <span>Perangkat</span>
+            <span>Perangkat Pembelajaran</span>
         </a>
 
         <a href="{{ route('articles.index') }}"
            class="dash-nav-item {{ request()->routeIs('articles.*') ? 'active' : '' }}">
             <i class="fas fa-newspaper"></i>
-            <span>Artikel</span>
+            <span>Artikel & Berita</span>
         </a>
 
         @if (auth()->user()->role === 'admin')
-            <div class="dash-sidebar-label">Kelola Data</div>
+            <div class="dash-sidebar-label">Kelola Warga & Akademik</div>
 
             <a href="{{ route('users.index') }}"
                class="dash-nav-item {{ request()->routeIs('users.*') ? 'active' : '' }}">
                 <i class="fas fa-users"></i>
-                <span>Users</span>
+                <span>Warga Sekolah (Guru/Staf)</span>
             </a>
 
             <a href="{{ route('subjects.index') }}"
@@ -47,16 +47,50 @@
                 <span>Mata Pelajaran</span>
             </a>
 
-            <a href="{{ route('ads.index') }}"
-               class="dash-nav-item {{ request()->routeIs('ads.*') ? 'active' : '' }}">
-                <i class="fas fa-bullhorn"></i>
-                <span>Iklan</span>
+            <div class="dash-sidebar-label">Konten Informasi Sekolah</div>
+
+            <a href="{{ route('facilities.index') }}"
+               class="dash-nav-item {{ request()->routeIs('facilities.*') ? 'active' : '' }}">
+                <i class="fas fa-building"></i>
+                <span>Fasilitas Sekolah</span>
+            </a>
+
+            <a href="{{ route('achievements.index') }}"
+               class="dash-nav-item {{ request()->routeIs('achievements.*') ? 'active' : '' }}">
+                <i class="fas fa-trophy"></i>
+                <span>Prestasi Sekolah</span>
             </a>
 
             <a href="{{ route('organisasi.index') }}"
                class="dash-nav-item {{ request()->routeIs('organisasi.*') ? 'active' : '' }}">
                 <i class="fas fa-sitemap"></i>
-                <span>Organisasi</span>
+                <span>Organisasi & Ekskul</span>
+            </a>
+
+            <a href="{{ route('gallery.index') }}"
+               class="dash-nav-item {{ request()->routeIs('gallery.*') ? 'active' : '' }}">
+                <i class="fas fa-images"></i>
+                <span>Galeri Foto</span>
+            </a>
+
+            <a href="{{ route('ads.index') }}"
+               class="dash-nav-item {{ request()->routeIs('ads.*') ? 'active' : '' }}">
+                <i class="fas fa-bullhorn"></i>
+                <span>Pengumuman</span>
+            </a>
+
+            <a href="{{ route('former-principals.index') }}"
+               class="dash-nav-item {{ request()->routeIs('former-principals.*') ? 'active' : '' }}">
+                <i class="fas fa-history"></i>
+                <span>Mantan Kepala Sekolah</span>
+            </a>
+
+            <div class="dash-sidebar-label">Sistem & Konfigurasi</div>
+
+            <a href="{{ route('settings.edit') }}"
+               class="dash-nav-item {{ request()->routeIs('settings.*') ? 'active' : '' }}">
+                <i class="fas fa-school"></i>
+                <span>Pengaturan Sekolah</span>
             </a>
         @endif
 

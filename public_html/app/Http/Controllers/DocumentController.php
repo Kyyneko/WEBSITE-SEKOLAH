@@ -17,25 +17,28 @@ class DocumentController extends Controller
     {
         $currentUserRole = Auth::user()->role;
 
-    if ($currentUserRole === 'admin') {
-        $adminDocuments = Document::whereHas('user', function ($query) {
-            $query->where('role', 'admin');
-        })->get();
+        if ($currentUserRole === 'admin') {
+            $adminDocuments = Document::whereHas('user', function ($query) {
+                $query->where('role', 'admin');
+            })->get();
 
-        $nonAdminDocuments = Document::whereHas('user', function ($query) {
-            $query->where('role', 'teacher');
-        })->get();; // Tidak ada dokumen non-admin untuk admin
-    } else {
-        $adminDocuments = Document::whereHas('user', function ($query) {
-            $query->where('role', 'admin');
-        })->get();; // Tidak ada dokumen admin untuk non-admin
+            $nonAdminDocuments = Document::whereHas('user', function ($query) {
+                $query->where('role', 'teacher');
+            })->get();
+        } else {
+            $adminDocuments = Document::whereHas('user', function ($query) {
+                $query->where('role', 'admin');
+            })->get();
 
-        $nonAdminDocuments = Document::whereHas('user', function ($query) {
-            $query->where('role', '!=', 'admin');
-        })->where('user_id', Auth::id())->get();
-    }
+            $nonAdminDocuments = Document::whereHas('user', function ($query) {
+                $query->where('role', 'teacher');
+            })->where(function ($query) {
+                $query->where('status', 'approved')
+                      ->orWhere('user_id', Auth::id());
+            })->get();
+        }
 
-    return view('backend.perangkatManage.perangkat', compact('adminDocuments', 'nonAdminDocuments'));
+        return view('backend.perangkatManage.perangkat', compact('adminDocuments', 'nonAdminDocuments'));
     }
     
 
@@ -53,7 +56,7 @@ class DocumentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:pdf,doc,docx,xlsx|max:100240', // Maksimum 2MB
+            'file' => 'required|mimes:pdf,doc,docx,xls,xlsx|max:100240',
         ]);
     
         // Proses penyimpanan file jika validasi sukses
@@ -69,6 +72,7 @@ class DocumentController extends Controller
             $document = new Document();
             $document->user_id = $userId;
             $document->file_path = $filePath;
+            $document->status = Auth::user()->role === 'admin' ? 'approved' : 'pending';
             $document->save();
     
             return redirect()->back()->with('success', 'File berhasil diunggah.');
@@ -120,4 +124,33 @@ class DocumentController extends Controller
 
     return redirect()->back()->with('success', 'Dokumen berhasil dihapus.');
 }
+
+    public function approve(Document $document)
+    {
+        $document->status = 'approved';
+        $document->save();
+
+        return redirect()->back()->with('success', 'Dokumen berhasil disetujui.');
+    }
+
+    public function reject(Document $document)
+    {
+        $document->status = 'rejected';
+        $document->save();
+
+        return redirect()->back()->with('success', 'Dokumen ditolak.');
+    }
+
+    public function preview(Document $document)
+    {
+        if (!Storage::exists($document->file_path)) {
+            abort(404);
+        }
+
+        $path = Storage::path($document->file_path);
+
+        return response()->file($path, [
+            'Content-Disposition' => 'inline; filename="' . basename($path) . '"'
+        ]);
+    }
 }

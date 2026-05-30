@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use App\Helpers\ImageOptimizer;
 
 class OrganisasiController extends Controller
 {
@@ -26,15 +27,19 @@ class OrganisasiController extends Controller
         $request->validate([
             'nama' => 'required',
             'description' => 'required',
-            'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:100000', // validasi untuk foto
+            'photos.*' => 'file|mimes:jpeg,png,jpg,gif,webp,heic,heif|max:100000', // validasi untuk foto
         ]);
 
         $photoUrls = [];
 
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $photo) {
-                $path = $photo->store('public/organisasi_photos');
-                $photoUrls[] = $path;
+                try {
+                    $path = ImageOptimizer::compressAndStore($photo, 'organisasi_photos');
+                    $photoUrls[] = $path;
+                } catch (\Exception $e) {
+                    return redirect()->back()->withErrors(['photos' => $e->getMessage()])->withInput();
+                }
             }
         }
 
@@ -55,50 +60,55 @@ class OrganisasiController extends Controller
     }
 
     public function update(Request $request, Organisasi $organisasi)
-{
-    $request->validate([
-        'name' => 'required',
-        'description' => 'required',
-        'new_photo.*' => 'image|mimes:jpeg,png,jpg,gif|max:100000', // validasi untuk foto baru
-    ]);
+    {
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'new_photo.*' => 'file|mimes:jpeg,png,jpg,gif,webp,heic,heif|max:100000', // validasi untuk foto baru
+        ]);
 
-    // Perbarui nama dan deskripsi organisasi
-    $organisasi->nama = $request->name;
-    $organisasi->description = $request->description;
+        // Perbarui nama dan deskripsi organisasi
+        $organisasi->nama = $request->name;
+        $organisasi->description = $request->description;
 
+        $currentPhotos = json_decode($organisasi->photo_path, true) ?? [];
         // Menghapus foto-foto yang dipilih untuk dihapus
-    if ($request->has('delete_photos')) {
-        $deletePhotos = $request->delete_photos;
-        $currentPhotos = json_decode($organisasi->photo_path, true);
-        foreach ($deletePhotos as $deletePhoto) {
-            if (($key = array_search($deletePhoto, $currentPhotos)) !== false) {
-                // Hapus foto dari penyimpanan
-                Storage::delete($deletePhoto);
-                // Hapus foto dari array photo_path pada model
-                unset($currentPhotos[$key]);
+        if ($request->has('delete_photos')) {
+            $deletePhotos = $request->delete_photos;
+            foreach ($deletePhotos as $deletePhoto) {
+                if (($key = array_search($deletePhoto, $currentPhotos)) !== false) {
+                    // Hapus foto dari penyimpanan
+                    Storage::delete($deletePhoto);
+                    // Hapus foto dari array photo_path pada model
+                    unset($currentPhotos[$key]);
+                }
             }
+            $currentPhotos = array_values($currentPhotos);
+            $organisasi->photo_path = json_encode($currentPhotos); // Menggunakan array numerik
         }
-        $organisasi->photo_path = json_encode(array_values($currentPhotos)); // Menggunakan array numerik
-    }
 
 
-    // Mengunggah foto-foto baru yang dipilih
-    if ($request->hasFile('new_photo')) {
-        foreach ($request->file('new_photo') as $newPhoto) {
-            // Menyimpan foto ke dalam direktori penyimpanan
-            $path = $newPhoto->store('public/organisasi_photos');
-            // Menambahkan path foto baru ke array photo_path pada model
-            $currentPhotos[] = $path;
+        // Mengunggah foto-foto baru yang dipilih
+        if ($request->hasFile('new_photo')) {
+            foreach ($request->file('new_photo') as $newPhoto) {
+                try {
+                    // Menyimpan foto ke dalam direktori penyimpanan
+                    $path = ImageOptimizer::compressAndStore($newPhoto, 'organisasi_photos');
+                    // Menambahkan path foto baru ke array photo_path pada model
+                    $currentPhotos[] = $path;
+                } catch (\Exception $e) {
+                    return redirect()->back()->withErrors(['new_photo' => $e->getMessage()])->withInput();
+                }
+            }
+            $organisasi->photo_path = json_encode($currentPhotos);
         }
-        $organisasi->photo_path = json_encode($currentPhotos);
+
+        // Simpan perubahan
+        $organisasi->save();
+
+        return redirect()->route('organisasi.index')
+            ->with('success', 'Organisasi updated successfully');
     }
-
-    // Simpan perubahan
-    $organisasi->save();
-
-    return redirect()->route('organisasi.index')
-        ->with('success', 'Organisasi updated successfully');
-}
 
 
     public function destroy(Organisasi $organisasi)

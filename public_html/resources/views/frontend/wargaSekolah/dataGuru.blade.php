@@ -177,38 +177,37 @@
     <div class="section-content">
         <div class="container">
             <div class="teachers-grid">
-                @php
-                    $teachers = [
-                        ['name' => 'Andi Rahman, S.Pd', 'subject' => 'Bahasa Indonesia', 'image' => 'https://placehold.co/200x200/1e3a5f/ffffff?text=AR'],
-                        ['name' => 'Siti Nurhaliza, S.Pd', 'subject' => 'Matematika', 'image' => 'https://placehold.co/200x200/0d9488/ffffff?text=SN'],
-                        ['name' => 'Muhammad Arif, S.Pd', 'subject' => 'IPA', 'image' => 'https://placehold.co/200x200/f59e0b/ffffff?text=MA'],
-                        ['name' => 'Hasni, S.Pd', 'subject' => 'IPS', 'image' => 'https://placehold.co/200x200/2563eb/ffffff?text=HS'],
-                        ['name' => 'Firman, S.Pd', 'subject' => 'Bahasa Inggris', 'image' => 'https://placehold.co/200x200/1e3a5f/ffffff?text=FM'],
-                        ['name' => 'Nurjannah, S.Pd.I', 'subject' => 'Pendidikan Agama Islam', 'image' => 'https://placehold.co/200x200/0d9488/ffffff?text=NJ'],
-                        ['name' => 'Asriadi, S.Pd', 'subject' => 'PJOK', 'image' => 'https://placehold.co/200x200/f59e0b/ffffff?text=AS'],
-                        ['name' => 'Rahmawati, S.Pd', 'subject' => 'Seni Budaya', 'image' => 'https://placehold.co/200x200/2563eb/ffffff?text=RW'],
-                        ['name' => 'Syamsuddin, S.Pd', 'subject' => 'PPKn', 'image' => 'https://placehold.co/200x200/1e3a5f/ffffff?text=SD'],
-                        ['name' => 'Hasmawati, S.Pd', 'subject' => 'Informatika', 'image' => 'https://placehold.co/200x200/0d9488/ffffff?text=HW'],
-                        ['name' => 'Irmayanti, S.Pd', 'subject' => 'Prakarya', 'image' => 'https://placehold.co/200x200/f59e0b/ffffff?text=IY'],
-                        ['name' => 'Akbar, S.Pd', 'subject' => null, 'image' => 'https://placehold.co/200x200/2563eb/ffffff?text=AK'],
-                    ];
-                @endphp
-
-                @foreach ($teachers as $index => $teacher)
+                @forelse ($users as $index => $teacher)
                     <div class="teacher-card" data-aos="fade-up" data-aos-delay="{{ min($index * 60, 360) }}">
                         <div class="teacher-card-image">
-                            <img src="{{ $teacher['image'] }}" alt="{{ $teacher['name'] }}">
+                            @if($teacher->photo_path)
+                                <img src="{{ asset('storage/' . str_replace('public/', '', $teacher->photo_path)) }}" alt="{{ $teacher->name }}">
+                            @else
+                                <div class="w-100 h-100 rounded-circle d-flex align-items-center justify-content-center bg-light border shadow-sm" style="max-width: 180px; max-height: 180px; aspect-ratio: 1/1;">
+                                    <i class="fas fa-chalkboard-teacher text-primary" style="font-size: 4rem;"></i>
+                                </div>
+                            @endif
                         </div>
                         <div class="teacher-card-body">
-                            <p class="teacher-name">{{ $teacher['name'] }}</p>
-                            @if (!empty($teacher['subject']))
-                                <p class="teacher-subject">{{ $teacher['subject'] }}</p>
+                            <p class="teacher-name">{{ $teacher->name }}</p>
+                            @if ($teacher->subject)
+                                <p class="teacher-subject">{{ $teacher->subject->name }}</p>
                             @else
                                 <p class="teacher-subject not-assigned">Belum ditetapkan</p>
                             @endif
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="text-center py-5 w-100" style="grid-column: 1 / -1;">
+                        <div class="mx-auto mb-3 d-flex align-items-center justify-content-center" style="width:80px;height:80px;border-radius:50%;background:rgba(30,58,95,0.06);color:#94a3b8;">
+                            <i class="fas fa-chalkboard-teacher" style="font-size:2rem;"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-2">Belum Ada Data Guru</h5>
+                        <p class="text-muted mx-auto" style="font-size: 0.95rem; max-width: 400px;">
+                            Data tenaga pendidik belum dimasukkan oleh administrator.
+                        </p>
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>

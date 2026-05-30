@@ -13,6 +13,12 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\OrganisasiController;
 use App\Http\Controllers\EkstrakurikulerController;
+use App\Http\Controllers\SchoolSettingController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\FormerPrincipalController;
+use App\Http\Controllers\FacilityController;
+use App\Http\Controllers\AchievementController;
+use App\Models\SchoolSetting;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,18 +54,25 @@ use App\Http\Controllers\EkstrakurikulerController;
     Route::get('/', function () {
         $ads = Ad::all();
         $articles = Article::all();
-        return view('frontend.home.homepage', compact('articles','ads'));
+        $settings = SchoolSetting::first() ?? SchoolSetting::createDefault();
+        return view('frontend.home.homepage', compact('articles','ads', 'settings'));
     });
 
     
+    Route::get('/galeri', [GalleryController::class, 'publicIndex'])->name('gallery.public');
+
     Route::get('/fasilitas', function () {
-        return view('frontend/fasilitas');
+        $facilities = \App\Models\Facility::all();
+        return view('frontend.fasilitas', compact('facilities'));
     });
     Route::get('/prestasi', function () {
-        return view('frontend/prestasi');
+        $achievements = \App\Models\Achievement::all();
+        return view('frontend.prestasi', compact('achievements'));
     });
     Route::get('/profil', function () {
-        return view('frontend/profile');
+        $settings = SchoolSetting::first() ?? SchoolSetting::createDefault();
+        $formerPrincipals = \App\Models\FormerPrincipal::orderBy('id', 'asc')->get();
+        return view('frontend/profile', compact('settings', 'formerPrincipals'));
     });
 
     Route::get('/wargaSekolah/alumni', function () {
@@ -70,7 +83,8 @@ use App\Http\Controllers\EkstrakurikulerController;
         return view('frontend.wargaSekolah.dataGuru', compact('users'));
     });
     Route::get('/wargaSekolah/dataStaff', function () {
-        return view('frontend/wargaSekolah/dataStaff');
+        $users = User::where('role', 'staff')->get();
+        return view('frontend.wargaSekolah.dataStaff', compact('users'));
     });
  
 
@@ -92,6 +106,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/documents/{document}', [DocumentController::class, 'destroy'])->name('documents.destroy');
     Route::post('/upload', [DocumentController::class, 'store'])->name('upload.file');
     Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('documents.download');
+    Route::get('/documents/{document}/preview', [DocumentController::class, 'preview'])->name('documents.preview');
 
     Route::resource('articles', ArticleController::class);
 
@@ -118,13 +133,22 @@ Route::middleware(['auth','role:admin'])->group(function () {
     Route::get('/organisasi/{organisasi}/edit', [OrganisasiController::class, 'edit'])->name('organisasi.edit');
     Route::put('/organisasi/{organisasi}', [OrganisasiController::class, 'update'])->name('organisasi.update');
     Route::delete('/organisasi/{organisasi}', [OrganisasiController::class, 'destroy'])->name('organisasi.destroy');
+
+    Route::get('/settings', [SchoolSettingController::class, 'edit'])->name('settings.edit');
+    Route::put('/settings', [SchoolSettingController::class, 'update'])->name('settings.update');
+
+    Route::patch('/documents/{document}/approve', [DocumentController::class, 'approve'])->name('documents.approve');
+    Route::patch('/documents/{document}/reject', [DocumentController::class, 'reject'])->name('documents.reject');
+
+    // Gallery Management
+    Route::get('/admin/gallery/backup/all', [GalleryController::class, 'backup'])->name('gallery.backup');
+    Route::get('/admin/gallery/download/{gallery}', [GalleryController::class, 'download'])->name('gallery.download');
+    Route::resource('gallery', GalleryController::class);
+    Route::resource('former-principals', FormerPrincipalController::class);
+    Route::resource('facilities', FacilityController::class);
+    Route::resource('achievements', AchievementController::class);
 });
 
-
-// Google OAuth
-use App\Http\Controllers\Auth\GoogleController;
-Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('auth.google');
-Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('auth.google.callback');
 
 // Login
 require __DIR__.'/auth.php';

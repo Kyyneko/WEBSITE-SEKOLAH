@@ -5,17 +5,25 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <!-- Header -->
-                    <div class="mb-4 pb-3 border-bottom">
-                        <h3 class="text-2xl font-weight-bold text-dark mb-1">
-                            <i class="fas fa-book-medical text-success mr-2"></i>Tambah Mata Pelajaran Baru
-                        </h3>
-                        <p class="text-muted mb-0">Lengkapi form di bawah untuk menambahkan mata pelajaran baru</p>
+    <div class="py-6">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+            {{-- Page Header Card --}}
+            <div class="dash-header-card mb-4">
+                <div class="dash-header-card-content">
+                    <div class="dash-header-card-icon">
+                        <i class="fas fa-book text-white"></i>
                     </div>
+                    <div>
+                        <h3 class="dash-header-card-title">Tambah Mata Pelajaran</h3>
+                        <p class="dash-header-card-desc">Lengkapi form di bawah untuk menambahkan mata pelajaran baru ke sistem</p>
+                    </div>
+                </div>
+                <div class="dash-header-card-deco1"></div>
+                <div class="dash-header-card-deco2"></div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-4">
 
                     <form action="{{ route('subjects.store') }}" method="POST">
                         @csrf

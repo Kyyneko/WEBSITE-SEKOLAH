@@ -5,17 +5,25 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <!-- Header -->
-                    <div class="mb-4 pb-3 border-bottom">
-                        <h3 class="text-2xl font-weight-bold text-dark mb-1">
-                            <i class="fas fa-newspaper text-warning mr-2"></i>Edit Artikel
-                        </h3>
-                        <p class="text-muted mb-0">Perbarui informasi artikel <strong>{{ $article->title }}</strong></p>
+    <div class="py-6">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+            {{-- Page Header Card --}}
+            <div class="dash-header-card mb-4">
+                <div class="dash-header-card-content">
+                    <div class="dash-header-card-icon">
+                        <i class="fas fa-newspaper text-white"></i>
                     </div>
+                    <div>
+                        <h3 class="dash-header-card-title">Edit Artikel</h3>
+                        <p class="dash-header-card-desc">Perbarui informasi artikel: <strong>{{ $article->title }}</strong></p>
+                    </div>
+                </div>
+                <div class="dash-header-card-deco1"></div>
+                <div class="dash-header-card-deco2"></div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-4">
 
                     <form action="{{ route('articles.update', $article->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -40,6 +48,48 @@
                             <small class="form-text text-muted">
                                 <i class="fas fa-info-circle mr-1"></i>Masukkan judul artikel yang menarik dan deskriptif
                             </small>
+                        </div>
+
+                        <!-- Kategori / Organisasi Field -->
+                        <div class="mb-4">
+                            <label for="organisasi_id" class="form-label font-weight-bold">
+                                <i class="fas fa-tags text-primary mr-1"></i>Kategori / Organisasi
+                            </label>
+                            @if(auth()->user()->role === 'admin')
+                                <select class="form-control form-control-lg @error('organisasi_id') is-invalid @enderror" 
+                                        id="organisasi_id" 
+                                        name="organisasi_id">
+                                    <option value="">Umum (General)</option>
+                                    @foreach($organisasis as $organisasi)
+                                        <option value="{{ $organisasi->id }}" {{ old('organisasi_id', $article->organisasi_id) == $organisasi->id ? 'selected' : '' }}>
+                                            {{ $organisasi->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <small class="form-text text-muted">
+                                    <i class="fas fa-info-circle mr-1"></i>Sebagai Admin, Anda dapat menerbitkan artikel untuk kategori Umum atau Organisasi tertentu.
+                                </small>
+                            @else
+                                @php
+                                    $userOrganisasi = auth()->user()->organisasi;
+                                @endphp
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text bg-light text-warning">
+                                        <i class="fas fa-lock mr-1"></i>
+                                    </span>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           value="{{ $userOrganisasi ? $userOrganisasi->nama : 'Umum (General)' }}" 
+                                           readonly 
+                                           style="background-color: #e9ecef;">
+                                </div>
+                                <small class="form-text text-warning mt-1">
+                                    <i class="fas fa-exclamation-circle mr-1"></i>Kategori dikunci ke <strong>{{ $userOrganisasi ? $userOrganisasi->nama : 'Umum' }}</strong> berdasarkan profil penugasan Anda.
+                                </small>
+                            @endif
+                            @error('organisasi_id')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <!-- Description Field with Trix Editor -->
@@ -162,21 +212,25 @@
 
                         <!-- New Photos Field -->
                         <div class="mb-4">
-                            <label for="new_photo" class="form-label font-weight-bold">
+                            <label class="form-label font-weight-bold">
                                 <i class="fas fa-upload text-primary mr-1"></i>Tambah Foto Baru
                             </label>
-                            <div class="custom-file">
+                            <label for="new_photo" class="upload-zone-premium mb-0">
+                                <div class="upload-zone-icon">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <div>
+                                    <div class="upload-zone-text" id="fileLabel">Klik untuk memilih gambar atau seret ke sini</div>
+                                    <div class="upload-zone-hint">Format: JPG, JPEG, PNG, WEBP, HEIC — Otomatis dikompres dengan kualitas terbaik (Bisa memilih beberapa foto sekaligus)</div>
+                                </div>
                                 <input type="file" 
-                                       class="custom-file-input @error('new_photo') is-invalid @enderror @error('new_photo.*') is-invalid @enderror" 
+                                       class="d-none" 
                                        id="new_photo" 
                                        name="new_photo[]" 
                                        multiple
-                                       accept="image/jpeg,image/png,image/jpg"
+                                       accept="image/*,.heic,.heif"
                                        onchange="previewNewImages(event)">
-                                <label class="custom-file-label" for="new_photo" id="fileLabel">
-                                    <i class="fas fa-cloud-upload-alt mr-2"></i>Pilih file gambar...
-                                </label>
-                            </div>
+                            </label>
                             @error('new_photo')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
@@ -184,7 +238,7 @@
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                             <small class="form-text text-muted">
-                                <i class="fas fa-info-circle mr-1"></i>Upload satu atau lebih foto baru. Format: JPG, PNG. Maksimal 2MB per foto
+                                <i class="fas fa-info-circle mr-1"></i>Upload satu atau lebih foto baru. Format: JPG, PNG, WEBP, HEIC. Maksimal 100MB per foto.
                             </small>
                             
                             <!-- New Images Preview Container -->
@@ -305,7 +359,7 @@
                 });
             } else {
                 imagePreview.style.display = 'none';
-                fileLabel.innerHTML = '<i class="fas fa-cloud-upload-alt mr-2"></i>Pilih file gambar...';
+                fileLabel.innerHTML = 'Klik untuk memilih gambar atau seret ke sini';
             }
         }
 

@@ -16,24 +16,12 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        // Seed users table with sample data
+        // Seed users table with exactly 1 superuser admin
         DB::table('users')->insert([
-            'name' => 'Mahendra Kirana M.B',
-            'email' => 'mahendrakirana284@gmail.com',
+            'name' => 'Superuser',
+            'email' => 'superuser',
             'email_verified_at' => now(),
-            'subject_id' => '1',
-            'password' => Hash::make('password'),
-            'remember_token' => Str::random(10),
-            'role' => 'admin',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        
-        DB::table('users')->insert([
-            'name' => 'Muhammad Amin',
-            'email' => 'myfitriamin@gmail.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('11Bulukumba'),
+            'password' => Hash::make('superuser123'),
             'remember_token' => Str::random(10),
             'role' => 'admin',
             'created_at' => now(),

@@ -117,11 +117,11 @@
         /* ============================
            BUTTONS
         ============================ */
-        .btn {
-            font-weight: 600;
-            font-size: 0.85rem;
-            border-radius: var(--dash-radius-sm);
-            padding: 0.5rem 1.15rem;
+        .btn, .btn-lg {
+            font-weight: 600 !important;
+            font-size: 0.85rem !important;
+            border-radius: var(--dash-radius-sm) !important;
+            padding: 0.5rem 1.15rem !important;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             letter-spacing: 0.01em;
             border: none;
@@ -284,31 +284,57 @@
         /* ============================
            FORMS
         ============================ */
-        .form-control, .form-select {
-            border-radius: var(--dash-radius-sm);
-            border: 1.5px solid var(--dash-border);
-            padding: 0.6rem 0.85rem;
-            font-size: 0.875rem;
+        .form-control, .form-select, .form-control-lg, .form-select-lg {
+            border-radius: var(--dash-radius-sm) !important;
+            border: 1.5px solid var(--dash-border) !important;
+            padding: 0.6rem 0.85rem !important;
+            font-size: 0.9rem !important;
             transition: all 0.2s ease;
+            height: auto !important;
+            color: var(--dash-text) !important;
+            background-color: #fff !important;
         }
 
-        .form-control:focus, .form-select:focus {
-            border-color: var(--dash-primary-light);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        .form-control:focus, .form-select:focus, .form-control-lg:focus, .form-select-lg:focus {
+            border-color: var(--dash-primary-light) !important;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+            outline: 0 !important;
+        }
+
+        .form-control:disabled, .form-control[readonly], .form-select:disabled {
+            background-color: #f8fafc !important;
+            color: var(--dash-text-light) !important;
+            opacity: 0.8 !important;
+            border-color: var(--dash-border) !important;
         }
 
         .form-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--dash-text-light);
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            margin-bottom: 0.4rem;
+            font-size: 0.825rem !important;
+            font-weight: 600 !important;
+            color: var(--dash-text-light) !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.04em !important;
+            margin-bottom: 0.4rem !important;
+            display: inline-block;
+        }
+
+        .input-group-text {
+            font-size: 0.9rem !important;
+            padding: 0.6rem 0.85rem !important;
+            border: 1.5px solid var(--dash-border) !important;
+            color: var(--dash-text-light) !important;
+            background-color: #f8fafc !important;
+        }
+
+        /* Trix Editor Font Size Consistency */
+        trix-editor {
+            font-size: 0.9rem !important;
+            color: var(--dash-text) !important;
         }
 
         .profile-form label {
-            text-transform: none;
-            letter-spacing: normal;
+            text-transform: none !important;
+            letter-spacing: normal !important;
         }
 
         /* Modal Overlay - centered */
@@ -376,6 +402,122 @@
 
         .bg-red h2 {
             color: #ffffff !important;
+        }
+
+        /* ============================
+           PAGE HEADER CARD (Uniform Premium Headers)
+        ============================ */
+        .dash-header-card {
+            background: linear-gradient(135deg, var(--dash-primary) 0%, var(--dash-primary-light) 100%) !important;
+            border-radius: var(--dash-radius) !important;
+            padding: 1.5rem 2rem !important;
+            color: #fff !important;
+            position: relative !important;
+            overflow: hidden !important;
+            border: none !important;
+            box-shadow: var(--dash-shadow-md) !important;
+        }
+
+        .dash-header-card-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dash-header-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            color: #fff;
+        }
+
+        .dash-header-card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 0 0 0.15rem;
+            color: #fff;
+        }
+
+        .dash-header-card-desc {
+            font-size: 0.8rem;
+            opacity: 0.75;
+            margin: 0;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .dash-header-card-deco1 {
+            position: absolute;
+            top: -50px;
+            right: -20px;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+        }
+
+        .dash-header-card-deco2 {
+            position: absolute;
+            bottom: -60px;
+            right: 120px;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+        }
+
+        /* ============================
+           PREMIUM UPLOAD ZONE
+        ============================ */
+        .upload-zone-premium {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem 1.5rem;
+            border: 2px dashed var(--dash-border);
+            border-radius: var(--dash-radius);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #fafbfc;
+            width: 100%;
+        }
+
+        .upload-zone-premium:hover {
+            border-color: var(--dash-primary-light);
+            background: rgba(37,99,235,0.02);
+        }
+
+        .upload-zone-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(37,99,235,0.08);
+            color: var(--dash-primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .upload-zone-text {
+            font-size: 0.85rem;
+            color: var(--dash-text);
+            font-weight: 600;
+        }
+
+        .upload-zone-hint {
+            font-size: 0.72rem;
+            color: var(--dash-text-light);
+            margin-top: 0.15rem;
         }
 
         /* ============================

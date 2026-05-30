@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Helpers\ImageOptimizer;
 
 class AdController extends Controller
 {
@@ -26,7 +27,7 @@ class AdController extends Controller
             'title' => 'required|unique:ads,title',
             'link' => 'required',
             'description' => 'required',
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'required|file|mimes:jpeg,png,jpg,gif,webp,heic,heif|max:100000',
         ]);
     
         $ad = new Ad();
@@ -36,17 +37,18 @@ class AdController extends Controller
         $ad->description = $request->description;
     
         if ($request->hasFile('photo')) {
-            $image = $request->file('photo');
-            $imageName = time().'.'.$image->extension();
-            // Simpan foto ke dalam direktori storage
-            $path = $image->storeAs('public/ads_photos', $imageName);
-            // Simpan path foto ke dalam database tanpa awalan 'storage/'
-            $ad->photo_path = 'public/ads_photos/' . $imageName;
+            try {
+                $image = $request->file('photo');
+                $path = ImageOptimizer::compressAndStore($image, 'ads_photos');
+                $ad->photo_path = $path;
+            } catch (\Exception $e) {
+                return redirect()->back()->withErrors(['photo' => $e->getMessage()])->withInput();
+            }
         }
     
         $ad->save();
     
-        return redirect()->route('ads.index')->with('success','Ad created successfully.');
+        return redirect()->route('ads.index')->with('success','Pengumuman berhasil ditambahkan.');
     }
     
 
@@ -60,34 +62,37 @@ class AdController extends Controller
 
 
     public function update(Request $request, Ad $ad)
-{
-    $request->validate([
-        'title' => 'required',
-        'link' => 'required',
-        'description' => 'required',
-        'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+    {
+        $request->validate([
+            'title' => 'required',
+            'link' => 'required',
+            'description' => 'required',
+            'photo' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,heic,heif|max:100000',
+        ]);
 
-    $ad->title = $request->title;
-    $ad->link = $request->link;
-    $ad->description = $request->description;
+        $ad->title = $request->title;
+        $ad->link = $request->link;
+        $ad->description = $request->description;
 
-    if ($request->hasFile('photo')) {
-        // Hapus foto lama jika ada
-        if ($ad->photo_path) {
-            Storage::delete($ad->photo_path);
+        if ($request->hasFile('photo')) {
+            // Hapus foto lama jika ada
+            if ($ad->photo_path) {
+                Storage::delete($ad->photo_path);
+            }
+
+            try {
+                $image = $request->file('photo');
+                $path = ImageOptimizer::compressAndStore($image, 'ads_photos');
+                $ad->photo_path = $path;
+            } catch (\Exception $e) {
+                return redirect()->back()->withErrors(['photo' => $e->getMessage()])->withInput();
+            }
         }
 
-        $image = $request->file('photo');
-        $imageName = time().'.'.$image->extension();
-        $path = $image->storeAs('public/ads_photos', $imageName);
-        $ad->photo_path = 'public/ads_photos/' . $imageName;
+        $ad->save();
+
+        return redirect()->route('ads.index')->with('success','Pengumuman berhasil diperbarui.');
     }
-
-    $ad->save();
-
-    return redirect()->route('ads.index')->with('success','Ad updated successfully.');
-}
 
 
     public function destroy(Ad $ad)
@@ -100,7 +105,7 @@ class AdController extends Controller
         // Hapus data iklan dari database
         $ad->delete();
     
-        return redirect()->route('ads.index')->with('success','Ad deleted successfully.');
+        return redirect()->route('ads.index')->with('success','Pengumuman berhasil dihapus.');
     }
     
 }

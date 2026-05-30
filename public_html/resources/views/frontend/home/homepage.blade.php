@@ -355,31 +355,122 @@
     .article-card img {
         height: 180px;
         object-fit: cover;
+        width: 100%;
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    .article-card:hover .article-img-container img {
+        transform: scale(1.08);
     }
 
     .article-card .card-body {
         padding: 1.25rem;
     }
 
-    .article-meta {
-        font-size: 0.7rem;
-        color: var(--color-text-light);
-        font-weight: 600;
+    .article-img-container {
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+
+    /* Floating Glassmorphic Category Badges on Image */
+    .badge-cat-floating {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        font-size: 0.65rem;
+        font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.05em;
+        padding: 0.3rem 0.65rem;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        backdrop-filter: blur(4px);
+        z-index: 10;
+        transition: all 0.2s ease;
+    }
+
+    .badge-cat-org {
+        background: rgba(37, 99, 235, 0.9) !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .badge-cat-umum {
+        background: rgba(30, 41, 59, 0.8) !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* Floating Date Badge on Image Bottom Right */
+    .badge-date-floating {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        font-size: 0.65rem;
+        font-weight: 600;
+        color: #ffffff;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 0.25rem 0.6rem;
+        border-radius: 6px;
+        z-index: 10;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: all 0.2s ease;
+    }
+
+    .article-card:hover .badge-date-floating {
+        background: rgba(37, 99, 235, 0.85);
+    }
+
+    .article-reading-time {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: #64748b;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
     }
 
     .article-card .card-title {
-        font-size: 0.9rem;
+        font-size: 0.88rem;
         font-weight: 700;
         color: var(--color-text);
         line-height: 1.4;
+        transition: color 0.2s ease;
     }
 
-    .article-card .card-text {
-        font-size: 0.85rem;
-        color: var(--color-text-light);
-        line-height: 1.6;
+    .article-card:hover .card-title {
+        color: #2563eb;
+    }
+
+    /* Read More Link Styling with Hover Animation */
+    .article-readmore {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: #2563eb;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        margin-top: auto;
+        transition: color 0.2s ease;
+    }
+
+    .article-readmore i {
+        transition: transform 0.2s ease;
+    }
+
+    .article-card:hover .article-readmore i {
+        transform: translateX(4px);
     }
 
     /* ============================
@@ -464,11 +555,10 @@
     <div class="hero-wrapper">
         {{-- Title & Hero Text --}}
         <div class="float-text">
-            <h1>UPT SPF SMPN 14 BULUKUMBA</h1>
-            <h2>Membentuk Generasi Cerdas, Berkarakter, dan Berprestasi</h2>
+            <h1>{{ $settings->school_name }}</h1>
+            <h2>{{ $settings->hero_subtitle }}</h2>
             <p>
-                Sekolah menengah pertama yang berkomitmen memberikan pendidikan berkualitas dengan pendekatan 
-                modern dan lingkungan belajar yang inspiratif di Kabupaten Bulukumba.
+                {{ $settings->hero_description }}
             </p>
             <a href="{{ url('/profil') }}" class="btn-hero">
                 Kenali Lebih Dekat &raquo;
@@ -480,15 +570,15 @@
             <div class="carousel-inner">
                 <div class="carousel-item active position-relative">
                     <div class="overlay"></div>
-                    <img src="{{ asset('image/DSCF4229.JPG') }}" class="d-block w-100" alt="Kegiatan Sekolah">
+                    <img src="{{ $settings->hero_photo_1 ? asset('storage/' . str_replace('public/', '', $settings->hero_photo_1)) : asset('image/DSCF4229.JPG') }}" class="d-block w-100" alt="Kegiatan Sekolah">
                 </div>
                 <div class="carousel-item position-relative">
                     <div class="overlay"></div>
-                    <img src="{{ asset('image/DSCF4231.JPG') }}" class="d-block w-100" alt="Lingkungan Sekolah">
+                    <img src="{{ $settings->hero_photo_2 ? asset('storage/' . str_replace('public/', '', $settings->hero_photo_2)) : asset('image/DSCF4231.JPG') }}" class="d-block w-100" alt="Lingkungan Sekolah">
                 </div>
                 <div class="carousel-item position-relative">
                     <div class="overlay"></div>
-                    <img src="{{ asset('image/DSCF4258.JPG') }}" class="d-block w-100" alt="Prestasi Siswa">
+                    <img src="{{ $settings->hero_photo_3 ? asset('storage/' . str_replace('public/', '', $settings->hero_photo_3)) : asset('image/DSCF4258.JPG') }}" class="d-block w-100" alt="Prestasi Siswa">
                 </div>
             </div>
         </div>
@@ -509,21 +599,21 @@
                     <div class="text-light statistic-item shadow">
                         <div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div>
                         <h3>Tenaga Pendidik</h3>
-                        <h4 class="fw-bold">24</h4>
+                        <h4 class="fw-bold">{{ \App\Models\User::where('role', 'teacher')->count() ?: 24 }}</h4>
                     </div>
                 </div>
                 <div class="col-6 col-sm-4 col-md-3" data-aos="fade-up" data-aos-delay="100">
                     <div class="text-light statistic-item shadow">
                         <div class="stat-icon"><i class="fas fa-users-cog"></i></div>
                         <h3>Tenaga Kependidikan</h3>
-                        <h4 class="fw-bold">12</h4>
+                        <h4 class="fw-bold">{{ $settings->jumlah_staff ?? 12 }}</h4>
                     </div>
                 </div>
                 <div class="col-6 col-sm-4 col-md-3" data-aos="fade-up" data-aos-delay="200">
                     <div class="text-light statistic-item shadow">
                         <div class="stat-icon"><i class="fas fa-user-graduate"></i></div>
                         <h3>Peserta Didik</h3>
-                        <h4 class="fw-bold">380</h4>
+                        <h4 class="fw-bold">{{ $settings->jumlah_siswa ?? 380 }}</h4>
                     </div>
                 </div>
             </div>
@@ -579,15 +669,15 @@
                     <div class="principal-card">
                         <div class="principal-content">
                             <div class="d-flex align-items-center mb-3">
-                                <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(255,255,255,0.2) url('https://ui-avatars.com/api/?name=Kepala+Sekolah&background=random') center/cover; border: 3px solid rgba(255,255,255,0.4); margin-right: 1rem;"></div>
+                                <div style="width: 70px; height: 70px; border-radius: 50%; background: rgba(255,255,255,0.2) url('{{ $settings->kepsek_photo_path ? asset('storage/' . str_replace('public/', '', $settings->kepsek_photo_path)) : 'https://ui-avatars.com/api/?name=' . urlencode($settings->kepsek_name) . '&background=random' }}') center/cover; border: 3px solid rgba(255,255,255,0.4); margin-right: 1rem;"></div>
                                 <div>
-                                    <h5 class="mb-1 fw-bold">Drs. Syarifuddin</h5>
-                                    <p class="mb-0 text-white-50" style="font-size: 0.85rem;">Kepala UPT SPF SMPN 14 BULUKUMBA</p>
+                                    <h5 class="mb-1 fw-bold">{{ $settings->kepsek_name }}</h5>
+                                    <p class="mb-0 text-white-50" style="font-size: 0.85rem;">Kepala {{ $settings->school_name }}</p>
                                 </div>
-                            </div>
-                            <p style="font-size: 0.95rem; line-height: 1.7; font-style: italic; opacity: 0.9; margin-bottom: 0;">
-                                "Selamat datang di website resmi SMPN 14 BULUKUMBA. Kami berkomitmen untuk terus berinovasi dalam memberikan layanan pendidikan yang holistik, adaptif terhadap perkembangan zaman, serta senantiasa menanamkan nilai-nilai luhur profil pelajar Pancasila. Mari bersama wujudkan generasi cerdas, berkarakter unggul, dan berprestasi."
-                            </p>
+                             </div>
+                             <p style="font-size: 0.95rem; line-height: 1.7; font-style: italic; opacity: 0.9; margin-bottom: 0;">
+                                 "{{ $settings->kepsek_welcome_text }}"
+                             </p>
                         </div>
                     </div>
                 </div>
@@ -595,9 +685,9 @@
                 {{-- Tentang & Maps --}}
                 <div class="col-lg-7" data-aos="fade-left">
                     <div class="bg-white p-4 p-md-4 border rounded-4 h-100 shadow-sm d-flex flex-column">
-                        <h4 class="fw-bold mb-2" style="color: var(--color-primary);">Profil Singkat Sekolah</h4>
+                        <h4 class="fw-bold mb-2" style="color: var(--color-primary);">{{ $settings->about_title }}</h4>
                         <p style="font-size: 0.95rem; line-height: 1.7; color: var(--color-text-light); text-align: justify;" class="mb-4">
-                            Berlokasi di Kabupaten Bulukumba, Sulawesi Selatan, SMPN 14 BULUKUMBA hadir sebagai lembaga pendidikan terdepan yang berupaya mencetak generasi penerus bangsa yang siap bersaing global dengan mengedepankan kearifan lokal.
+                            {{ $settings->about_description }}
                         </p>
                         <div class="map-container flex-grow-1" style="min-height: 220px;">
                             <iframe 
@@ -630,22 +720,40 @@
                                 <div class="col-md-6 col-lg-3">
                                     <a href="{{ route('article.show', $article->slug) }}" class="text-decoration-none">
                                         <div class="card article-card">
-                                            @php $photos = $article->photo_path ? (is_array($article->photo_path) ? $article->photo_path : json_decode($article->photo_path, true)) : []; @endphp
-                                            @if(count($photos) > 0)
-                                                <img src="{{ asset('storage/' . $photos[0]) }}" class="card-img-top" alt="{{ $article->title }}">
-                                            @else
-                                                <div class="card-img-top d-flex align-items-center justify-content-center" style="height:180px;background:linear-gradient(135deg,#1e3a5f,#2563eb);">
-                                                    <i class="fas fa-newspaper" style="font-size:2.5rem;color:rgba(255,255,255,0.3);"></i>
+                                            <div class="article-img-container">
+                                                @php $photos = $article->photo_path ? (is_array($article->photo_path) ? $article->photo_path : json_decode($article->photo_path, true)) : []; @endphp
+                                                @if(count($photos) > 0)
+                                                    <img src="{{ asset('storage/' . str_replace('public/', '', $photos[0])) }}" class="card-img-top" alt="{{ $article->title }}">
+                                                @else
+                                                    <div class="card-img-top d-flex align-items-center justify-content-center" style="height:180px;background:linear-gradient(135deg,#1e3a5f,#2563eb);">
+                                                        <i class="fas fa-newspaper" style="font-size:2.5rem;color:rgba(255,255,255,0.3);"></i>
+                                                    </div>
+                                                @endif
+                                                
+                                                {{-- Floating Category Badge --}}
+                                                @if($article->organisasi)
+                                                    <span class="badge-cat-floating badge-cat-org">
+                                                        <i class="fas fa-users"></i> {{ $article->organisasi->nama }}
+                                                    </span>
+                                                @else
+                                                    <span class="badge-cat-floating badge-cat-umum">
+                                                        <i class="fas fa-globe"></i> Umum
+                                                    </span>
+                                                @endif
+
+                                                {{-- Floating Date Badge --}}
+                                                <span class="badge-date-floating">
+                                                    <i class="far fa-calendar-alt"></i> {{ $article->created_at->translatedFormat('d M Y') }}
+                                                </span>
+                                            </div>
+                                            <div class="card-body d-flex flex-column" style="min-height: 135px; padding: 1.25rem;">
+                                                <div class="article-reading-time mb-2">
+                                                    <i class="far fa-clock"></i> {{ max(1, ceil(str_word_count(strip_tags($article->description)) / 200)) }} Menit Baca
                                                 </div>
-                                            @endif
-                                            <div class="card-body">
-                                                <p class="article-meta mb-2">
-                                                    {{ $article->user->name ?? 'Admin' }}<br>
-                                                    {{ $article->created_at->translatedFormat('d F Y') }}
-                                                </p>
-                                                <hr class="my-2" style="opacity: 0.1">
-                                                <h5 class="card-title">{{ Str::limit($article->title, 50) }}</h5>
-                                                <p class="card-text">{{ Str::limit(strip_tags($article->description), 80) }}</p>
+                                                <h5 class="card-title mb-3">{{ Str::limit($article->title, 55) }}</h5>
+                                                <div class="article-readmore" style="margin-top: auto;">
+                                                    Selengkapnya <i class="fas fa-arrow-right"></i>
+                                                </div>
                                             </div>
                                         </div>
                                     </a>
@@ -665,22 +773,40 @@
                                             <div class="col-md-6 col-lg-3">
                                                 <a href="{{ route('article.show', $article->slug) }}" class="text-decoration-none">
                                                     <div class="card article-card">
-                                                        @php $photos = $article->photo_path ? (is_array($article->photo_path) ? $article->photo_path : json_decode($article->photo_path, true)) : []; @endphp
-                                                        @if(count($photos) > 0)
-                                                            <img src="{{ asset('storage/' . $photos[0]) }}" class="card-img-top" alt="{{ $article->title }}">
-                                                        @else
-                                                            <div class="card-img-top d-flex align-items-center justify-content-center" style="height:180px;background:linear-gradient(135deg,#1e3a5f,#2563eb);">
-                                                                <i class="fas fa-newspaper" style="font-size:2.5rem;color:rgba(255,255,255,0.3);"></i>
+                                                        <div class="article-img-container">
+                                                            @php $photos = $article->photo_path ? (is_array($article->photo_path) ? $article->photo_path : json_decode($article->photo_path, true)) : []; @endphp
+                                                            @if(count($photos) > 0)
+                                                                <img src="{{ asset('storage/' . str_replace('public/', '', $photos[0])) }}" class="card-img-top" alt="{{ $article->title }}">
+                                                            @else
+                                                                <div class="card-img-top d-flex align-items-center justify-content-center" style="height:180px;background:linear-gradient(135deg,#1e3a5f,#2563eb);">
+                                                                    <i class="fas fa-newspaper" style="font-size:2.5rem;color:rgba(255,255,255,0.3);"></i>
+                                                                </div>
+                                                            @endif
+                                                            
+                                                            {{-- Floating Category Badge --}}
+                                                            @if($article->organisasi)
+                                                                <span class="badge-cat-floating badge-cat-org">
+                                                                    <i class="fas fa-users"></i> {{ $article->organisasi->nama }}
+                                                                </span>
+                                                            @else
+                                                                <span class="badge-cat-floating badge-cat-umum">
+                                                                    <i class="fas fa-globe"></i> Umum
+                                                                </span>
+                                                            @endif
+
+                                                            {{-- Floating Date Badge --}}
+                                                            <span class="badge-date-floating">
+                                                                <i class="far fa-calendar-alt"></i> {{ $article->created_at->translatedFormat('d M Y') }}
+                                                            </span>
+                                                        </div>
+                                                        <div class="card-body d-flex flex-column" style="min-height: 135px; padding: 1.25rem;">
+                                                            <div class="article-reading-time mb-2">
+                                                                <i class="far fa-clock"></i> {{ max(1, ceil(str_word_count(strip_tags($article->description)) / 200)) }} Menit Baca
                                                             </div>
-                                                        @endif
-                                                        <div class="card-body">
-                                                            <p class="article-meta mb-2">
-                                                                {{ $article->user->name ?? 'Admin' }}<br>
-                                                                {{ $article->created_at->translatedFormat('d F Y') }}
-                                                            </p>
-                                                            <hr class="my-2" style="opacity: 0.1">
-                                                            <h5 class="card-title">{{ Str::limit($article->title, 50) }}</h5>
-                                                            <p class="card-text">{{ Str::limit(strip_tags($article->description), 80) }}</p>
+                                                            <h5 class="card-title mb-3">{{ Str::limit($article->title, 55) }}</h5>
+                                                            <div class="article-readmore" style="margin-top: auto;">
+                                                                Selengkapnya <i class="fas fa-arrow-right"></i>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </a>
@@ -729,7 +855,7 @@
                             <a href="{{ $ad->link ?? '#' }}" target="_blank" class="text-decoration-none">
                                 <div class="card ads-card">
                                     @if($ad->photo_path)
-                                        <img src="{{ asset('storage/' . $ad->photo_path) }}" class="card-img-top" alt="{{ $ad->title }}">
+                                        <img src="{{ asset('storage/' . str_replace('public/', '', $ad->photo_path)) }}" class="card-img-top" alt="{{ $ad->title }}">
                                     @else
                                         <div class="card-img-top d-flex align-items-center justify-content-center" style="height:200px;background:linear-gradient(135deg,#1e3a5f,#0d9488);">
                                             <i class="fas fa-bullhorn" style="font-size:3rem;color:rgba(255,255,255,0.25);"></i>

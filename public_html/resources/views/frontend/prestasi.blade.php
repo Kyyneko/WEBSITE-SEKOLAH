@@ -315,81 +315,99 @@
     <div class="section-content">
         <div class="container">
             <div class="filter-tabs" data-aos="fade-up">
-                <button class="filter-tab active">Semua</button>
-                <button class="filter-tab">Akademik</button>
-                <button class="filter-tab">Olahraga</button>
-                <button class="filter-tab">Seni</button>
-                <button class="filter-tab">Lainnya</button>
+                <button class="filter-tab active" data-category="all">Semua</button>
+                <button class="filter-tab" data-category="Akademik">Akademik</button>
+                <button class="filter-tab" data-category="Olahraga">Olahraga</button>
+                <button class="filter-tab" data-category="Seni">Seni</button>
+                <button class="filter-tab" data-category="Lainnya">Lainnya</button>
             </div>
 
             <div class="achievements-grid">
                 @php
-                    $achievements = [
-                        [
-                            'title' => 'Juara 2 Lomba Cerdas Cermat Kabupaten',
-                            'category' => 'Akademik',
-                            'medal' => 'silver',
-                            'student' => 'Tim LCC SMPN 14',
-                            'date' => 'Oktober 2024',
-                            'location' => 'Kab. Bulukumba',
-                            'image' => 'https://placehold.co/600x400/1e3a5f/ffffff?text=LCC',
-                            'description' => 'Tim cerdas cermat berhasil meraih juara 2 dalam lomba tingkat kabupaten mengalahkan puluhan tim dari sekolah lain.'
-                        ],
-                        [
-                            'title' => 'Juara 1 Lomba Lari 100m Tingkat Kecamatan',
-                            'category' => 'Olahraga',
-                            'medal' => 'gold',
-                            'student' => 'Ahmad Fauzan',
-                            'date' => 'Agustus 2024',
-                            'location' => 'Kec. Bulukumpa',
-                            'image' => 'https://placehold.co/600x400/0d9488/ffffff?text=ATLETIK',
-                            'description' => 'Siswa kelas IX meraih medali emas cabang lari 100 meter dalam perlombaan peringatan HUT RI ke-79.'
-                        ],
-                        [
-                            'title' => 'Juara 3 Festival Seni Budaya Daerah',
-                            'category' => 'Seni',
-                            'medal' => 'bronze',
-                            'student' => 'Tim Seni SMPN 14',
-                            'date' => 'November 2024',
-                            'location' => 'Kab. Bulukumba',
-                            'image' => 'https://placehold.co/600x400/f59e0b/ffffff?text=SENI',
-                            'description' => 'Penampilan tari tradisional dari tim seni berhasil meraih juara 3 dalam Festival Seni Budaya tingkat kabupaten.'
-                        ],
-                        [
-                            'title' => 'Juara 1 Olimpiade Matematika Kecamatan',
-                            'category' => 'Akademik',
-                            'medal' => 'gold',
-                            'student' => 'Nurhalisa',
-                            'date' => 'September 2024',
-                            'location' => 'Kec. Bulukumpa',
-                            'image' => 'https://placehold.co/600x400/2563eb/ffffff?text=OLIMPIADE',
-                            'description' => 'Siswi kelas VIII meraih medali emas dalam Olimpiade Matematika tingkat kecamatan dan mewakili ke tingkat kabupaten.'
-                        ],
-                        [
-                            'title' => 'Juara 1 Turnamen Bola Voli Antar SMP',
-                            'category' => 'Olahraga',
-                            'medal' => 'gold',
-                            'student' => 'Tim Voli Putra',
-                            'date' => 'Juli 2024',
-                            'location' => 'Kec. Bulukumpa',
-                            'image' => 'https://placehold.co/600x400/1e3a5f/ffffff?text=VOLI',
-                            'description' => 'Tim bola voli putra meraih juara 1 dalam turnamen antar SMP se-kecamatan Bulukumpa.'
-                        ],
-                        [
-                            'title' => 'Juara 2 Lomba Pidato Bahasa Indonesia',
-                            'category' => 'Seni',
-                            'medal' => 'silver',
-                            'student' => 'Siti Aisyah',
-                            'date' => 'Mei 2024',
-                            'location' => 'Kab. Bulukumba',
-                            'image' => 'https://placehold.co/600x400/0d9488/ffffff?text=PIDATO',
-                            'description' => 'Siswi kelas VIII meraih juara 2 dalam lomba pidato Bahasa Indonesia tingkat kabupaten dengan tema pendidikan karakter.'
-                        ]
-                    ];
+                    $hasDbAchievements = isset($achievements) && $achievements->count() > 0;
+                    $displayAchievements = [];
+                    
+                    if ($hasDbAchievements) {
+                        foreach ($achievements as $achievement) {
+                            $displayAchievements[] = [
+                                'title' => $achievement->title,
+                                'category' => $achievement->category,
+                                'medal' => $achievement->medal,
+                                'student' => $achievement->student,
+                                'date' => $achievement->date,
+                                'location' => $achievement->location,
+                                'image' => $achievement->photo_path ? asset('storage/' . str_replace('public/', '', $achievement->photo_path)) : 'https://placehold.co/600x400/1e3a5f/ffffff?text=' . urlencode($achievement->title),
+                                'description' => $achievement->description,
+                            ];
+                        }
+                    } else {
+                        $displayAchievements = [
+                            [
+                                'title' => 'Juara 2 Lomba Cerdas Cermat Kabupaten',
+                                'category' => 'Akademik',
+                                'medal' => 'silver',
+                                'student' => 'Tim LCC SMPN 14',
+                                'date' => 'Oktober 2024',
+                                'location' => 'Kab. Bulukumba',
+                                'image' => 'https://placehold.co/600x400/1e3a5f/ffffff?text=LCC',
+                                'description' => 'Tim cerdas cermat berhasil meraih juara 2 dalam lomba tingkat kabupaten mengalahkan puluhan tim dari sekolah lain.'
+                            ],
+                            [
+                                'title' => 'Juara 1 Lomba Lari 100m Tingkat Kecamatan',
+                                'category' => 'Olahraga',
+                                'medal' => 'gold',
+                                'student' => 'Ahmad Fauzan',
+                                'date' => 'Agustus 2024',
+                                'location' => 'Kec. Bulukumpa',
+                                'image' => 'https://placehold.co/600x400/0d9488/ffffff?text=ATLETIK',
+                                'description' => 'Siswa kelas IX meraih medali emas cabang lari 100 meter dalam perlombaan peringatan HUT RI ke-79.'
+                            ],
+                            [
+                                'title' => 'Juara 3 Festival Seni Budaya Daerah',
+                                'category' => 'Seni',
+                                'medal' => 'bronze',
+                                'student' => 'Tim Seni SMPN 14',
+                                'date' => 'November 2024',
+                                'location' => 'Kab. Bulukumba',
+                                'image' => 'https://placehold.co/600x400/f59e0b/ffffff?text=SENI',
+                                'description' => 'Penampilan tari tradisional dari tim seni berhasil meraih juara 3 dalam Festival Seni Budaya tingkat kabupaten.'
+                            ],
+                            [
+                                'title' => 'Juara 1 Olimpiade Matematika Kecamatan',
+                                'category' => 'Akademik',
+                                'medal' => 'gold',
+                                'student' => 'Nurhalisa',
+                                'date' => 'September 2024',
+                                'location' => 'Kec. Bulukumpa',
+                                'image' => 'https://placehold.co/600x400/2563eb/ffffff?text=OLIMPIADE',
+                                'description' => 'Siswi kelas VIII meraih medali emas dalam Olimpiade Matematika tingkat kecamatan dan mewakili ke tingkat kabupaten.'
+                            ],
+                            [
+                                'title' => 'Juara 1 Turnamen Bola Voli Antar SMP',
+                                'category' => 'Olahraga',
+                                'medal' => 'gold',
+                                'student' => 'Tim Voli Putra',
+                                'date' => 'Juli 2024',
+                                'location' => 'Kec. Bulukumpa',
+                                'image' => 'https://placehold.co/600x400/1e3a5f/ffffff?text=VOLI',
+                                'description' => 'Tim bola voli putra meraih juara 1 dalam turnamen antar SMP se-kecamatan Bulukumpa.'
+                            ],
+                            [
+                                'title' => 'Juara 2 Lomba Pidato Bahasa Indonesia',
+                                'category' => 'Seni',
+                                'medal' => 'silver',
+                                'student' => 'Siti Aisyah',
+                                'date' => 'Mei 2024',
+                                'location' => 'Kab. Bulukumba',
+                                'image' => 'https://placehold.co/600x400/0d9488/ffffff?text=PIDATO',
+                                'description' => 'Siswi kelas VIII meraih juara 2 dalam lomba pidato Bahasa Indonesia tingkat kabupaten dengan tema pendidikan karakter.'
+                            ]
+                        ];
+                    }
                 @endphp
 
-                @foreach ($achievements as $index => $achievement)
-                    <div class="achievement-card" data-aos="fade-up" data-aos-delay="{{ min($index * 80, 400) }}">
+                @foreach ($displayAchievements as $index => $achievement)
+                    <div class="achievement-card" data-category="{{ $achievement['category'] }}" data-aos="fade-up" data-aos-delay="{{ min($index * 80, 400) }}">
                         <div class="achievement-card-image">
                             <img src="{{ $achievement['image'] }}" alt="{{ $achievement['title'] }}">
                             <div class="medal-badge medal-{{ $achievement['medal'] }}">
@@ -459,3 +477,32 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabs = document.querySelectorAll('.filter-tab');
+        const cards = document.querySelectorAll('.achievement-card');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function () {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                this.classList.add('active');
+
+                const category = this.getAttribute('data-category');
+
+                cards.forEach(card => {
+                    const cardCategory = card.getAttribute('data-category');
+                    if (category === 'all' || cardCategory === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+</script>
+@endpush

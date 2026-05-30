@@ -1,4 +1,4 @@
-﻿<div class="header">
+<div class="header">
     <nav class="navbar navbar-expand-lg py-1 fixed-top navbar-custom">
         <div class="container-fluid">
             <div class="navbar-header d-flex align-items-center">
@@ -70,13 +70,14 @@
                     </li>
 
                     <li class="nav-item px-2 dropdown">
-                        <a class="nav-link dropdown-toggle {{ Str::startsWith(request()->path(), ['article', 'ekstrakurikuler', 'fasilitas', 'prestasi']) ? 'active' : '' }}"
+                        <a class="nav-link dropdown-toggle {{ Str::startsWith(request()->path(), ['article', 'ekstrakurikuler', 'fasilitas', 'prestasi', 'galeri']) ? 'active' : '' }}"
                            href="#" id="dropdownLainnya" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
                             Lainnya
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownLainnya">
                             <li><a class="dropdown-item text-white" href="{{ url('/article') }}">Artikel</a></li>
+                            <li><a class="dropdown-item text-white" href="{{ url('/galeri') }}">Galeri Foto</a></li>
                             <li><a class="dropdown-item text-white" href="{{ url('/ekstrakurikuler') }}">Organisasi & Ekskul</a></li>
                             <li><a class="dropdown-item text-white" href="{{ url('/fasilitas') }}">Fasilitas</a></li>
                             <li><a class="dropdown-item text-white" href="{{ url('/prestasi') }}">Prestasi</a></li>

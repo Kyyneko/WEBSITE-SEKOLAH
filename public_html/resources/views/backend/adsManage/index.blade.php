@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl leading-tight">{{ __('Kelola Iklan') }}</h2>
+        <h2 class="font-semibold text-xl leading-tight">{{ __('Kelola Pengumuman') }}</h2>
     </x-slot>
 
     <div class="py-6">
@@ -8,15 +8,15 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-4">
                 <div class="p-4">
                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h5 class="mgmt-title mb-0"><i class="fas fa-bullhorn me-2"></i>Daftar Iklan</h5>
+                        <h5 class="mgmt-title mb-0"><i class="fas fa-bullhorn me-2"></i>Daftar Pengumuman</h5>
                         <a href="{{ route('ads.create') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus me-1"></i> Tambah Iklan
+                            <i class="fas fa-plus me-1"></i> Tambah Pengumuman
                         </a>
                     </div>
                     <div class="d-flex gap-3">
                         <div class="mgmt-stat">
                             <div class="mgmt-stat-icon" style="background:rgba(239,68,68,0.08);color:#dc2626;"><i class="fas fa-bullhorn"></i></div>
-                            <div><div class="mgmt-stat-val">{{ $ads->count() }}</div><div class="mgmt-stat-lbl">Total Iklan</div></div>
+                            <div><div class="mgmt-stat-val">{{ $ads->count() }}</div><div class="mgmt-stat-lbl">Total Pengumuman</div></div>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                                         </div>
                                         <div class="d-flex gap-1 mt-auto pt-2">
                                             <a href="{{ route('ads.edit', $ad->id) }}" class="btn btn-sm btn-warning"><i class="fas fa-edit me-1"></i>Edit</a>
-                                            <form action="{{ route('ads.destroy', $ad->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus iklan ini?')">
+                                            <form action="{{ route('ads.destroy', $ad->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus pengumuman ini?')">
                                                 @csrf @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash me-1"></i>Hapus</button>
                                             </form>
@@ -79,8 +79,8 @@
                         <div class="text-center py-5">
                             <div class="mgmt-empty">
                                 <i class="fas fa-bullhorn"></i>
-                                <p>Belum ada iklan</p>
-                                <a href="{{ route('ads.create') }}" class="btn btn-primary btn-sm mt-2"><i class="fas fa-plus me-1"></i> Tambah Iklan</a>
+                                <p>Belum ada pengumuman</p>
+                                <a href="{{ route('ads.create') }}" class="btn btn-primary btn-sm mt-2"><i class="fas fa-plus me-1"></i> Tambah Pengumuman</a>
                             </div>
                         </div>
                     @endforelse

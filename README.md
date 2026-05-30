@@ -1,323 +1,168 @@
-# Website Sekolah 
+# Website Resmi UPT SPF SMPN 14 BULUKUMBA 🏫
 
 [![Laravel](https://img.shields.io/badge/Laravel-10.x-FF2D20?style=flat&logo=laravel&logoColor=white)](https://laravel.com/)
-[![PHP](https://img.shields.io/badge/PHP-^8.1-777BB4?style=flat&logo=php&logoColor=white)](https://www.php.net/)
-[![MySQL](https://img.shields.io/badge/MySQL-Database-4479A1?style=flat&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![PHP](https://img.shields.io/badge/PHP-%5E8.1-777BB4?style=flat&logo=php&logoColor=white)](https://www.php.net/)
+[![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?style=flat&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![Vite](https://img.shields.io/badge/Vite-Bundler-646CFF?style=flat&logo=vite&logoColor=white)](https://vitejs.dev/)
 
-Portal informasi resmi sekolah berbasis web, dengan dashboard admin dan guru untuk mengelola konten, artikel, data guru, dokumen perangkat pembelajaran, hingga informasi ekstrakurikuler.
+Portal informasi dan sistem manajemen resmi sekolah berbasis web terpadu. Sistem ini dilengkapi dengan dashboard administrasi premium bagi **Admin** dan **Guru** untuk mengelola konten, artikel, data warga sekolah (guru & staf), dokumen perangkat pembelajaran, data prestasi, fasilitas, hingga organisasi kesiswaan secara dinamis.
 
 ---
 
-## ✨ Fitur Utama
+## ✨ Fitur Utama & Keunggulan
 
-### 🌐 Portal Publik (Frontend)
+### 🌐 Portal Publik (Frontend Dinamis & Estetis)
 
-#### **Beranda / Homepage**
-- Hero section dan carousel gambar
-- Statistik singkat dan deskripsi sekolah
-- Section artikel dan iklan/banner sekolah
-
-#### **Profil Sekolah**
-- Informasi singkat tentang sekolah dan alamat
-
-#### **Fasilitas**
-- Halaman khusus untuk menampilkan fasilitas sekolah
-
-#### **Prestasi**
-- Halaman untuk menampilkan prestasi siswa/sekolah
-
-#### **Artikel & Berita**
-- Listing semua artikel
-- Detail artikel per slug (`/article/{slug}`)
-
-#### **Ekstrakurikuler & Organisasi**
-- Daftar organisasi/ekskul yang dikelola dari backend
-
-#### **Warga Sekolah**
-- Data guru (`/wargaSekolah/dataGuru`)
-- Data staff (`/wargaSekolah/dataStaff`)
-- Alumni (`/wargaSekolah/alumni`)
-
-> **Catatan:** Beberapa view menggunakan data dummy (lorem ipsum & placeholder) untuk keperluan desain UI. Data tersebut dapat diganti dengan data asli dari database.
+* **Beranda / Homepage**:
+  * Slider Hero Carousel dinamis yang fotonya dapat dikonfigurasi langsung dari dashboard admin.
+  * Teks dinamis identitas sekolah, visi-misi, dan sambutan kepala sekolah.
+  * Statistik terintegrasi database untuk *Jumlah Siswa* dan *Jumlah Guru/Staf*.
+  * Grid Artikel Terbaru dengan estimasi waktu baca dinamis (`⏱️ X Menit Baca`), floating glassmorphic category badges, dan tombol read-more interaktif.
+  * Banner slide **Pengumuman Sekolah** dinamis.
+* **Profil Sekolah (`/profil`)**:
+  * Menampilkan deskripsi sekolah, visi-misi, dan identitas fisik.
+  * **Mantan Kepala Sekolah**: Menampilkan deretan foto dan periode khidmat mantan kepala sekolah secara dinamis dari database, lengkap dengan avatar siluet sebagai fallback otomatis yang elegan.
+* **Fasilitas Sekolah (`/fasilitas`)**:
+  * Menampilkan daftar prasarana sekolah secara dinamis (Ruang Kelas, Perpustakaan, Lapangan, dll.).
+  * **Statistik Dinamis Real-Time**: Modul pencatat otomatis di bagian bawah menghitung jumlah Ruang Kelas, Lab, Perpustakaan, dan Fasilitas Pendukung langsung dari database secara real-time.
+* **Prestasi Sekolah (`/prestasi`)**:
+  * Daftar medali (🥇 Emas, 🥈 Perak, 🥉 Perunggu) dan pencapaian membanggakan siswa.
+  * **Interactive JS Category Filter**: Penyaringan kartu prestasi instan (Semua, Akademik, Olahraga, Seni, Lainnya) dengan transisi animasi CSS yang halus tanpa memuat ulang halaman.
+* **Artikel & Berita (`/article`)**:
+  * Halaman listing dinamis 100% dari database dengan visual grid penyesuaian tinggi otomatis.
+  * Detail artikel (`/article/{slug}`) memuat deskripsi lengkap (HTML aman), nama penulis, tanggal terbit, estimasi baca, dan **Interactive Fullscreen Lightbox Carousel** untuk menjelajah galeri foto artikel menggunakan tombol keyboard (`←` / `→` / `ESC`) atau panah navigasi.
+* **Ekstrakurikuler & Organisasi (`/ekstrakurikuler`)**:
+  * 100% dinamis terintegrasi database (OSIS, Pramuka, PMR, Paskibra, dll.) dengan ekstraksi cover image pertama dari galeri foto organisasi.
+* **Warga Sekolah (Guru & Staf)**:
+  * **Data Guru (`/wargaSekolah/dataGuru`)**: Menampilkan foto profil terkompresi, nama lengkap, dan mata pelajaran yang diampu langsung dari database.
+  * **Data Staf (`/wargaSekolah/dataStaff`)**: Menampilkan Tenaga Kependidikan dengan pengelompokan otomatis cerdas (Administrasi, Teknis, Pendukung) berdasarkan kata kunci jabatan mereka.
 
 ---
 
-### 🎛️ Dashboard Admin & Guru (Backend)
+### 🎛️ Dashboard Admin & Guru (Backend CRUD Premium)
 
-Akses dashboard memerlukan login & verifikasi email.
+Dashboard administrasi dirancang dengan visual konsisten yang premium (.dash-header-card gradien biru tua mewah) serta dioptimalkan untuk performa tinggi.
 
-#### **Manajemen Pengguna**
-- Role utama: **Admin** dan **Teacher (Guru)**
-- Fitur Admin:
-  - Melihat daftar pengguna (guru & admin)
-  - Menambah pengguna baru dengan pemilihan mata pelajaran
-  - Edit data pengguna (nama, email, role, mata pelajaran)
-  - Reset / ubah password
-  - Hapus pengguna
-
-#### **Manajemen Artikel**
-- CRUD Artikel (Create, Read, Update, Delete)
-- Slug unik otomatis dari judul
-- Upload **multi-foto** per artikel (disimpan sebagai JSON path)
-- Preview foto utama di tabel artikel
-- Pembatasan berdasarkan role:
-  - Admin: melihat semua artikel
-  - Guru: hanya melihat artikel yang ia buat
-
-#### **Manajemen Mata Pelajaran (Subjects)**
-- Admin dapat mengelola daftar mata pelajaran
-- Guru dihubungkan ke satu mata pelajaran via `subject_id`
-
-#### **Manajemen Organisasi / Ekstrakurikuler**
-- Admin dapat:
-  - Menambah organisasi/ekskul (nama, deskripsi, foto)
-  - Mengubah nama, deskripsi, dan foto
-  - Menghapus organisasi (bersama file fotonya)
-
-#### **Manajemen Iklan / Ads**
-- Admin dapat mengelola banner/iklan untuk ditampilkan di halaman depan
-
-#### **Manajemen Dokumen (Perangkat Pembelajaran)**
-Menu **Perangkat** (`/perangkat`) untuk mengelola dokumen seperti:
-- RPP (Rencana Pelaksanaan Pembelajaran)
-- Silabus
-- Modul
-- Dokumen pendukung lainnya
-
-**Fitur:**
-- Upload file (`pdf`, `doc`, `docx`, `xlsx`) dengan batas ukuran tertentu
-- Dokumen disimpan di `storage/app/public/dokumen`
-- Download dokumen langsung dari sistem
-- Hapus dokumen (termasuk file fisiknya)
-- User non-admin hanya dapat melihat dokumen tertentu sesuai role/user
+* **Sistem Keamanan & Otorisasi**:
+  * Pembatasan hak akses ketat berbasis peran (**Admin** & **Guru/Teacher**).
+  * Sistem login / logout / reset password terintegrasi (Laravel Breeze).
+* **Data Warga Sekolah (Users & Staff)**:
+  * CRUD Guru & Staf dengan jabatan kustom, penugasan mata pelajaran, dan organisasi diampu.
+  * Logika form kondisional: input mata pelajaran/organisasi otomatis disembunyikan jika jabatan adalah staf pendukung.
+* **Manajemen Pengumuman (Announcements)**:
+  * Pengganti modul "Iklan" konvensional. Digunakan untuk mengunggah pengumuman penting sekolah berupa banner gambar yang langsung tayang di slide beranda.
+* **Manajemen Artikel & Berita**:
+  * CRUD artikel dengan slug unik otomatis, dukungan multi-photo gallery.
+  * **Enforced Security**: Guru hanya diperbolehkan menulis artikel ber-kategori organisasi yang diampunya (dropdown kategori terkunci otomatis dengan ikon gembok). Admin memiliki akses bebas memilih kategori apapun.
+* **Manajemen Fasilitas & Prestasi**:
+  * CRUD Fasilitas: Fitur penunjang diinput sebagai teks comma-separated di frontend yang otomatis dikonversi menjadi array JSON di database.
+  * CRUD Prestasi: Pilihan tingkat medali (Emas, Perak, Perunggu) dengan lencana visual yang serasi.
+* **Manajemen Organisasi & Ekskul**:
+  * CRUD data ekstrakurikuler sekolah lengkap dengan unggah banyak foto dokumentasi kegiatan.
+* **Manajemen Dokumen (Perangkat Ajar)**:
+  * Guru dapat mengunggah berkas RPP, Silabus, dan Modul (`.pdf`, `.docx`, `.xlsx`).
+  * Admin dapat menyetujui (*approve*) atau menolak (*reject*) berkas guru sebelum diterbitkan.
+* **Pengaturan Website & Foto Dinamis**:
+  * Tab khusus untuk mengonfigurasi Foto Website: mengganti slider hero beranda dan banner profil secara dinamis.
+  * Mengubah teks visi-misi, sejarah sekolah, sambutan kepsek, NPSN, akreditasi, hingga data statistik murid/staf secara live.
 
 ---
 
-### 🔐 Autentikasi & Profil
-
-- Sistem login / register standar Laravel (Breeze)
-- **Middleware:**
-  - `auth` – memastikan user login
-  - `verified` – memastikan email sudah terverifikasi untuk akses dashboard
-  - `role:admin` – pembatasan fitur admin
-- **Halaman Profil:**
-  - Edit informasi dasar user
-  - Ubah password
-  - Hapus akun (opsional)
+### 📷 Fitur Pendukung: Image Auto-Compression & HEIC Support
+Sistem dilengkapi dengan helper [ImageOptimizer.php](file:///e:/Project/WEBSITE-SEKOLAH/public_html/app/Helpers/ImageOptimizer.php) berbasis GD PHP untuk performa loading maksimal:
+* **Kompresi Otomatis**: Semua foto yang diunggah (artikel, profil guru, fasilitas, prestasi, pengumuman) otomatis dipotong/diresize jika lebarnya melebihi `1200px` dan dikompresi ke format JPG universal dengan kualitas `75%`. Ukuran berkas tereduksi secara ekstrim (misal 5MB menjadi 150KB) tanpa penurunan ketajaman visual.
+* **Dukungan Format HEIC/HEIF**: Mendukung penuh unggahan berkas foto mentah langsung dari kamera iPhone/iPad, secara otomatis dikonversi menjadi JPEG terkompresi di server (memerlukan PHP extension Imagick).
+* **Safe Cleanup**: File foto lama otomatis dihapus dari penyimpanan lokal disk storage ketika data diubah (*update*) atau dihapus (*delete*).
 
 ---
 
 ## 🧱 Teknologi yang Digunakan
 
-### Backend
-- PHP **8.1+**
-- **Laravel 10.x**
-- Eloquent ORM
-- Middleware auth & verifikasi email
-
-### Frontend
-- Laravel Blade
-- Vite sebagai bundler
-- Tailwind CSS
-- Alpine.js
-- Bootstrap (sebagian di landing page)
-
-### Database
-- MySQL
-
-### Storage
-- Disk `local` & `public` (default Laravel)
-- Disk `google` sudah disiapkan untuk integrasi Google Drive via package `yaza/laravel-google-drive-storage` (opsional)
-
----
-
-## 📂 Struktur Proyek
-
-```
-WEBSITE-SEKOLAH/
-└── public_html/
-    ├── app/
-    │   ├── Http/
-    │   │   └── Controllers/
-    │   └── Models/
-    ├── config/
-    ├── database/
-    │   ├── migrations/
-    │   └── seeders/
-    ├── public/
-    ├── resources/
-    │   └── views/
-    │       ├── frontend/
-    │       └── backend/
-    ├── routes/
-    │   └── web.php
-    ├── storage/
-    ├── composer.json
-    └── package.json
-```
-
-> **Catatan:** Project Laravel berada di dalam folder `public_html`, sehingga semua perintah (composer, artisan, npm, dll.) dijalankan dari direktori tersebut.
+* **Backend**: PHP >= 8.1, **Laravel 10.x** (Eloquent, Middleware, Auth Guard)
+* **Database**: SQLite (default aktif untuk performa cepat di lokal), MySQL (siap migrasi)
+* **Frontend**: Laravel Blade, Vite Bundler, Vanilla CSS (Premium design tokens), Bootstrap 5 (Responsive utilities), AOS (Animate on Scroll), Alpine.js
+* **Storage**: Disk `public` lokal (dengan folder terhubung ke `public/storage`), disk `google` (siap pakai)
 
 ---
 
 ## 🚀 Cara Menjalankan di Lokal
 
-### 1. Clone Repository
-
+### 1. Clone Repository & Masuk Folder Project
 ```bash
 git clone https://github.com/Kyyneko/WEBSITE-SEKOLAH.git
 cd WEBSITE-SEKOLAH/public_html
 ```
 
-### 2. Install Dependency PHP
-
-Pastikan sudah terpasang:
-- PHP 8.1+
-- Composer
-- MySQL
-
-Lalu jalankan:
-
+### 2. Install Dependency PHP & Frontend
 ```bash
+# Install package composer
 composer install
+
+# Install package npm & build assets
+npm install
+npm run build
 ```
 
-### 3. Konfigurasi Environment
-
-Salin file `.env`:
-
+### 3. Konfigurasi Environment (`.env`)
+Salin file `.env.example` menjadi `.env`:
 ```bash
 cp .env.example .env
 ```
-
-Edit `.env` dan sesuaikan bagian database:
-
-```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=website_sekolah
-DB_USERNAME=root
-DB_PASSWORD=your_password
+Secara default, database diset menggunakan SQLite untuk kemudahan dijalankan langsung. Buat berkas database SQLite kosong:
+```bash
+# Di Windows PowerShell:
+New-Item -ItemType File -Path database/database.sqlite
 ```
+Pastikan `.env` Anda memuat konfigurasi koneksi SQLite:
+```env
+DB_CONNECTION=sqlite
+```
+*(Jika ingin beralih ke MySQL, silakan sesuaikan variabel `DB_HOST`, `DB_PORT`, `DB_DATABASE`, dll. pada berkas `.env`)*.
 
 Generate application key:
-
 ```bash
 php artisan key:generate
 ```
 
-### 4. Migrasi Database & Seed (Opsional)
-
-Jalankan migrasi:
-
+### 4. Jalankan Migrasi Database & Seeding Foto
+Terapkan struktur tabel dan populate data awal sekolah lengkap dengan foto-foto asli ter-seed:
 ```bash
-php artisan migrate
+php artisan migrate:fresh --seed
 ```
 
-Jika sudah disiapkan seeder (misalnya user admin, mata pelajaran, dll.):
-
-```bash
-php artisan db:seed
-```
-
-### 5. Storage Link
-
-Agar file upload (artikel, perangkat pembelajaran, dll.) bisa diakses publik:
-
+### 5. Hubungkan Link Folder Storage
+Kaitkan berkas storage agar semua gambar unggahan dapat diakses secara publik oleh browser:
 ```bash
 php artisan storage:link
 ```
 
-### 6. Install Dependency Frontend
-
-Pastikan Node.js & npm sudah terinstall.
-
-```bash
-npm install
-npm run dev   # untuk mode development
-# atau
-npm run build # untuk production
-```
-
-### 7. Jalankan Server
-
+### 6. Jalankan Server Lokal
 ```bash
 php artisan serve
 ```
-
-Akses aplikasi di: **http://127.0.0.1:8000**
-
----
-
-## ☁️ Konfigurasi Google Drive (Opsional)
-
-Project ini sudah menambahkan disk `google` di `config/filesystems.php`. Untuk mengaktifkan penyimpanan di Google Drive:
-
-1. Tambahkan variabel berikut di `.env`:
-
-```env
-FILESYSTEM_DISK=google
-
-GOOGLE_DRIVE_CLIENT_ID=your_client_id
-GOOGLE_DRIVE_CLIENT_SECRET=your_client_secret
-GOOGLE_DRIVE_REFRESH_TOKEN=your_refresh_token
-GOOGLE_DRIVE_FOLDER=folder_id_di_google_drive
-```
-
-2. Sesuaikan bagian kode upload/Storage agar menggunakan disk `google` jika ingin menyimpan langsung ke Google Drive.
+Buka peramban Anda di **http://127.0.0.1:8000** dan masuk ke menu dashboard admin menggunakan akun superuser bawaan.
 
 ---
 
-## 🔐 Role & Hak Akses
+## 🔐 Hak Akses Peran (Roles)
 
-### Admin
-- ✅ Kelola user (admin & guru)
-- ✅ Kelola mata pelajaran
-- ✅ Kelola organisasi/ekstrakurikuler
-- ✅ Kelola artikel & ads
-- ✅ Akses semua dokumen perangkat pembelajaran
+### Admin (Administrator)
+* Kelola Warga Sekolah (Guru & Staf) & Jabatan.
+* Kelola Mata Pelajaran.
+* Kelola Fasilitas, Prestasi, Organisasi/Ekskul, Galeri Foto, dan Pengumuman.
+* Kelola Artikel & Berita (bebas memilih kategori artikel).
+* Persetujuan/Approval dokumen perangkat pembelajaran guru.
+* Akses menu Pengaturan Identitas & Foto Website.
 
 ### Guru (Teacher)
-- ✅ Mengelola artikel yang ia buat
-- ✅ Upload dokumen perangkat pembelajaran sendiri
-- ✅ Mengelola profilnya sendiri
-
----
-
-## 🧭 Roadmap / Pengembangan Lanjutan
-
-Beberapa ide pengembangan:
-
-- [ ] Mengganti semua data dummy di frontend dengan data asli dari database
-- [ ] Menambahkan modul:
-  - Data siswa / kelas
-  - Agenda kegiatan
-  - Galeri foto & video
-- [ ] Integrasi penuh dengan Google Drive untuk semua dokumen
-- [ ] Role tambahan (misalnya: siswa, operator sekolah)
-- [ ] Sistem notifikasi
-- [ ] Export data ke Excel/PDF
-
----
-
-## 📝 Lisensi
-
-Project ini bersifat open source dan dapat digunakan untuk keperluan pendidikan.
+* Mengelola artikel karyanya sendiri (kategori dikunci otomatis sesuai organisasi diampu).
+* Mengunggah dokumen Perangkat Pembelajaran mandiri.
+* Mengelola profil & password pribadinya sendiri.
 
 ---
 
 ## 👨‍💻 Pengembang
-
-Dikembangkan oleh **[Kyyneko](https://github.com/Kyyneko)** untuk kebutuhan website sekolah dan eksperimen dengan Laravel, Vite, Tailwind, dan integrasi storage.
-
----
-
-## 📞 Kontak & Dukungan
-
-Jika ada pertanyaan atau masalah, silakan buat **Issue** di repository ini atau hubungi melalui email.
+Dikembangkan dan dirawat oleh **[Kyyneko](https://github.com/Kyyneko)** untuk kebutuhan portal informasi terpadu sekolah UPT SPF SMPN 14 Bulukumba.
 
 ---
-
-**⭐ Jangan lupa beri Star jika project ini bermanfaat!**
+**⭐ Berikan Star jika project ini bermanfaat bagi pengembangan website sekolah Anda!**

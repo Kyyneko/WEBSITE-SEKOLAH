@@ -5,17 +5,25 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <!-- Header -->
-                    <div class="mb-4 pb-3 border-bottom">
-                        <h3 class="text-2xl font-weight-bold text-dark mb-1">
-                            <i class="fas fa-newspaper text-primary mr-2"></i>Tambah Artikel Baru
-                        </h3>
-                        <p class="text-muted mb-0">Lengkapi form di bawah untuk menambahkan artikel baru</p>
+    <div class="py-6">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+            {{-- Page Header Card --}}
+            <div class="dash-header-card mb-4">
+                <div class="dash-header-card-content">
+                    <div class="dash-header-card-icon">
+                        <i class="fas fa-newspaper text-white"></i>
                     </div>
+                    <div>
+                        <h3 class="dash-header-card-title">Tambah Artikel Baru</h3>
+                        <p class="dash-header-card-desc">Lengkapi form di bawah untuk menambahkan artikel baru ke sistem</p>
+                    </div>
+                </div>
+                <div class="dash-header-card-deco1"></div>
+                <div class="dash-header-card-deco2"></div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-4">
 
                     <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -47,11 +55,9 @@
                                 <i class="fas fa-link text-primary mr-1"></i>Slug URL
                             </label>
                             <div class="input-group input-group-lg">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text bg-light">
-                                        <i class="fas fa-globe mr-1"></i>/artikel/
-                                    </span>
-                                </div>
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-globe mr-1"></i>/artikel/
+                                </span>
                                 <input type="text" 
                                        class="form-control @error('slug') is-invalid @enderror" 
                                        id="slug" 
@@ -66,6 +72,48 @@
                             <small class="form-text text-muted">
                                 <i class="fas fa-magic mr-1"></i>Slug otomatis dibuat dari judul artikel
                             </small>
+                        </div>
+
+                        <!-- Kategori / Organisasi Field -->
+                        <div class="mb-4">
+                            <label for="organisasi_id" class="form-label font-weight-bold">
+                                <i class="fas fa-tags text-primary mr-1"></i>Kategori / Organisasi
+                            </label>
+                            @if(auth()->user()->role === 'admin')
+                                <select class="form-control form-control-lg @error('organisasi_id') is-invalid @enderror" 
+                                        id="organisasi_id" 
+                                        name="organisasi_id">
+                                    <option value="">Umum (General)</option>
+                                    @foreach($organisasis as $organisasi)
+                                        <option value="{{ $organisasi->id }}" {{ old('organisasi_id') == $organisasi->id ? 'selected' : '' }}>
+                                            {{ $organisasi->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <small class="form-text text-muted">
+                                    <i class="fas fa-info-circle mr-1"></i>Sebagai Admin, Anda dapat menerbitkan artikel untuk kategori Umum atau Organisasi tertentu.
+                                </small>
+                            @else
+                                @php
+                                    $userOrganisasi = auth()->user()->organisasi;
+                                @endphp
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text bg-light text-warning">
+                                        <i class="fas fa-lock mr-1"></i>
+                                    </span>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           value="{{ $userOrganisasi ? $userOrganisasi->nama : 'Umum (General)' }}" 
+                                           readonly 
+                                           style="background-color: #e9ecef;">
+                                </div>
+                                <small class="form-text text-warning mt-1">
+                                    <i class="fas fa-exclamation-circle mr-1"></i>Kategori dikunci ke <strong>{{ $userOrganisasi ? $userOrganisasi->nama : 'Umum' }}</strong> berdasarkan profil penugasan Anda.
+                                </small>
+                            @endif
+                            @error('organisasi_id')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <!-- Description Field with Trix Editor -->
@@ -88,24 +136,33 @@
 
                         <!-- Photos Field -->
                         <div class="mb-4">
-                            <label for="photos" class="form-label font-weight-bold">
+                            <label class="form-label font-weight-bold">
                                 <i class="fas fa-images text-primary mr-1"></i>Foto Artikel
                             </label>
-                            <input type="file" 
-                                   class="form-control form-control-lg @error('photos') is-invalid @enderror @error('photos.*') is-invalid @enderror" 
-                                   id="photos" 
-                                   name="photos[]" 
-                                   multiple
-                                   accept="image/*"
-                                   onchange="previewImages(event)">
+                            <label for="photos" class="upload-zone-premium mb-0">
+                                <div class="upload-zone-icon">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <div>
+                                    <div class="upload-zone-text" id="fileLabel">Klik untuk memilih gambar atau seret ke sini</div>
+                                    <div class="upload-zone-hint">Format: JPG, JPEG, PNG, WEBP, HEIC — Otomatis dikompres dengan kualitas terbaik (Bisa memilih beberapa foto sekaligus)</div>
+                                </div>
+                                <input type="file" 
+                                       class="d-none @error('photos') is-invalid @enderror @error('photos.*') is-invalid @enderror" 
+                                       id="photos" 
+                                       name="photos[]" 
+                                       multiple
+                                       accept="image/*,.heic,.heif"
+                                       onchange="previewImages(event)">
+                            </label>
                             @error('photos')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                             @error('photos.*')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                             <small class="form-text text-muted">
-                                <i class="fas fa-info-circle mr-1"></i>Upload satu atau lebih foto pendukung artikel. Format: JPG, PNG. Maksimal 2MB per foto
+                                <i class="fas fa-info-circle mr-1"></i>Upload satu atau lebih foto pendukung artikel. Format: JPG, PNG, WEBP, HEIC. Maksimal 100MB per foto.
                             </small>
                             
                             <!-- Image Preview Container -->
@@ -155,12 +212,20 @@
             const files = event.target.files;
             const previewContainer = document.getElementById('previewContainer');
             const imagePreview = document.getElementById('imagePreview');
+            const fileLabel = document.getElementById('fileLabel');
             
             // Clear previous previews
             previewContainer.innerHTML = '';
             
             if (files.length > 0) {
                 imagePreview.style.display = 'block';
+                
+                // Update file label
+                if (files.length === 1) {
+                    fileLabel.innerHTML = '<i class="fas fa-image mr-2"></i>' + files[0].name;
+                } else {
+                    fileLabel.innerHTML = '<i class="fas fa-images mr-2"></i>' + files.length + ' file dipilih';
+                }
                 
                 Array.from(files).forEach((file, index) => {
                     if (file.type.startsWith('image/')) {
@@ -171,7 +236,7 @@
                             col.className = 'col-md-3 col-sm-6 mb-3';
                             
                             const card = document.createElement('div');
-                            card.className = 'card shadow-sm';
+                            card.className = 'card shadow-sm border-success';
                             
                             const img = document.createElement('img');
                             img.src = e.target.result;
@@ -183,7 +248,7 @@
                             cardBody.className = 'card-body p-2';
                             
                             const badge = document.createElement('span');
-                            badge.className = 'badge badge-primary';
+                            badge.className = 'badge badge-success';
                             badge.innerHTML = '<i class="fas fa-image mr-1"></i>Foto ' + (index + 1);
                             
                             const fileName = document.createElement('small');
@@ -203,6 +268,9 @@
                 });
             } else {
                 imagePreview.style.display = 'none';
+                if (fileLabel) {
+                    fileLabel.innerHTML = 'Klik untuk memilih gambar atau seret ke sini';
+                }
             }
         }
     </script>
@@ -249,16 +317,7 @@
 
         /* Input Group Styling */
         .input-group-text {
-            font-size: 0.9rem;
             color: #6c757d;
-        }
-
-        .input-group-prepend .input-group-text {
-            border-right: none;
-        }
-
-        .input-group > .form-control:not(:first-child) {
-            border-left: none;
         }
 
         /* Trix Editor Styling */

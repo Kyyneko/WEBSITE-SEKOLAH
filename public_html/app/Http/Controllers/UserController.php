@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Subject;
+use App\Models\Organisasi;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use App\Helpers\ImageOptimizer;
 
 class UserController extends Controller
 {
@@ -17,88 +20,124 @@ class UserController extends Controller
         return view('backend.usersManage.index', compact('users', 'subjects'));
     }
 
-    
-
-public function create()
-{
-    $subjects = Subject::all();
-    return view('backend.usersManage.create', compact('subjects'));
-}
-
-
-public function store(Request $request)
-{
-    // Validasi data
-    $rules = [
-        'name' => 'required',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|min:6',
-        'role' => 'required|in:admin,teacher',
-    ];
-
-    // subject_id hanya wajib jika role adalah teacher
-    if ($request->role === 'teacher') {
-        $rules['subject_id'] = 'required|exists:subjects,id';
+    public function create()
+    {
+        $subjects = Subject::all();
+        $organisasis = Organisasi::all();
+        return view('backend.usersManage.create', compact('subjects', 'organisasis'));
     }
 
-    $request->validate($rules);
+    public function store(Request $request)
+    {
+        // Validasi data
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+            'role' => 'required|in:admin,teacher,staff',
+            'position' => 'nullable|string|max:255',
+            'photo' => 'nullable|file|mimes:jpeg,png,jpg,webp,heic,heif|max:100000',
+        ];
 
-    // Enkripsi password
-    $password = Hash::make($request->password);
+        // subject_id & organisasi_id hanya valid jika role adalah teacher
+        if ($request->role === 'teacher') {
+            $rules['subject_id'] = 'required|exists:subjects,id';
+            $rules['organisasi_id'] = 'nullable|exists:organisasis,id';
+        }
 
-    // Simpan data ke dalam database
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => $password,
-        'role' => $request->role,
-        'subject_id' => $request->role === 'teacher' ? $request->subject_id : null,
-    ]);
+        $request->validate($rules);
 
-    return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan');
-}
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+            'position' => in_array($request->role, ['teacher', 'staff']) ? $request->position : null,
+            'subject_id' => $request->role === 'teacher' ? $request->subject_id : null,
+            'organisasi_id' => $request->role === 'teacher' ? $request->organisasi_id : null,
+        ];
 
+        if ($request->hasFile('photo')) {
+            try {
+                $path = ImageOptimizer::compressAndStore($request->file('photo'), 'profile_photos');
+                $data['photo_path'] = $path;
+            } catch (\Exception $e) {
+                return redirect()->back()->withErrors(['photo' => $e->getMessage()])->withInput();
+            }
+        }
 
+        $user = User::create($data);
 
+        return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan');
+    }
 
     public function edit(User $user)
     {
         $subjects = Subject::all();
-        return view('backend.usersManage.edit', compact('user', 'subjects'));
+        $organisasis = Organisasi::all();
+        return view('backend.usersManage.edit', compact('user', 'subjects', 'organisasis'));
     }
 
- // Fungsi update di kontroler
     public function update(Request $request, User $user)
     {
         // Validasi data
-        $request->validate([
-            'name' => 'required',
+        $rules = [
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,'.$user->id,
-            'role' => 'required|in:admin,teacher', // Menambahkan validasi untuk peran
-        ]);
+            'role' => 'required|in:admin,teacher,staff',
+            'position' => 'nullable|string|max:255',
+            'photo' => 'nullable|file|mimes:jpeg,png,jpg,webp,heic,heif|max:100000',
+        ];
+        
+        if ($request->role === 'teacher') {
+            $rules['subject_id'] = 'required|exists:subjects,id';
+            $rules['organisasi_id'] = 'nullable|exists:organisasis,id';
+        }
+
+        $request->validate($rules);
     
-        // Memperbarui data pengguna
-        $user->update([
+        $data = [
             'name' => $request->name,
             'email' => $request->email,
             'role' => $request->role,
-        ]);
+            'position' => in_array($request->role, ['teacher', 'staff']) ? $request->position : null,
+            'subject_id' => $request->role === 'teacher' ? $request->subject_id : null,
+            'organisasi_id' => $request->role === 'teacher' ? $request->organisasi_id : null,
+        ];
+        
+        if ($request->hasFile('photo')) {
+            // Delete old photo if exists
+            if ($user->photo_path) {
+                Storage::delete($user->photo_path);
+            }
+            try {
+                $path = ImageOptimizer::compressAndStore($request->file('photo'), 'profile_photos');
+                $data['photo_path'] = $path;
+            } catch (\Exception $e) {
+                return redirect()->back()->withErrors(['photo' => $e->getMessage()])->withInput();
+            }
+        }
+    
+        $user->update($data);
     
         // Memperbarui kata sandi jika ada kata sandi baru yang dimasukkan
         if ($request->filled('new_password')) {
-            $user->update(['password' => bcrypt($request->new_password)]);
+            $user->update(['password' => Hash::make($request->new_password)]);
         }
     
-        return redirect()->route('users.index')->with('success', 'User updated successfully');
+        return redirect()->route('users.index')->with('success', 'User berhasil diperbarui');
     }
-
 
     public function destroy(User $user)
     {
+        // Hapus foto profil dari storage jika ada
+        if ($user->photo_path) {
+            Storage::delete($user->photo_path);
+        }
+        
         // Hapus user dari database
         $user->delete();
 
-        return redirect()->route('users.index')->with('success', 'User deleted successfully');
+        return redirect()->route('users.index')->with('success', 'User berhasil dihapus');
     }
-
 }

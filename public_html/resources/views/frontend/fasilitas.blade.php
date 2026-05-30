@@ -209,53 +209,90 @@
         <div class="container">
             <div class="facilities-grid">
                 @php
-                    $facilities = [
-                        [
-                            'name' => 'Ruang Kelas',
-                            'category' => 'Akademik',
-                            'image' => 'https://placehold.co/600x400/1e3a5f/ffffff?text=Ruang+Kelas',
-                            'description' => 'Ruang kelas yang nyaman dan dilengkapi dengan meja, kursi, papan tulis, serta ventilasi yang baik untuk menunjang proses belajar mengajar.',
-                            'features' => ['Ventilasi Baik', 'Pencahayaan Cukup', 'Kapasitas 32 Siswa']
-                        ],
-                        [
-                            'name' => 'Perpustakaan',
-                            'category' => 'Akademik',
-                            'image' => 'https://placehold.co/600x400/0d9488/ffffff?text=Perpustakaan',
-                            'description' => 'Perpustakaan sekolah menyediakan berbagai koleksi buku pelajaran, buku bacaan umum, dan referensi untuk menunjang literasi siswa.',
-                            'features' => ['Koleksi Lengkap', 'Ruang Baca Nyaman']
-                        ],
-                        [
-                            'name' => 'Laboratorium IPA',
-                            'category' => 'Akademik',
-                            'image' => 'https://placehold.co/600x400/2563eb/ffffff?text=Lab+IPA',
-                            'description' => 'Laboratorium IPA dilengkapi peralatan praktikum untuk mata pelajaran Fisika, Kimia, dan Biologi sesuai kurikulum.',
-                            'features' => ['Alat Praktikum', 'Ruang Steril', 'Meja Lab', 'Ventilasi Khusus']
-                        ],
-                        [
-                            'name' => 'Laboratorium Komputer',
-                            'category' => 'Teknologi',
-                            'image' => 'https://placehold.co/600x400/f59e0b/ffffff?text=Lab+Komputer',
-                            'description' => 'Ruang komputer dilengkapi unit PC dan jaringan internet untuk kegiatan pembelajaran TIK dan ujian berbasis komputer.',
-                            'features' => ['Unit Komputer', 'Koneksi Internet']
-                        ],
-                        [
-                            'name' => 'Lapangan Olahraga',
-                            'category' => 'Olahraga',
-                            'image' => 'https://placehold.co/600x400/1e3a5f/ffffff?text=Lapangan',
-                            'description' => 'Lapangan olahraga untuk kegiatan pendidikan jasmani, upacara bendera, dan berbagai kegiatan luar ruangan.',
-                            'features' => ['Lapangan Serbaguna', 'Area Upacara', 'Lintasan']
-                        ],
-                        [
-                            'name' => 'Musholla',
-                            'category' => 'Ibadah',
-                            'image' => 'https://placehold.co/600x400/0d9488/ffffff?text=Musholla',
-                            'description' => 'Tempat ibadah yang bersih dan nyaman untuk kegiatan sholat berjamaah dan kegiatan keagamaan lainnya.',
-                            'features' => ['Bersih & Nyaman', 'Perlengkapan Sholat']
-                        ]
-                    ];
+                    $hasDbFacilities = isset($facilities) && $facilities->count() > 0;
+                    $displayFacilities = [];
+                    
+                    if ($hasDbFacilities) {
+                        foreach ($facilities as $facility) {
+                            $displayFacilities[] = [
+                                'name' => $facility->name,
+                                'category' => $facility->category,
+                                'image' => $facility->photo_path ? asset('storage/' . str_replace('public/', '', $facility->photo_path)) : 'https://placehold.co/600x400/1e3a5f/ffffff?text=' . urlencode($facility->name),
+                                'description' => $facility->description,
+                                'features' => $facility->features ?? [],
+                            ];
+                        }
+                    } else {
+                        $displayFacilities = [
+                            [
+                                'name' => 'Ruang Kelas',
+                                'category' => 'Akademik',
+                                'image' => 'https://placehold.co/600x400/1e3a5f/ffffff?text=Ruang+Kelas',
+                                'description' => 'Ruang kelas yang nyaman dan dilengkapi dengan meja, kursi, papan tulis, serta ventilasi yang baik untuk menunjang proses belajar mengajar.',
+                                'features' => ['Ventilasi Baik', 'Pencahayaan Cukup', 'Kapasitas 32 Siswa']
+                            ],
+                            [
+                                'name' => 'Perpustakaan',
+                                'category' => 'Akademik',
+                                'image' => 'https://placehold.co/600x400/0d9488/ffffff?text=Perpustakaan',
+                                'description' => 'Perpustakaan sekolah menyediakan berbagai koleksi buku pelajaran, buku bacaan umum, dan referensi untuk menunjang literasi siswa.',
+                                'features' => ['Koleksi Lengkap', 'Ruang Baca Nyaman']
+                            ],
+                            [
+                                'name' => 'Laboratorium IPA',
+                                'category' => 'Akademik',
+                                'image' => 'https://placehold.co/600x400/2563eb/ffffff?text=Lab+IPA',
+                                'description' => 'Laboratorium IPA dilengkapi peralatan praktikum untuk mata pelajaran Fisika, Kimia, dan Biologi sesuai kurikulum.',
+                                'features' => ['Alat Praktikum', 'Ruang Steril', 'Meja Lab', 'Ventilasi Khusus']
+                            ],
+                            [
+                                'name' => 'Laboratorium Komputer',
+                                'category' => 'Teknologi',
+                                'image' => 'https://placehold.co/600x400/f59e0b/ffffff?text=Lab+Komputer',
+                                'description' => 'Ruang komputer dilengkapi unit PC dan jaringan internet untuk kegiatan pembelajaran TIK dan ujian berbasis komputer.',
+                                'features' => ['Unit Komputer', 'Koneksi Internet']
+                            ],
+                            [
+                                'name' => 'Lapangan Olahraga',
+                                'category' => 'Olahraga',
+                                'image' => 'https://placehold.co/600x400/1e3a5f/ffffff?text=Lapangan',
+                                'description' => 'Lapangan olahraga untuk kegiatan pendidikan jasmani, upacara bendera, dan berbagai kegiatan luar ruangan.',
+                                'features' => ['Lapangan Serbaguna', 'Area Upacara', 'Lintasan']
+                            ],
+                            [
+                                'name' => 'Musholla',
+                                'category' => 'Ibadah',
+                                'image' => 'https://placehold.co/600x400/0d9488/ffffff?text=Musholla',
+                                'description' => 'Tempat ibadah yang bersih dan nyaman untuk kegiatan sholat berjamaah dan kegiatan keagamaan lainnya.',
+                                'features' => ['Bersih & Nyaman', 'Perlengkapan Sholat']
+                            ]
+                        ];
+                    }
+
+                    if ($hasDbFacilities) {
+                        $ruangKelasCount = \App\Models\Facility::where('name', 'like', '%Kelas%')->count();
+                        if ($ruangKelasCount === 0) $ruangKelasCount = 12;
+                        
+                        $labCount = \App\Models\Facility::where(function($q) {
+                            $q->where('name', 'like', '%Laboratorium%')
+                              ->orWhere('name', 'like', '%Lab%');
+                        })->count();
+                        if ($labCount === 0) $labCount = 2;
+                        
+                        $perpustakaanCount = \App\Models\Facility::where('name', 'like', '%Perpustakaan%')->count();
+                        if ($perpustakaanCount === 0) $perpustakaanCount = 1;
+                        
+                        $pendukungCount = \App\Models\Facility::whereNotIn('category', ['Akademik'])->count();
+                        if ($pendukungCount === 0) $pendukungCount = 6;
+                    } else {
+                        $ruangKelasCount = 12;
+                        $labCount = 2;
+                        $perpustakaanCount = 1;
+                        $pendukungCount = 6;
+                    }
                 @endphp
 
-                @foreach ($facilities as $index => $facility)
+                @foreach ($displayFacilities as $index => $facility)
                     <div class="facility-card" data-aos="fade-up" data-aos-delay="{{ min($index * 80, 400) }}">
                         <div class="facility-card-image">
                             <img src="{{ $facility['image'] }}" alt="{{ $facility['name'] }}">
@@ -266,12 +303,14 @@
                             <p class="facility-description">{{ $facility['description'] }}</p>
                             
                             <div class="facility-features">
-                                @foreach ($facility['features'] as $feature)
-                                    <span class="feature-tag">
-                                        <i class="fas fa-check-circle"></i>
-                                        {{ $feature }}
-                                    </span>
-                                @endforeach
+                                @if(is_array($facility['features']))
+                                    @foreach ($facility['features'] as $feature)
+                                        <span class="feature-tag">
+                                            <i class="fas fa-check-circle"></i>
+                                            {{ $feature }}
+                                        </span>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -285,19 +324,19 @@
         <div class="container">
             <div class="stats-grid">
                 <div class="stat-item" data-aos="fade-up" data-aos-delay="0">
-                    <div class="stat-number">12</div>
+                    <div class="stat-number">{{ $ruangKelasCount }}</div>
                     <div class="stat-label">Ruang Kelas</div>
                 </div>
                 <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
-                    <div class="stat-number">2</div>
+                    <div class="stat-number">{{ $labCount }}</div>
                     <div class="stat-label">Laboratorium</div>
                 </div>
                 <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
-                    <div class="stat-number">1</div>
+                    <div class="stat-number">{{ $perpustakaanCount }}</div>
                     <div class="stat-label">Perpustakaan</div>
                 </div>
                 <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
-                    <div class="stat-number">6</div>
+                    <div class="stat-number">{{ $pendukungCount }}</div>
                     <div class="stat-label">Fasilitas Pendukung</div>
                 </div>
             </div>

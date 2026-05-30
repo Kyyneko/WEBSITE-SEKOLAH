@@ -192,70 +192,39 @@
     <div class="section-content">
         <div class="container">
             <div class="staff-grid">
-                @php
-                    $staffList = [
-                        [
-                            'name' => 'Hj. Sumarni',
-                            'position' => 'Kepala Tata Usaha',
-                            'type' => 'admin',
-                            'image' => 'https://placehold.co/200x200/1e3a5f/ffffff?text=SM'
-                        ],
-                        [
-                            'name' => 'Muh. Yusuf',
-                            'position' => 'Operator Sekolah',
-                            'type' => 'operator',
-                            'image' => 'https://placehold.co/200x200/0d9488/ffffff?text=MY'
-                        ],
-                        [
-                            'name' => 'Andi Sulfiani',
-                            'position' => 'Bendahara BOS',
-                            'type' => 'admin',
-                            'image' => 'https://placehold.co/200x200/f59e0b/ffffff?text=AS'
-                        ],
-                        [
-                            'name' => 'Baharuddin',
-                            'position' => 'Penjaga Sekolah',
-                            'type' => 'support',
-                            'image' => 'https://placehold.co/200x200/2563eb/ffffff?text=BH'
-                        ],
-                        [
-                            'name' => 'Nursyamsi',
-                            'position' => 'Petugas Kebersihan',
-                            'type' => 'support',
-                            'image' => 'https://placehold.co/200x200/1e3a5f/ffffff?text=NS'
-                        ],
-                        [
-                            'name' => 'Rusdi',
-                            'position' => 'Pustakawan',
-                            'type' => 'operator',
-                            'image' => 'https://placehold.co/200x200/0d9488/ffffff?text=RD'
-                        ],
-                        [
-                            'name' => 'Fatimah',
-                            'position' => 'Administrasi Umum',
-                            'type' => 'admin',
-                            'image' => 'https://placehold.co/200x200/f59e0b/ffffff?text=FT'
-                        ],
-                        [
-                            'name' => 'Sapri',
-                            'position' => null,
-                            'type' => 'other',
-                            'image' => 'https://placehold.co/200x200/2563eb/ffffff?text=SP'
-                        ]
-                    ];
-                @endphp
-
-                @foreach ($staffList as $index => $staff)
+                @forelse ($users as $index => $staff)
+                    @php
+                        $type = 'other';
+                        $posLower = strtolower($staff->position ?? '');
+                        if (str_contains($posLower, 'tata usaha') || str_contains($posLower, 'administrasi') || str_contains($posLower, 'bendahara') || str_contains($posLower, 'tu')) {
+                            $type = 'admin';
+                        } elseif (str_contains($posLower, 'operator') || str_contains($posLower, 'pustakawan') || str_contains($posLower, 'laboran')) {
+                            $type = 'operator';
+                        } elseif (str_contains($posLower, 'penjaga') || str_contains($posLower, 'kebersihan') || str_contains($posLower, 'satpam') || str_contains($posLower, 'keamanan') || str_contains($posLower, 'cs')) {
+                            $type = 'support';
+                        }
+                        
+                        $typeName = 'Lainnya';
+                        if ($type === 'admin') $typeName = 'Administrasi';
+                        elseif ($type === 'operator') $typeName = 'Teknis';
+                        elseif ($type === 'support') $typeName = 'Pendukung';
+                    @endphp
                     <div class="staff-card" data-aos="fade-up" data-aos-delay="{{ min($index * 60, 360) }}">
                         <div class="staff-card-image">
-                            <img src="{{ $staff['image'] }}" alt="{{ $staff['name'] }}">
+                            @if($staff->photo_path)
+                                <img src="{{ asset('storage/' . str_replace('public/', '', $staff->photo_path)) }}" alt="{{ $staff->name }}">
+                            @else
+                                <div class="w-100 h-100 rounded-circle d-flex align-items-center justify-content-center bg-light border shadow-sm" style="max-width: 180px; max-height: 180px; aspect-ratio: 1/1;">
+                                    <i class="fas fa-users-cog" style="font-size: 4rem; color: #0d9488;"></i>
+                                </div>
+                            @endif
                         </div>
                         <div class="staff-card-body">
-                            <p class="staff-name">{{ $staff['name'] }}</p>
-                            @if (!empty($staff['position']))
-                                <p class="staff-position">{{ $staff['position'] }}</p>
-                                <span class="position-badge badge-{{ $staff['type'] }}">
-                                    {{ ucfirst($staff['type']) }}
+                            <p class="staff-name">{{ $staff->name }}</p>
+                            @if (!empty($staff->position))
+                                <p class="staff-position">{{ $staff->position }}</p>
+                                <span class="position-badge badge-{{ $type }}">
+                                    {{ $typeName }}
                                 </span>
                             @else
                                 <p class="staff-position not-assigned">Belum ditetapkan</p>
@@ -263,7 +232,17 @@
                             @endif
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="text-center py-5 w-100" style="grid-column: 1 / -1;">
+                        <div class="mx-auto mb-3 d-flex align-items-center justify-content-center" style="width:80px;height:80px;border-radius:50%;background:rgba(30,58,95,0.06);color:#94a3b8;">
+                            <i class="fas fa-users-cog" style="font-size:2rem;color:#94a3b8;"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-2">Belum Ada Data Staf</h5>
+                        <p class="text-muted mx-auto" style="font-size: 0.95rem; max-width: 400px;">
+                            Data tenaga kependidikan belum dimasukkan oleh administrator.
+                        </p>
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>
