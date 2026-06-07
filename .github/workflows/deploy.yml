@@ -43,6 +43,7 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./public_html/
         server-dir: /website-sekolah/
+        timeout: 180000
         exclude: |
           **/.git*
           **/.git*/**
@@ -64,3 +65,4 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./public_html/public/
         server-dir: /public_html/
+        timeout: 180000
