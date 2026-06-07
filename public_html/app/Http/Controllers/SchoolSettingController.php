@@ -113,8 +113,15 @@ class SchoolSettingController extends Controller
 
         $settings->update($data);
 
-        // Update maintenance mode status (file-based toggle)
-        $isMaintenance = $request->has('is_maintenance');
+        return redirect()->route('settings.edit')->with('success', 'Pengaturan sekolah dan foto website berhasil diperbarui.');
+    }
+
+    /**
+     * Toggle maintenance mode status via standalone AJAX request.
+     */
+    public function toggleMaintenance(Request $request)
+    {
+        $isMaintenance = (bool)$request->input('is_maintenance');
         file_put_contents(storage_path('app/maintenance.json'), json_encode(['is_maintenance' => $isMaintenance]));
 
         // Jika dinonaktifkan, pastikan mematikan mode maintenance bawaan Laravel (jika aktif)
@@ -131,6 +138,9 @@ class SchoolSettingController extends Controller
             }
         }
 
-        return redirect()->route('settings.edit')->with('success', 'Pengaturan sekolah dan foto website berhasil diperbarui.');
+        return response()->json([
+            'status' => 'success',
+            'maintenance' => $isMaintenance
+        ]);
     }
 }

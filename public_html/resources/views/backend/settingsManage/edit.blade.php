@@ -108,7 +108,7 @@
                                     </div>
                                     <div class="flex items-center flex-shrink-0">
                                         <label class="relative inline-flex items-center cursor-pointer">
-                                            <input type="checkbox" name="is_maintenance" value="1" {{ $isMaintenance ? 'checked' : '' }} class="sr-only switch-input peer">
+                                            <input type="checkbox" name="is_maintenance" id="is_maintenance" value="1" {{ $isMaintenance ? 'checked' : '' }} autocomplete="off" class="sr-only switch-input peer">
                                             <div class="relative w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full switch-slider after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
                                         </label>
                                     </div>
@@ -571,6 +571,78 @@
             const initialTabBtn = document.getElementById('btn-tab-identitas');
             if (initialTabBtn) {
                 initialTabBtn.classList.add('active-tab');
+            }
+
+            // AJAX Maintenance Toggle Listener
+            const maintenanceToggle = document.getElementById('is_maintenance');
+            if (maintenanceToggle) {
+                maintenanceToggle.addEventListener('change', function() {
+                    const isChecked = this.checked ? 1 : 0;
+                    
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            title: 'Memproses...',
+                            text: 'Sedang memperbarui status pemeliharaan...',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    }
+
+                    fetch('{{ route('settings.maintenance.toggle') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({ is_maintenance: isChecked })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (typeof Swal !== 'undefined') {
+                            Swal.close();
+                        }
+                        if (data.status === 'success') {
+                            if (typeof Swal !== 'undefined') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil!',
+                                    text: isChecked ? 'Mode pemeliharaan diaktifkan.' : 'Mode pemeliharaan dinonaktifkan.',
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                            } else {
+                                alert(isChecked ? 'Mode pemeliharaan diaktifkan.' : 'Mode pemeliharaan dinonaktifkan.');
+                            }
+                        } else {
+                            this.checked = !this.checked;
+                            if (typeof Swal !== 'undefined') {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal!',
+                                    text: 'Gagal mengubah status pemeliharaan.'
+                                });
+                            } else {
+                                alert('Gagal mengubah status pemeliharaan.');
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        this.checked = !this.checked;
+                        if (typeof Swal !== 'undefined') {
+                            Swal.close();
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: 'Terjadi kesalahan: ' + error
+                            });
+                        } else {
+                            console.error('Error:', error);
+                            alert('Terjadi kesalahan sistem.');
+                        }
+                    });
+                });
             }
         });
 

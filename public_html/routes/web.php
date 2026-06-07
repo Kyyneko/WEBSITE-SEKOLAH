@@ -136,6 +136,7 @@ Route::middleware(['auth','role:admin'])->group(function () {
 
     Route::get('/settings', [SchoolSettingController::class, 'edit'])->name('settings.edit');
     Route::put('/settings', [SchoolSettingController::class, 'update'])->name('settings.update');
+    Route::post('/settings/maintenance-toggle', [SchoolSettingController::class, 'toggleMaintenance'])->name('settings.maintenance.toggle');
 
     Route::patch('/documents/{document}/approve', [DocumentController::class, 'approve'])->name('documents.approve');
     Route::patch('/documents/{document}/reject', [DocumentController::class, 'reject'])->name('documents.reject');
