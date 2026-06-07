@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Kyyschool Website</title>
+    <title>{{ config('app.name', 'UPT SPF SMPN 14 BULUKUMBA') }}</title>
 
     {{-- Bootstrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -161,11 +161,8 @@
                         secara modern dan responsif.
                     </p>
                     <hr>
-                    <p class="footer-note mb-1">
-                        © {{ date('Y') }} UPT SPF SMPN 14 Bulukumba
-                    </p>
                     <p class="footer-note mb-0">
-                        Dikembangkan oleh <a href="https://github.com/kyyneko" target="_blank">Kyyneko</a>
+                        © {{ date('Y') }} UPT SPF SMPN 14 Bulukumba
                     </p>
                 </div>
             </div>

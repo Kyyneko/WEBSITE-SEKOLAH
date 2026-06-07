@@ -1,4 +1,4 @@
-﻿<!-- Footer -->
+<!-- Footer -->
 <footer class="site-footer" data-aos="fade-up" data-aos-duration="600">
 
     {{-- Wave Separator --}}
@@ -21,7 +21,6 @@
                     <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
                     <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                     <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                    <a href="https://github.com/kyyneko" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
                 </div>
             </div>
         </section>
@@ -90,11 +89,7 @@
     {{-- Copyright --}}
     <div class="footer-copyright">
         <div class="container text-center">
-            <p>&copy; {{ date('Y') }} UPT SPF SMPN 14 BULUKUMBA. Dikembangkan oleh
-                <a href="https://github.com/kyyneko" target="_blank">
-                    <i class="fa-brands fa-github"></i> Kyyneko
-                </a>
-            </p>
+            <p>&copy; {{ date('Y') }} UPT SPF SMPN 14 BULUKUMBA. All Rights Reserved.</p>
         </div>
     </div>
 </footer>
