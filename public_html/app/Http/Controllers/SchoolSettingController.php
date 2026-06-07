@@ -117,6 +117,20 @@ class SchoolSettingController extends Controller
         $isMaintenance = $request->has('is_maintenance');
         file_put_contents(storage_path('app/maintenance.json'), json_encode(['is_maintenance' => $isMaintenance]));
 
+        // Jika dinonaktifkan, pastikan mematikan mode maintenance bawaan Laravel (jika aktif)
+        if (!$isMaintenance) {
+            try {
+                \Illuminate\Support\Facades\Artisan::call('up');
+            } catch (\Exception $e) {
+                // Abaikan jika command up tidak diizinkan
+            }
+            
+            $downFile = storage_path('framework/down');
+            if (file_exists($downFile)) {
+                @unlink($downFile);
+            }
+        }
+
         return redirect()->route('settings.edit')->with('success', 'Pengaturan sekolah dan foto website berhasil diperbarui.');
     }
 }
