@@ -153,6 +153,7 @@ Route::middleware(['auth','role:admin'])->group(function () {
 // Login
 require __DIR__.'/auth.php';
 
+/*
 // Helper routes for deployment (cPanel/Domainesia)
 Route::get('/deploy-helper/migrate', function () {
     if (request('token') !== 'KyynekoWebsiteSekolah2026') {
@@ -201,3 +202,4 @@ Route::get('/deploy-helper/clear', function () {
         ], 500);
     }
 });
+*/
