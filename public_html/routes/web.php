@@ -153,6 +153,11 @@ Route::middleware(['auth','role:admin'])->group(function () {
 // Login
 require __DIR__.'/auth.php';
 
+// Route for system maintenance page
+Route::get('/maintenance', function () {
+    return view('maintenance');
+})->name('maintenance');
+
 /*
 // Helper routes for deployment (cPanel/Domainesia)
 Route::get('/deploy-helper/migrate', function () {
