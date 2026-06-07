@@ -52,4 +52,8 @@ $app->singleton(
 |
 */
 
+if (basename($_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)) === 'website-sekolah') {
+    $app->usePublicPath(realpath(dirname(__DIR__) . '/../public_html'));
+}
+
 return $app;
