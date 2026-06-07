@@ -88,6 +88,15 @@
 
                             {{-- Maintenance Mode Section --}}
                             <div class="settings-card bg-amber-50/40 rounded-xl p-5 border border-amber-100">
+                                <style>
+                                    .switch-input:checked + .switch-slider {
+                                        background-color: #f59e0b !important;
+                                    }
+                                    .switch-input:checked + .switch-slider::after {
+                                        transform: translateX(20px) !important;
+                                        border-color: #fff !important;
+                                    }
+                                </style>
                                 <div class="flex items-center justify-between gap-4">
                                     <div class="pr-4">
                                         <h4 class="text-sm font-bold text-slate-800 flex items-center mb-1">
@@ -99,8 +108,8 @@
                                     </div>
                                     <div class="flex items-center flex-shrink-0">
                                         <label class="relative inline-flex items-center cursor-pointer">
-                                            <input type="checkbox" name="is_maintenance" value="1" {{ $isMaintenance ? 'checked' : '' }} class="sr-only peer">
-                                            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
+                                            <input type="checkbox" name="is_maintenance" value="1" {{ $isMaintenance ? 'checked' : '' }} class="sr-only switch-input peer">
+                                            <div class="relative w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full switch-slider after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
                                         </label>
                                     </div>
                                 </div>
