@@ -226,3 +226,16 @@ Route::get('/maintenance/status', function () {
         'maintenance' => (bool)$isMaintenance
     ]);
 });
+
+// Diagnostic route for maintenance mode troubleshooting
+Route::get('/maintenance-debug', function() {
+    $maintenanceFile = storage_path('app/maintenance.json');
+    $jsonVal = file_exists($maintenanceFile) ? json_decode(file_get_contents($maintenanceFile), true) : null;
+    return response()->json([
+        'env_val' => env('APP_MAINTENANCE'),
+        'env_cast_bool' => (bool)env('APP_MAINTENANCE'),
+        'json_val' => $jsonVal,
+        'json_is_maintenance' => $jsonVal['is_maintenance'] ?? null,
+        'laravel_native' => app()->isDownForMaintenance(),
+    ]);
+});
