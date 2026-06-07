@@ -184,93 +184,7 @@
             line-height: 1.6;
         }
 
-        /* Timeline */
-        .timeline-section {
-            padding: 4.5rem 0;
-            background: #ffffff;
-        }
 
-        .timeline-section .section-heading {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .timeline-section .section-heading h2 {
-            font-size: clamp(1.75rem, 3vw, 2.25rem);
-            font-weight: 800;
-            color: var(--color-text);
-            letter-spacing: -0.02em;
-        }
-
-        .timeline {
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-            padding: 0 1rem;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 92px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: var(--color-border);
-        }
-
-        .timeline-item {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 2.5rem;
-            position: relative;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: 86px;
-            top: 8px;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: var(--color-primary-light);
-            border: 3px solid #ffffff;
-            box-shadow: 0 0 0 2px var(--color-primary-light);
-            z-index: 1;
-        }
-
-        .timeline-year {
-            flex-shrink: 0;
-            width: 80px;
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--color-primary-light);
-            text-align: right;
-        }
-
-        .timeline-content {
-            flex-grow: 1;
-            background: var(--color-bg);
-            padding: 1.25rem 1.5rem;
-            border-radius: var(--radius-md);
-            border-left: 3px solid var(--color-primary-light);
-            margin-left: 1rem;
-        }
-
-        .timeline-content h3 {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: var(--color-text);
-            margin-bottom: 0.4rem;
-        }
-
-        .timeline-content p {
-            color: var(--color-text-light);
-            line-height: 1.6;
-            margin: 0;
-            font-size: 0.9rem;
-        }
 
         @media (max-width: 768px) {
             .section-header { padding: 3rem 0 2rem; }
@@ -279,11 +193,6 @@
             .filter-tab { padding: 0.5rem 1.2rem; font-size: 0.8rem; }
             .achievements-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
             .achievement-card-image { height: 200px; }
-            .timeline-item { flex-direction: column; gap: 0.75rem; }
-            .timeline-year { text-align: left; width: auto; }
-            .timeline::before { display: none; }
-            .timeline-item::before { display: none; }
-            .timeline-content { margin-left: 0; }
         }
 
         @media (max-width: 576px) {
@@ -336,7 +245,7 @@
                                 'student' => $achievement->student,
                                 'date' => $achievement->date,
                                 'location' => $achievement->location,
-                                'image' => $achievement->photo_path ? asset('storage/' . str_replace('public/', '', $achievement->photo_path)) : 'https://placehold.co/600x400/1e3a5f/ffffff?text=' . urlencode($achievement->title),
+                                'image' => ($achievement->photo_path && file_exists(public_path('storage/' . str_replace('public/', '', $achievement->photo_path)))) ? asset('storage/' . str_replace('public/', '', $achievement->photo_path)) : 'https://placehold.co/600x400/1e3a5f/ffffff?text=' . urlencode($achievement->title),
                                 'description' => $achievement->description,
                             ];
                         }
@@ -434,48 +343,7 @@
         </div>
     </div>
 
-    {{-- Timeline --}}
-    <div class="timeline-section">
-        <div class="container">
-            <div class="section-heading" data-aos="fade-up">
-                <h2>Jejak Prestasi</h2>
-            </div>
-            
-            <div class="timeline">
-                <div class="timeline-item" data-aos="fade-up" data-aos-delay="0">
-                    <div class="timeline-year">2024</div>
-                    <div class="timeline-content">
-                        <h3>Tahun Penuh Prestasi</h3>
-                        <p>Meraih 6 penghargaan di berbagai bidang lomba tingkat kecamatan dan kabupaten, termasuk akademik, olahraga, dan seni budaya.</p>
-                    </div>
-                </div>
 
-                <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
-                    <div class="timeline-year">2023</div>
-                    <div class="timeline-content">
-                        <h3>Peningkatan Mutu Pendidikan</h3>
-                        <p>Implementasi Kurikulum Merdeka diikuti peningkatan partisipasi siswa dalam berbagai kegiatan akademik dan non-akademik.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
-                    <div class="timeline-year">2022</div>
-                    <div class="timeline-content">
-                        <h3>Pemulihan Pasca Pandemi</h3>
-                        <p>Kegiatan pembelajaran tatap muka kembali dilaksanakan secara penuh dengan fokus pemulihan pembelajaran dan kegiatan siswa.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
-                    <div class="timeline-year">2021</div>
-                    <div class="timeline-content">
-                        <h3>Adaptasi Pembelajaran Daring</h3>
-                        <p>Sekolah berhasil mengadaptasi model pembelajaran daring dan luring (hybrid) untuk memastikan kelanjutan pendidikan di masa pandemi.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @push('scripts')

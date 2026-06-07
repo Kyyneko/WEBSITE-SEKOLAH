@@ -127,7 +127,7 @@
                                         <td class="text-center align-middle">
                                             <div class="d-flex justify-content-center gap-1">
                                                 <a href="{{ route('achievements.edit', $achievement->id) }}" class="btn btn-sm btn-warning" title="Edit"><i class="fas fa-edit"></i></a>
-                                                <form action="{{ route('achievements.destroy', $achievement->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data prestasi ini?')">
+                                                <form action="{{ route('achievements.destroy', $achievement->id) }}" method="POST" class="d-inline" id="delete-form-{{ $achievement->id }}" onsubmit="return confirmDelete('delete-form-{{ $achievement->id }}')">
                                                     @csrf @method('DELETE')
                                                     <button type="submit" class="btn btn-sm btn-danger" title="Hapus"><i class="fas fa-trash-alt"></i></button>
                                                 </form>

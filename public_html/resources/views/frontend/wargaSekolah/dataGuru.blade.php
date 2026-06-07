@@ -180,10 +180,10 @@
                 @forelse ($users as $index => $teacher)
                     <div class="teacher-card" data-aos="fade-up" data-aos-delay="{{ min($index * 60, 360) }}">
                         <div class="teacher-card-image">
-                            @if($teacher->photo_path)
+                            @if($teacher->photo_path && file_exists(public_path('storage/' . str_replace('public/', '', $teacher->photo_path))))
                                 <img src="{{ asset('storage/' . str_replace('public/', '', $teacher->photo_path)) }}" alt="{{ $teacher->name }}">
                             @else
-                                <div class="w-100 h-100 rounded-circle d-flex align-items-center justify-content-center bg-light border shadow-sm" style="max-width: 180px; max-height: 180px; aspect-ratio: 1/1;">
+                                <div class="w-100 h-100 rounded-circle d-flex align-items-center justify-content-center bg-light border shadow-sm" style="max-width: 180px; max-height: 180px; aspect-ratio: 1/1; background-color: #f8fafc !important;">
                                     <i class="fas fa-chalkboard-teacher text-primary" style="font-size: 4rem;"></i>
                                 </div>
                             @endif

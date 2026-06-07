@@ -570,15 +570,15 @@
             <div class="carousel-inner">
                 <div class="carousel-item active position-relative">
                     <div class="overlay"></div>
-                    <img src="{{ $settings->hero_photo_1 ? asset('storage/' . str_replace('public/', '', $settings->hero_photo_1)) : asset('image/DSCF4229.JPG') }}" class="d-block w-100" alt="Kegiatan Sekolah">
+                    <img src="{{ ($settings->hero_photo_1 && file_exists(public_path('storage/' . str_replace('public/', '', $settings->hero_photo_1)))) ? asset('storage/' . str_replace('public/', '', $settings->hero_photo_1)) : asset('image/homePic/3.jpg') }}" class="d-block w-100" alt="Kegiatan Sekolah">
                 </div>
                 <div class="carousel-item position-relative">
                     <div class="overlay"></div>
-                    <img src="{{ $settings->hero_photo_2 ? asset('storage/' . str_replace('public/', '', $settings->hero_photo_2)) : asset('image/DSCF4231.JPG') }}" class="d-block w-100" alt="Lingkungan Sekolah">
+                    <img src="{{ ($settings->hero_photo_2 && file_exists(public_path('storage/' . str_replace('public/', '', $settings->hero_photo_2)))) ? asset('storage/' . str_replace('public/', '', $settings->hero_photo_2)) : asset('image/homePic/2.jpg') }}" class="d-block w-100" alt="Lingkungan Sekolah">
                 </div>
                 <div class="carousel-item position-relative">
                     <div class="overlay"></div>
-                    <img src="{{ $settings->hero_photo_3 ? asset('storage/' . str_replace('public/', '', $settings->hero_photo_3)) : asset('image/DSCF4258.JPG') }}" class="d-block w-100" alt="Prestasi Siswa">
+                    <img src="{{ ($settings->hero_photo_3 && file_exists(public_path('storage/' . str_replace('public/', '', $settings->hero_photo_3)))) ? asset('storage/' . str_replace('public/', '', $settings->hero_photo_3)) : asset('image/homePic/1.jpg') }}" class="d-block w-100" alt="Prestasi Siswa">
                 </div>
             </div>
         </div>
@@ -722,7 +722,7 @@
                                         <div class="card article-card">
                                             <div class="article-img-container">
                                                 @php $photos = $article->photo_path ? (is_array($article->photo_path) ? $article->photo_path : json_decode($article->photo_path, true)) : []; @endphp
-                                                @if(count($photos) > 0)
+                                                @if(count($photos) > 0 && file_exists(public_path('storage/' . str_replace('public/', '', $photos[0]))))
                                                     <img src="{{ asset('storage/' . str_replace('public/', '', $photos[0])) }}" class="card-img-top" alt="{{ $article->title }}">
                                                 @else
                                                     <div class="card-img-top d-flex align-items-center justify-content-center" style="height:180px;background:linear-gradient(135deg,#1e3a5f,#2563eb);">
@@ -775,7 +775,7 @@
                                                     <div class="card article-card">
                                                         <div class="article-img-container">
                                                             @php $photos = $article->photo_path ? (is_array($article->photo_path) ? $article->photo_path : json_decode($article->photo_path, true)) : []; @endphp
-                                                            @if(count($photos) > 0)
+                                                            @if(count($photos) > 0 && file_exists(public_path('storage/' . str_replace('public/', '', $photos[0]))))
                                                                 <img src="{{ asset('storage/' . str_replace('public/', '', $photos[0])) }}" class="card-img-top" alt="{{ $article->title }}">
                                                             @else
                                                                 <div class="card-img-top d-flex align-items-center justify-content-center" style="height:180px;background:linear-gradient(135deg,#1e3a5f,#2563eb);">
@@ -854,9 +854,9 @@
                         <div class="col-md-6 col-lg-{{ $ads->count() == 1 ? '6' : ($ads->count() == 2 ? '5' : '4') }}" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
                             <a href="{{ $ad->link ?? '#' }}" target="_blank" class="text-decoration-none">
                                 <div class="card ads-card">
-                                    @if($ad->photo_path)
-                                        <img src="{{ asset('storage/' . str_replace('public/', '', $ad->photo_path)) }}" class="card-img-top" alt="{{ $ad->title }}">
-                                    @else
+                                     @if($ad->photo_path && file_exists(public_path('storage/' . str_replace('public/', '', $ad->photo_path))))
+                                         <img src="{{ asset('storage/' . str_replace('public/', '', $ad->photo_path)) }}" class="card-img-top" alt="{{ $ad->title }}">
+                                     @else
                                         <div class="card-img-top d-flex align-items-center justify-content-center" style="height:200px;background:linear-gradient(135deg,#1e3a5f,#0d9488);">
                                             <i class="fas fa-bullhorn" style="font-size:3rem;color:rgba(255,255,255,0.25);"></i>
                                         </div>

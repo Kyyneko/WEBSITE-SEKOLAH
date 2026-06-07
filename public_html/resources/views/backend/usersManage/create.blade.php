@@ -172,12 +172,6 @@
                                         @enderror
                                     </div>
                                 </div>
-                                        </div>
-                                        @error('role')
-                                            <div class="create-user-error-text">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
 
                                 {{-- Subject (Conditional) --}}
                                 <div class="col-md-6" id="subject-field" style="display: none;">

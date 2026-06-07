@@ -117,7 +117,7 @@
                                         <td class="text-center align-middle">
                                             <div class="d-flex justify-content-center gap-1">
                                                 <a href="{{ route('facilities.edit', $facility->id) }}" class="btn btn-sm btn-warning" title="Edit"><i class="fas fa-edit"></i></a>
-                                                <form action="{{ route('facilities.destroy', $facility->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus fasilitas ini?')">
+                                                <form action="{{ route('facilities.destroy', $facility->id) }}" method="POST" class="d-inline" id="delete-form-{{ $facility->id }}" onsubmit="return confirmDelete('delete-form-{{ $facility->id }}')">
                                                     @csrf @method('DELETE')
                                                     <button type="submit" class="btn btn-sm btn-danger" title="Hapus"><i class="fas fa-trash-alt"></i></button>
                                                 </form>

@@ -38,9 +38,10 @@
                                 <div class="mr-4">
                                     <div class="rounded-circle border overflow-hidden bg-light shadow-sm d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; aspect-ratio: 1/1;">
                                         @if($user->photo_path)
-                                            <img src="{{ asset('storage/' . str_replace('public/', '', $user->photo_path)) }}" alt="{{ $user->name }}" class="w-100 h-100 object-fit-cover">
+                                            <img id="profile-img-preview" src="{{ asset('storage/' . str_replace('public/', '', $user->photo_path)) }}" alt="{{ $user->name }}" class="w-100 h-100 object-fit-cover">
                                         @else
-                                            <i class="fas fa-user-circle text-gray-400" style="font-size: 3rem;"></i>
+                                            <img id="profile-img-preview" class="w-100 h-100 object-fit-cover d-none">
+                                            <i id="profile-img-placeholder" class="fas fa-user-circle text-gray-400" style="font-size: 3rem;"></i>
                                         @endif
                                     </div>
                                 </div>
@@ -287,9 +288,21 @@
 
         function updatePhotoLabel(input) {
             const labelText = document.getElementById('photo-label-text');
+            const preview = document.getElementById('profile-img-preview');
+            const placeholder = document.getElementById('profile-img-placeholder');
+
             if (input.files && input.files[0]) {
-                labelText.textContent = `File terpilih: ${input.files[0].name}`;
+                const file = input.files[0];
+                labelText.textContent = `File terpilih: ${file.name}`;
                 labelText.style.color = '#0d9488';
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.classList.remove('d-none');
+                    if (placeholder) placeholder.classList.add('d-none');
+                }
+                reader.readAsDataURL(file);
             } else {
                 labelText.textContent = 'Klik untuk mengganti foto profil';
                 labelText.style.color = '';

@@ -85,7 +85,7 @@
                                         <td class="text-center align-middle">
                                             <div class="d-flex justify-content-center gap-1">
                                                 <a href="{{ route('organisasi.edit', $organisasi->id) }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                                                <form action="{{ route('organisasi.destroy', $organisasi->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus organisasi ini?')">
+                                                <form action="{{ route('organisasi.destroy', $organisasi->id) }}" method="POST" class="d-inline" id="delete-form-{{ $organisasi->id }}" onsubmit="return confirmDelete('delete-form-{{ $organisasi->id }}')">
                                                     @csrf @method('DELETE')
                                                     <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                                                 </form>

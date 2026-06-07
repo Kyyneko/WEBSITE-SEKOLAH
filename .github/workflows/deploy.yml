@@ -1,0 +1,66 @@
+name: Deploy Website Sekolah to Domainesia
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  web-deploy:
+    name: 🚀 Build and Sync Files
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
+        extensions: mbstring, xml, ctype, iconv, mysqlnd
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install Composer Dependencies
+      run: composer install --no-dev --optimize-autoloader --no-ansi --no-interaction --no-scripts
+      working-directory: ./public_html
+
+    - name: Install NPM & Compile Production Assets
+      run: |
+        npm install
+        npm run build
+      working-directory: ./public_html
+
+    - name: 📂 Sync Core Laravel Files to /website-sekolah
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./public_html/
+        server-dir: /website-sekolah/
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/node_modules/**
+          **/tests/**
+          public/**
+          .env
+          README.md
+          package.json
+          package-lock.json
+          vite.config.js
+          tailwind.config.js
+
+    - name: 📂 Sync Public Assets to /public_html
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./public_html/public/
+        server-dir: /public_html/

@@ -152,3 +152,52 @@ Route::middleware(['auth','role:admin'])->group(function () {
 
 // Login
 require __DIR__.'/auth.php';
+
+// Helper routes for deployment (cPanel/Domainesia)
+Route::get('/deploy-helper/migrate', function () {
+    if (request('token') !== 'KyynekoWebsiteSekolah2026') {
+        abort(403, 'Unauthorized');
+    }
+    
+    try {
+        Artisan::call('migrate', ['--force' => true]);
+        $migrateOutput = Artisan::output();
+        
+        Artisan::call('db:seed', ['--force' => true]);
+        $seedOutput = Artisan::output();
+        
+        return response()->json([
+            'status' => 'success',
+            'migrate' => $migrateOutput,
+            'seed' => $seedOutput
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
+
+Route::get('/deploy-helper/clear', function () {
+    if (request('token') !== 'KyynekoWebsiteSekolah2026') {
+        abort(403, 'Unauthorized');
+    }
+    
+    try {
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        Artisan::call('route:clear');
+        Artisan::call('view:clear');
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'All cache cleared successfully!'
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});

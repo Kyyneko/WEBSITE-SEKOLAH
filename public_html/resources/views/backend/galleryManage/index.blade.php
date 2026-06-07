@@ -115,8 +115,8 @@
                                                 <a href="{{ route('gallery.download', $photo->id) }}" class="gallery-action-btn download" title="Download">
                                                     <i class="fas fa-download"></i>
                                                 </a>
-                                                <form action="{{ route('gallery.destroy', $photo->id) }}" method="POST" class="d-inline"
-                                                      onsubmit="return confirm('Yakin ingin menghapus foto ini?')">
+                                                <form action="{{ route('gallery.destroy', $photo->id) }}" method="POST" class="d-inline" id="delete-form-{{ $photo->id }}"
+                                                      onsubmit="return confirmDelete('delete-form-{{ $photo->id }}')">
                                                     @csrf @method('DELETE')
                                                     <button type="submit" class="gallery-action-btn delete" title="Hapus">
                                                         <i class="fas fa-trash-alt"></i>

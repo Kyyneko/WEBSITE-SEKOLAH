@@ -66,10 +66,10 @@
                                         </div>
                                         <div class="d-flex gap-1 mt-auto pt-2">
                                             <a href="{{ route('ads.edit', $ad->id) }}" class="btn btn-sm btn-warning"><i class="fas fa-edit me-1"></i>Edit</a>
-                                            <form action="{{ route('ads.destroy', $ad->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus pengumuman ini?')">
-                                                @csrf @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash me-1"></i>Hapus</button>
-                                            </form>
+                                             <form action="{{ route('ads.destroy', $ad->id) }}" method="POST" class="d-inline" id="delete-form-{{ $ad->id }}" onsubmit="return confirmDelete('delete-form-{{ $ad->id }}')">
+                                                 @csrf @method('DELETE')
+                                                 <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash me-1"></i>Hapus</button>
+                                             </form>
                                         </div>
                                     </div>
                                 </div>

@@ -7,7 +7,7 @@
     <meta name="description" content="{{ config('app.name', 'School Website') }} - School Management System">
     <meta name="author" content="School Administration">
 
-    <title>{{ config('app.name', 'School Website') }}</title>
+    <title>{{ isset($header) ? trim(strip_tags($header)) . ' — ' : '' }}{{ config('app.name', 'School Website') }}</title>
 
     {{-- Preconnect for Performance --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1156,12 +1156,29 @@
         </script>
     @endif
 
-    {{-- Sidebar Toggle --}}
+    {{-- Sidebar Toggle & Instant Touch Navigation Fix --}}
     <script>
         function toggleSidebar() {
             document.querySelector('.dash-sidebar').classList.toggle('open');
             document.getElementById('sidebarOverlay').classList.toggle('active');
         }
+
+        // Force instant navigation on sidebar items to bypass touchscreen/hover double-tap delays
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.dash-nav-item');
+            navItems.forEach(function(item) {
+                // Ensure it does not apply to active item to allow refresh, but instantly navigates on other items
+                if (!item.classList.contains('active')) {
+                    item.addEventListener('click', function(e) {
+                        const href = this.getAttribute('href');
+                        if (href && href !== '#' && !e.metaKey && !e.ctrlKey) {
+                            e.preventDefault();
+                            window.location.href = href;
+                        }
+                    });
+                }
+            });
+        });
     </script>
 
     {{-- Stack for Additional Page-Specific Scripts --}}

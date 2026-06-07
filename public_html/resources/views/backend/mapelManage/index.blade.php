@@ -57,7 +57,7 @@
                                         <td class="text-center align-middle">
                                             <div class="d-flex justify-content-center gap-1">
                                                 <a href="{{ route('subjects.edit', $subject->id) }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                                                <form action="{{ route('subjects.destroy', $subject->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus mata pelajaran ini?')">
+                                                <form action="{{ route('subjects.destroy', $subject->id) }}" method="POST" class="d-inline" id="delete-form-{{ $subject->id }}" onsubmit="return confirmDelete('delete-form-{{ $subject->id }}')">
                                                     @csrf @method('DELETE')
                                                     <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                                                 </form>

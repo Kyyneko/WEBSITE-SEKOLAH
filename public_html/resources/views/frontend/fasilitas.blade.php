@@ -217,7 +217,7 @@
                             $displayFacilities[] = [
                                 'name' => $facility->name,
                                 'category' => $facility->category,
-                                'image' => $facility->photo_path ? asset('storage/' . str_replace('public/', '', $facility->photo_path)) : 'https://placehold.co/600x400/1e3a5f/ffffff?text=' . urlencode($facility->name),
+                                'image' => ($facility->photo_path && file_exists(public_path('storage/' . str_replace('public/', '', $facility->photo_path)))) ? asset('storage/' . str_replace('public/', '', $facility->photo_path)) : 'https://placehold.co/600x400/1e3a5f/ffffff?text=' . urlencode($facility->name),
                                 'description' => $facility->description,
                                 'features' => $facility->features ?? [],
                             ];

@@ -380,7 +380,7 @@
 
         {{-- BANNER --}}
         <section class="profile-banner">
-            <img src="{{ $settings->profile_banner_photo ? asset('storage/' . str_replace('public/', '', $settings->profile_banner_photo)) : asset('image/DSCF4258.JPG') }}" alt="Banner UPT SPF SMPN 14 BULUKUMBA" class="img-fluid">
+            <img src="{{ ($settings->profile_banner_photo && file_exists(public_path('storage/' . str_replace('public/', '', $settings->profile_banner_photo)))) ? asset('storage/' . str_replace('public/', '', $settings->profile_banner_photo)) : asset('image/homePic/1.jpg') }}" alt="Banner UPT SPF SMPN 14 BULUKUMBA" class="img-fluid">
             <div class="banner-overlay"></div>
             <div class="banner-text" data-aos="fade-up">
                 <h1>Profil Sekolah</h1>
@@ -405,7 +405,7 @@
 
                 <div class="row align-items-center justify-content-center">
                     <div class="col-md-4 text-center mb-4 mb-md-0" data-aos="fade-right">
-                        <img src="{{ $settings->kepsek_photo_path ? asset('storage/' . str_replace('public/', '', $settings->kepsek_photo_path)) : 'https://placehold.co/300x400/1e3a5f/ffffff?text=' . urlencode($settings->kepsek_name) }}"
+                        <img src="{{ ($settings->kepsek_photo_path && file_exists(public_path('storage/' . str_replace('public/', '', $settings->kepsek_photo_path)))) ? asset('storage/' . str_replace('public/', '', $settings->kepsek_photo_path)) : 'https://placehold.co/300x400/1e3a5f/ffffff?text=' . urlencode($settings->kepsek_name) }}"
                             alt="Foto Kepala Sekolah" class="img-fluid rounded-3 kepsek-photo">
                         <h2 class="kepsek-name">{{ $settings->kepsek_name }}</h2>
                         <p class="kepsek-role">Kepala {{ $settings->school_name }}</p>
@@ -450,7 +450,7 @@
                             <div class="card text-center border-0 shadow-sm h-100 kepsek-card">
                                 <div class="card-body d-flex flex-column align-items-center justify-content-start p-2.5">
                                     <div class="w-100 rounded bg-slate-100 d-flex align-items-center justify-content-center overflow-hidden mb-2" style="aspect-ratio: 150 / 190; background-color: #f1f5f9 !important;">
-                                        @if($principal->photo_path)
+                                        @if($principal->photo_path && file_exists(public_path('storage/' . str_replace('public/', '', $principal->photo_path))))
                                             <img src="{{ asset('storage/' . str_replace('public/', '', $principal->photo_path)) }}" alt="Foto {{ $principal->name }}" class="w-100 h-100" style="object-fit: cover;">
                                         @else
                                             <div class="text-center py-4">

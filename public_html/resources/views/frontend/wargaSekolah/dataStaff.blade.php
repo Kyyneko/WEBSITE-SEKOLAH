@@ -211,10 +211,10 @@
                     @endphp
                     <div class="staff-card" data-aos="fade-up" data-aos-delay="{{ min($index * 60, 360) }}">
                         <div class="staff-card-image">
-                            @if($staff->photo_path)
+                            @if($staff->photo_path && file_exists(public_path('storage/' . str_replace('public/', '', $staff->photo_path))))
                                 <img src="{{ asset('storage/' . str_replace('public/', '', $staff->photo_path)) }}" alt="{{ $staff->name }}">
                             @else
-                                <div class="w-100 h-100 rounded-circle d-flex align-items-center justify-content-center bg-light border shadow-sm" style="max-width: 180px; max-height: 180px; aspect-ratio: 1/1;">
+                                <div class="w-100 h-100 rounded-circle d-flex align-items-center justify-content-center bg-light border shadow-sm" style="max-width: 180px; max-height: 180px; aspect-ratio: 1/1; background-color: #f8fafc !important;">
                                     <i class="fas fa-users-cog" style="font-size: 4rem; color: #0d9488;"></i>
                                 </div>
                             @endif

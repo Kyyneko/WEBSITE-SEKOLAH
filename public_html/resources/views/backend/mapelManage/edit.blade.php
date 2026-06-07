@@ -95,54 +95,18 @@
     </div>
 
     <style>
-        .form-label {
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-
-        .form-control-lg {
-            padding: 0.75rem 1rem;
-            font-size: 1rem;
-        }
-
-        .form-control:focus {
-            border-color: #ffc107;
-            box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
-        }
-
-        .btn-lg {
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-        }
-
-        .gap-2 {
-            gap: 0.5rem;
-        }
-
-        .alert-warning {
-            background-color: #fff3cd;
-            border-color: #ffc107;
-            color: #856404;
-        }
-
-        .border-bottom {
-            border-bottom: 2px solid #e5e7eb !important;
-        }
-
-        .border-top {
-            border-top: 2px solid #e5e7eb !important;
-        }
-
         /* Trix Editor Styling */
         .trix-wrapper {
-            border: 1px solid #ced4da;
-            border-radius: 0.25rem;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            border: 1.5px solid var(--dash-border);
+            border-radius: var(--dash-radius-sm);
+            transition: all 0.2s ease;
+            background-color: #fff;
+            overflow: hidden;
         }
 
         .trix-wrapper:focus-within {
-            border-color: #ffc107;
-            box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+            border-color: var(--dash-primary-light) !important;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
         }
 
         trix-editor {
@@ -151,14 +115,14 @@
             overflow-y: auto;
             padding: 0.75rem;
             border: none;
-            border-radius: 0.25rem;
+            color: var(--dash-text) !important;
+            font-size: 0.9rem !important;
         }
 
         trix-toolbar {
             border: none;
-            border-bottom: 1px solid #dee2e6;
-            background-color: #f8f9fa;
-            border-radius: 0.25rem 0.25rem 0 0;
+            border-bottom: 1px solid var(--dash-border);
+            background-color: #f8fafc;
             padding: 0.5rem;
         }
 
@@ -167,25 +131,25 @@
         }
 
         trix-toolbar .trix-button {
-            border-color: #dee2e6;
+            border-color: var(--dash-border) !important;
             background-color: white;
             margin: 0 2px;
-            border-radius: 0.25rem;
+            border-radius: 4px;
             transition: all 0.2s;
         }
 
         trix-toolbar .trix-button:hover {
-            background-color: #e9ecef;
+            background-color: #f1f5f9;
         }
 
         trix-toolbar .trix-button.trix-active {
-            background-color: #ffc107;
-            color: white;
-            border-color: #ffc107;
+            background-color: var(--dash-primary-light) !important;
+            color: white !important;
+            border-color: var(--dash-primary-light) !important;
         }
 
         trix-editor:empty:not(:focus)::before {
-            color: #6c757d;
+            color: var(--dash-text-light) !important;
         }
 
         /* Custom scrollbar for trix editor */
@@ -194,17 +158,17 @@
         }
         
         trix-editor::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: #f1f5f9;
             border-radius: 4px;
         }
         
         trix-editor::-webkit-scrollbar-thumb {
-            background: #cbd5e0;
+            background: #cbd5e1;
             border-radius: 4px;
         }
         
         trix-editor::-webkit-scrollbar-thumb:hover {
-            background: #a0aec0;
+            background: #94a3b8;
         }
     </style>
 </x-app-layout>

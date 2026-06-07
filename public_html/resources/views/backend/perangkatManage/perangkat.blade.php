@@ -115,11 +115,10 @@
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center gap-1">
                                                     @if (auth()->user()->role == 'admin')
-                                                        <form action="{{ route('documents.destroy', $document->id) }}" method="POST" class="d-inline">
+                                                        <form action="{{ route('documents.destroy', $document->id) }}" method="POST" class="d-inline" id="delete-form-{{ $document->id }}" onsubmit="return confirmDelete('delete-form-{{ $document->id }}')">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-sm btn-danger"
-                                                                    onclick="return confirm('Yakin ingin menghapus?')">
+                                                            <button type="submit" class="btn btn-sm btn-danger">
                                                                 <i class="fas fa-trash"></i>
                                                             </button>
                                                         </form>
@@ -242,21 +241,19 @@
                                                                 </button>
                                                             </form>
                                                         @endif
-                                                        <form action="{{ route('documents.destroy', $document->id) }}" method="POST" class="d-inline">
+                                                        <form action="{{ route('documents.destroy', $document->id) }}" method="POST" class="d-inline" id="delete-form-{{ $document->id }}" onsubmit="return confirmDelete('delete-form-{{ $document->id }}')">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-sm btn-danger"
-                                                                    onclick="return confirm('Yakin ingin menghapus?')">
+                                                            <button type="submit" class="btn btn-sm btn-danger">
                                                                 <i class="fas fa-trash"></i>
                                                             </button>
                                                         </form>
                                                     @endif
                                                     @if (auth()->user()->role == 'teacher' && $document->user_id == auth()->id())
-                                                        <form action="{{ route('documents.destroy', $document->id) }}" method="POST" class="d-inline">
+                                                        <form action="{{ route('documents.destroy', $document->id) }}" method="POST" class="d-inline" id="delete-form-{{ $document->id }}" onsubmit="return confirmDelete('delete-form-{{ $document->id }}')">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-sm btn-danger"
-                                                                    onclick="return confirm('Yakin ingin menghapus?')">
+                                                            <button type="submit" class="btn btn-sm btn-danger">
                                                                 <i class="fas fa-trash"></i>
                                                             </button>
                                                         </form>

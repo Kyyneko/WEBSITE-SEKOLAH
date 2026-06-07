@@ -86,10 +86,10 @@
                                         <td class="text-center align-middle">
                                             <div class="d-flex justify-content-center gap-1">
                                                 <a href="{{ route('former-principals.edit', $principal->id) }}" class="btn btn-sm btn-warning" title="Edit"><i class="fas fa-edit"></i></a>
-                                                <form action="{{ route('former-principals.destroy', $principal->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data mantan kepala sekolah ini?')">
-                                                    @csrf @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger" title="Hapus"><i class="fas fa-trash-alt"></i></button>
-                                                </form>
+                                                 <form action="{{ route('former-principals.destroy', $principal->id) }}" method="POST" class="d-inline" id="delete-form-{{ $principal->id }}" onsubmit="return confirmDelete('delete-form-{{ $principal->id }}')">
+                                                     @csrf @method('DELETE')
+                                                     <button type="submit" class="btn btn-sm btn-danger" title="Hapus"><i class="fas fa-trash-alt"></i></button>
+                                                 </form>
                                             </div>
                                         </td>
                                     </tr>
