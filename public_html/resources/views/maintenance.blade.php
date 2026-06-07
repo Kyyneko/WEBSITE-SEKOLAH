@@ -157,58 +157,7 @@
             margin-bottom: 2rem;
         }
 
-        /* Progress indicator bar */
-        .progress-container {
-            width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 2rem;
-        }
 
-        .progress-bar {
-            height: 100%;
-            width: 65%; /* Simulated progress */
-            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
-            border-radius: 10px;
-            position: relative;
-            animation: animateProgress 2s infinite ease-in-out;
-        }
-
-        @keyframes animateProgress {
-            0% { opacity: 0.8; }
-            50% { opacity: 1; filter: brightness(1.2); }
-            100% { opacity: 0.8; }
-        }
-
-        /* Details list */
-        .info-list {
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 16px;
-            padding: 1.25rem;
-            text-align: left;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            margin-bottom: 2rem;
-        }
-
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 0.825rem;
-            color: var(--text-sub);
-            margin-bottom: 0.75rem;
-        }
-
-        .info-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .info-item i {
-            color: #10b981;
-            font-size: 0.9rem;
-        }
 
         .contact-btn {
             display: inline-flex;
@@ -260,24 +209,7 @@
         <h1>Pemeliharaan Sistem</h1>
         <p>Mohon maaf atas ketidaknyamanan ini. Kami sedang melakukan pemeliharaan rutin dan peningkatan server untuk memberikan pengalaman akses yang lebih baik bagi seluruh warga sekolah.</p>
 
-        <div class="progress-container">
-            <div class="progress-bar"></div>
-        </div>
 
-        <div class="info-list">
-            <div class="info-item">
-                <i class="fas fa-check-circle"></i>
-                <span>Migrasi Database dan Seeder selesai</span>
-            </div>
-            <div class="info-item">
-                <i class="fas fa-check-circle"></i>
-                <span>Pembaruan Struktur Aset dan Cache selesai</span>
-            </div>
-            <div class="info-item">
-                <i class="fas fa-hourglass-half" style="color: #f59e0b;"></i>
-                <span>Optimasi kinerja akhir sedang berlangsung</span>
-            </div>
-        </div>
 
         <a href="mailto:admin@smpn14bulukumba.sch.id" class="contact-btn">
             <i class="fas fa-envelope"></i> Hubungi Administrator
