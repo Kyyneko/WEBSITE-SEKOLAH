@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Helpers\ImageOptimizer;
 
 class ProfileController extends Controller
 {
@@ -40,16 +41,19 @@ class ProfileController extends Controller
         // Mendapatkan file yang diunggah
         $photo = $request->file('photo');
 
-        // Menyimpan foto ke dalam direktori penyimpanan
-        $path = $photo->store('public/photos');
-
         // Menghapus foto lama jika ada
         if ($user->photo_path) {
             Storage::delete($user->photo_path); // Menghapus foto lama dari penyimpanan
         }
 
-        // Mengupdate path foto pada model user
-        $user->photo_path = $path; // Memperbarui kolom photo_path
+        try {
+            // Menyimpan dan mengoptimasi foto ke dalam direktori penyimpanan
+            $path = ImageOptimizer::compressAndStore($photo, 'profile_photos');
+            // Mengupdate path foto pada model user
+            $user->photo_path = $path; // Memperbarui kolom photo_path
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['photo' => $e->getMessage()])->withInput();
+        }
     }
 
     // Mengisi data dari request ke model user
