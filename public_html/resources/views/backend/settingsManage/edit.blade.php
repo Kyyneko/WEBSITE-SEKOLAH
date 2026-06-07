@@ -85,6 +85,27 @@
 
                         {{-- TAB 1: IDENTITAS SEKOLAH --}}
                         <div id="tab-identitas" class="tab-content block space-y-6">
+
+                            {{-- Maintenance Mode Section --}}
+                            <div class="settings-card bg-amber-50/40 rounded-xl p-5 border border-amber-100">
+                                <div class="flex items-center justify-between gap-4">
+                                    <div class="pr-4">
+                                        <h4 class="text-sm font-bold text-slate-800 flex items-center mb-1">
+                                            <i class="fas fa-tools text-amber-500 mr-2"></i>Mode Pemeliharaan (Maintenance Mode)
+                                        </h4>
+                                        <p class="text-xs text-slate-500 leading-relaxed">
+                                            Aktifkan untuk membatasi akses pengunjung umum ke website saat Anda sedang memperbarui data. Administrator, Guru, dan Staff tetap dapat masuk dan mengakses dashboard untuk mengelola data.
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center flex-shrink-0">
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" name="is_maintenance" value="1" {{ $isMaintenance ? 'checked' : '' }} class="sr-only peer">
+                                            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="settings-card bg-slate-50/50 rounded-xl p-5 border border-slate-100">
                                 <h4 class="text-sm font-bold text-slate-800 border-b border-slate-200 pb-2 mb-4 flex items-center"><i class="fas fa-info-circle text-indigo-600 mr-2"></i>Informasi Umum</h4>
                                 

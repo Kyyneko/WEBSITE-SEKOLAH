@@ -14,7 +14,14 @@ class SchoolSettingController extends Controller
     public function edit()
     {
         $settings = SchoolSetting::first() ?? SchoolSetting::createDefault();
-        return view('backend.settingsManage.edit', compact('settings'));
+        
+        $maintenanceFile = storage_path('app/maintenance.json');
+        $isMaintenance = false;
+        if (file_exists($maintenanceFile)) {
+            $isMaintenance = json_decode(file_get_contents($maintenanceFile), true)['is_maintenance'] ?? false;
+        }
+
+        return view('backend.settingsManage.edit', compact('settings', 'isMaintenance'));
     }
 
     /**
@@ -100,6 +107,10 @@ class SchoolSettingController extends Controller
         }
 
         $settings->update($data);
+
+        // Update maintenance mode status (file-based toggle)
+        $isMaintenance = $request->has('is_maintenance');
+        file_put_contents(storage_path('app/maintenance.json'), json_encode(['is_maintenance' => $isMaintenance]));
 
         return redirect()->route('settings.edit')->with('success', 'Pengaturan sekolah dan foto website berhasil diperbarui.');
     }
