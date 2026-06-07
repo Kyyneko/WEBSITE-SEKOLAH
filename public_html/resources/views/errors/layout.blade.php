@@ -16,10 +16,10 @@
 
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-light: #6366f1;
-            --bg-start: #0f172a;
-            --bg-end: #1e1b4b;
+            --primary: #1e3a5f;
+            --primary-light: #2563eb;
+            --bg-start: #0a0f1d;
+            --bg-end: #1c2e4a;
             --text-main: #f8fafc;
             --text-sub: #94a3b8;
         }
@@ -109,11 +109,11 @@
             font-weight: 800;
             line-height: 1;
             letter-spacing: -0.05em;
-            background: linear-gradient(135deg, #a5b4fc 0%, #818cf8 100%);
+            background: linear-gradient(135deg, #93c5fd 0%, #2563eb 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
-            filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.2));
+            filter: drop-shadow(0 4px 12px rgba(37, 99, 235, 0.2));
             animation: pulseCode 3s infinite ease-in-out;
         }
 
@@ -138,7 +138,7 @@
 
         .icon-container {
             font-size: 3rem;
-            color: #818cf8;
+            color: #3b82f6;
             margin-bottom: 1.5rem;
             opacity: 0.85;
             animation: floatIcon 4s infinite ease-in-out;
@@ -161,14 +161,14 @@
             font-size: 0.875rem;
             font-weight: 600;
             transition: all 0.25s ease;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
             border: none;
             cursor: pointer;
         }
 
         .home-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
             filter: brightness(1.1);
         }
 

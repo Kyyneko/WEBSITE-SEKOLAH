@@ -16,10 +16,10 @@
 
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-light: #6366f1;
-            --bg-start: #0f172a;
-            --bg-end: #1e1b4b;
+            --primary: #1e3a5f;
+            --primary-light: #2563eb;
+            --bg-start: #0a0f1d;
+            --bg-end: #1c2e4a;
             --text-main: #f8fafc;
             --text-sub: #94a3b8;
         }
@@ -117,7 +117,7 @@
         .icon-bg {
             position: absolute;
             inset: 0;
-            background: rgba(79, 70, 229, 0.15);
+            background: rgba(37, 99, 235, 0.15);
             border-radius: 30px;
             transform: rotate(45deg);
             animation: pulseBg 3s infinite ease-in-out;
@@ -130,7 +130,7 @@
 
         .icon-main {
             font-size: 3.25rem;
-            color: #818cf8;
+            color: #3b82f6;
             z-index: 2;
             animation: spinGear 8s infinite linear;
         }
@@ -145,7 +145,7 @@
             font-weight: 800;
             letter-spacing: -0.025em;
             margin-bottom: 1rem;
-            background: linear-gradient(to right, #ffffff, #c7d2fe);
+            background: linear-gradient(to right, #ffffff, #93c5fd);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -222,14 +222,14 @@
             font-size: 0.875rem;
             font-weight: 600;
             transition: all 0.25s ease;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
             border: none;
             cursor: pointer;
         }
 
         .contact-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
             filter: brightness(1.1);
         }
 
