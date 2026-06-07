@@ -201,9 +201,15 @@
         
         <p>@yield('message')</p>
 
-        <a href="{{ url('/') }}" class="home-btn">
-            <i class="fas fa-home"></i> Kembali ke Beranda
-        </a>
+        @auth
+            <a href="{{ url('/dashboard') }}" class="home-btn">
+                <i class="fas fa-tachometer-alt"></i> Kembali ke Dashboard
+            </a>
+        @else
+            <a href="{{ url('/') }}" class="home-btn">
+                <i class="fas fa-home"></i> Kembali ke Beranda
+            </a>
+        @endauth
 
         <footer>
             &copy; 2026 UPT SPF SMPN 14 BULUKUMBA
