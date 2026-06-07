@@ -21,6 +21,11 @@ class SchoolSettingController extends Controller
             $isMaintenance = json_decode(file_get_contents($maintenanceFile), true)['is_maintenance'] ?? false;
         }
 
+        // Cek juga jika mode maintenance aktif via .env atau command Artisan (down)
+        if (env('APP_MAINTENANCE', false) || app()->isDownForMaintenance()) {
+            $isMaintenance = true;
+        }
+
         return view('backend.settingsManage.edit', compact('settings', 'isMaintenance'));
     }
 
