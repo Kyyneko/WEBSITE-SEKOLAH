@@ -573,75 +573,110 @@
                 initialTabBtn.classList.add('active-tab');
             }
 
-            // AJAX Maintenance Toggle Listener
+            // AJAX Maintenance Toggle Listener with Confirmation Dialog
             const maintenanceToggle = document.getElementById('is_maintenance');
             if (maintenanceToggle) {
                 maintenanceToggle.addEventListener('change', function() {
                     const isChecked = this.checked ? 1 : 0;
-                    
-                    if (typeof Swal !== 'undefined') {
-                        Swal.fire({
-                            title: 'Memproses...',
-                            text: 'Sedang memperbarui status pemeliharaan...',
-                            allowOutsideClick: false,
-                            didOpen: () => {
-                                Swal.showLoading();
-                            }
-                        });
-                    }
+                    const self = this;
 
-                    fetch('{{ route('settings.maintenance.toggle') }}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({ is_maintenance: isChecked })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
+                    const showConfirmation = () => {
                         if (typeof Swal !== 'undefined') {
-                            Swal.close();
-                        }
-                        if (data.status === 'success') {
-                            if (typeof Swal !== 'undefined') {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Berhasil!',
-                                    text: isChecked ? 'Mode pemeliharaan diaktifkan.' : 'Mode pemeliharaan dinonaktifkan.',
-                                    timer: 2000,
-                                    showConfirmButton: false
-                                });
-                            } else {
-                                alert(isChecked ? 'Mode pemeliharaan diaktifkan.' : 'Mode pemeliharaan dinonaktifkan.');
-                            }
-                        } else {
-                            this.checked = !this.checked;
-                            if (typeof Swal !== 'undefined') {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Gagal!',
-                                    text: 'Gagal mengubah status pemeliharaan.'
-                                });
-                            } else {
-                                alert('Gagal mengubah status pemeliharaan.');
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        this.checked = !this.checked;
-                        if (typeof Swal !== 'undefined') {
-                            Swal.close();
                             Swal.fire({
-                                icon: 'error',
-                                title: 'Error!',
-                                text: 'Terjadi kesalahan: ' + error
+                                title: isChecked ? 'Aktifkan Mode Pemeliharaan?' : 'Nonaktifkan Mode Pemeliharaan?',
+                                text: isChecked 
+                                    ? 'Pengunjung umum tidak akan dapat mengakses website utama selama mode ini aktif.' 
+                                    : 'Website utama akan dibuka kembali untuk seluruh pengunjung.',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: isChecked ? '#f59e0b' : '#3b82f6',
+                                cancelButtonColor: '#64748b',
+                                confirmButtonText: isChecked ? 'Ya, Aktifkan!' : 'Ya, Nonaktifkan!',
+                                cancelButtonText: 'Batal',
+                                reverseButtons: true
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    executeToggle(isChecked, self);
+                                } else {
+                                    self.checked = !self.checked; // Rollback
+                                }
                             });
                         } else {
-                            console.error('Error:', error);
-                            alert('Terjadi kesalahan sistem.');
+                            if (confirm(isChecked ? 'Apakah Anda yakin ingin mengaktifkan mode pemeliharaan?' : 'Apakah Anda yakin ingin menonaktifkan mode pemeliharaan?')) {
+                                executeToggle(isChecked, self);
+                            } else {
+                                self.checked = !self.checked; // Rollback
+                            }
                         }
-                    });
+                    };
+
+                    const executeToggle = (isCheckedVal, checkboxElement) => {
+                        if (typeof Swal !== 'undefined') {
+                            Swal.fire({
+                                title: 'Memproses...',
+                                text: 'Sedang memperbarui status pemeliharaan...',
+                                allowOutsideClick: false,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                }
+                            });
+                        }
+
+                        fetch('{{ route('settings.maintenance.toggle') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({ is_maintenance: isCheckedVal })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (typeof Swal !== 'undefined') {
+                                Swal.close();
+                            }
+                            if (data.status === 'success') {
+                                if (typeof Swal !== 'undefined') {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Berhasil!',
+                                        text: isCheckedVal ? 'Mode pemeliharaan diaktifkan.' : 'Mode pemeliharaan dinonaktifkan.',
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                    });
+                                } else {
+                                    alert(isCheckedVal ? 'Mode pemeliharaan diaktifkan.' : 'Mode pemeliharaan dinonaktifkan.');
+                                }
+                            } else {
+                                checkboxElement.checked = !checkboxElement.checked;
+                                if (typeof Swal !== 'undefined') {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Gagal!',
+                                        text: 'Gagal mengubah status pemeliharaan.'
+                                    });
+                                } else {
+                                    alert('Gagal mengubah status pemeliharaan.');
+                                }
+                            }
+                        })
+                        .catch(error => {
+                            checkboxElement.checked = !checkboxElement.checked;
+                            if (typeof Swal !== 'undefined') {
+                                Swal.close();
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error!',
+                                    text: 'Terjadi kesalahan: ' + error
+                                });
+                            } else {
+                                console.error('Error:', error);
+                                alert('Terjadi kesalahan sistem.');
+                            }
+                        });
+                    };
+
+                    showConfirmation();
                 });
             }
         });
