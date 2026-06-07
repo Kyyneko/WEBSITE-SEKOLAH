@@ -47,7 +47,7 @@
             color: #1a202c;
             line-height: 1.3;
             margin-bottom: 1.25rem;
-            font-family: 'Cambria', Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
 
         .article-detail-meta {

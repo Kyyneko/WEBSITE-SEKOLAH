@@ -67,8 +67,7 @@
 
             <div class="col-md-10 rounded-1 mb-3">
                 <h1 class="water mb-5"
-                    style="font-family: 'Cambria', Cochin, Georgia, Times, 'Times New Roman', serif;
-                           font-weight: 800; font-size: 3rem;"
+                    style="font-weight: 800; font-size: 3rem;"
                     data-aos="fade-up">
                     UPT SPF SMPN 14 BULUKUMBA
                 </h1>
