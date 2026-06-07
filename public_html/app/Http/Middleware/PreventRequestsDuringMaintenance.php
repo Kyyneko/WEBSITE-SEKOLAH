@@ -17,6 +17,7 @@ class PreventRequestsDuringMaintenance extends Middleware
         'deploy-helper/*',
         'login',
         'logout',
+        'maintenance/status',
     ];
 
     /**

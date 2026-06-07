@@ -220,5 +220,19 @@
         </footer>
     </div>
 
+    <script>
+        // Cek status pemeliharaan setiap 5 detik
+        setInterval(function() {
+            fetch('/maintenance/status')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.maintenance === false) {
+                        // Jika pemeliharaan selesai, segarkan halaman atau alihkan ke beranda
+                        window.location.href = '/';
+                    }
+                })
+                .catch(error => console.error('Error checking status:', error));
+        }, 5000);
+    </script>
 </body>
 </html>

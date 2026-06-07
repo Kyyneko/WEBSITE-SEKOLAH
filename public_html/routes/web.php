@@ -208,3 +208,21 @@ Route::get('/deploy-helper/clear', function () {
     }
 });
 */
+
+// Check maintenance status dynamically
+Route::get('/maintenance/status', function () {
+    $isMaintenance = env('APP_MAINTENANCE', false);
+    if (!$isMaintenance) {
+        $maintenanceFile = storage_path('app/maintenance.json');
+        if (file_exists($maintenanceFile)) {
+            $isMaintenance = json_decode(file_get_contents($maintenanceFile), true)['is_maintenance'] ?? false;
+        }
+    }
+    if (app()->isDownForMaintenance()) {
+        $isMaintenance = true;
+    }
+    
+    return response()->json([
+        'maintenance' => (bool)$isMaintenance
+    ]);
+});
